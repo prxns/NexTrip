@@ -1,4 +1,8 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import SeatSelection from "./SeatSelection";
+
 type FlightDetailsModalProps = {
   open: boolean;
 
@@ -39,10 +43,40 @@ function FlightDetailsModal({
 
   price,
 }: FlightDetailsModalProps) {
+  const navigate = useNavigate();
+
+  const [selectedSeat, setSelectedSeat] =
+    useState<string>("");
+
   if (!open) return null;
+
+  const handleContinueBooking = () => {
+    navigate("/checkout", {
+      state: {
+        flight: {
+          airline,
+          airlineLogo,
+
+          from,
+          to,
+
+          departureTime,
+          arrivalTime,
+
+          duration,
+          stops,
+
+          price,
+        },
+
+        selectedSeat,
+      },
+    });
+  };
 
   return (
     <div
+      onClick={onClose}
       className="
         fixed
         inset-0
@@ -52,35 +86,39 @@ function FlightDetailsModal({
         items-center
         justify-center
 
-        bg-black/60
-        backdrop-blur-sm
+        overflow-y-auto
 
-        p-6
+        bg-black/70
+        backdrop-blur-md
+
+        p-4
+        md:p-6
       "
     >
       {/* MODAL */}
       <div
+        onClick={(e) => e.stopPropagation()}
         className="
-            relative
-            w-full
-            max-w-4xl
+          relative
+          w-full
+          max-w-5xl
 
-            max-h-[90vh]
-            overflow-y-auto
+          overflow-hidden
 
-            rounded-[40px]
-            bg-white
+          rounded-[40px]
+          bg-white
 
-            shadow-2xl
+          shadow-[0_25px_80px_rgba(0,0,0,0.35)]
         "
-    >
-        {/* CLOSE */}
+      >
+        {/* CLOSE BUTTON */}
         <button
           onClick={onClose}
           className="
             absolute
-            right-6
-            top-6
+            right-5
+            top-5
+            z-50
 
             flex
             h-12
@@ -89,227 +127,325 @@ function FlightDetailsModal({
             justify-center
 
             rounded-full
-            bg-slate-100
+
+            bg-white/90
+            backdrop-blur-md
 
             text-xl
             font-bold
             text-slate-700
 
+            shadow-lg
+
             transition-all
-            hover:bg-slate-200
+            duration-300
+
+            hover:scale-105
+            hover:bg-white
           "
         >
           ✕
         </button>
 
-        {/* HEADER */}
-        <div
-          className="
-            bg-gradient-to-r
-            from-[#2563EB]
-            to-[#14B8A6]
-
-            p-10
-
-            text-white
-          "
-        >
-          <div className="flex items-center gap-5">
-            <div
-              className="
-                flex
-                h-20
-                w-20
-                items-center
-                justify-center
-
-                rounded-3xl
-                bg-white
-              "
-            >
-              <img
-                src={airlineLogo}
-                alt={airline}
-                className="h-12 w-12 object-contain"
-              />
-            </div>
-
-            <div>
-              <h2 className="text-4xl font-black">
-                {airline}
-              </h2>
-
-              <p className="mt-2 text-white/80">
-                Premium Economy Flight
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* BODY */}
-        <div className="p-10">
-          {/* ROUTE */}
-          <div className="flex items-center justify-between gap-6">
-            {/* FROM */}
-            <div>
-              <h3 className="text-5xl font-black text-slate-900">
-                {departureTime}
-              </h3>
-
-              <p className="mt-3 text-lg font-semibold text-slate-500">
-                {from}
-              </p>
-            </div>
-
-            {/* CENTER */}
-            <div className="flex flex-1 flex-col items-center px-8">
-              <p className="text-sm font-semibold text-slate-500">
-                {Math.floor(duration / 60)}h{" "}
-                {duration % 60}m
-              </p>
-
-              <div className="relative mt-3 w-full">
-                <div className="h-[3px] w-full bg-slate-300" />
-
-                <div
-                  className="
-                    absolute
-                    left-1/2
-                    top-1/2
-
-                    flex
-                    h-10
-                    w-10
-
-                    -translate-x-1/2
-                    -translate-y-1/2
-
-                    items-center
-                    justify-center
-
-                    rounded-full
-                    bg-[#2563EB]
-
-                    text-white
-                  "
-                >
-                  ✈
-                </div>
-              </div>
-
-              <p className="mt-3 text-sm font-semibold text-slate-500">
-                {stops === 0
-                  ? "Non-stop"
-                  : `${stops} Stop`}
-              </p>
-            </div>
-
-            {/* TO */}
-            <div className="text-right">
-              <h3 className="text-5xl font-black text-slate-900">
-                {arrivalTime}
-              </h3>
-
-              <p className="mt-3 text-lg font-semibold text-slate-500">
-                {to}
-              </p>
-            </div>
-          </div>
-
-          {/* EXTRA INFO */}
-          <div className="mt-12 grid gap-6 md:grid-cols-3">
-            <div className="rounded-3xl bg-slate-100 p-6">
-              <p className="text-sm font-semibold text-slate-500">
-                Aircraft
-              </p>
-
-              <h4 className="mt-3 text-xl font-black text-slate-900">
-                Boeing 787 Dreamliner
-              </h4>
-            </div>
-
-            <div className="rounded-3xl bg-slate-100 p-6">
-              <p className="text-sm font-semibold text-slate-500">
-                Baggage
-              </p>
-
-              <h4 className="mt-3 text-xl font-black text-slate-900">
-                2 Checked Bags
-              </h4>
-            </div>
-
-            <div className="rounded-3xl bg-slate-100 p-6">
-              <p className="text-sm font-semibold text-slate-500">
-                Cancellation
-              </p>
-
-              <h4 className="mt-3 text-xl font-black text-slate-900">
-                Free Cancellation
-              </h4>
-            </div>
-          </div>
-
-          {/* SEAT SELECTION */}
-            <div className="mt-14">
-                <SeatSelection />
-            </div>
-
-          {/* PRICE */}
+        {/* SCROLLABLE CONTENT */}
+        <div className="max-h-[92vh] overflow-y-auto">
+          {/* HEADER */}
           <div
             className="
-              mt-12
-              flex
-              flex-col
-              gap-6
+              relative
+              overflow-hidden
 
-              rounded-[32px]
-              bg-slate-900
+              bg-gradient-to-r
+              from-[#2563EB]
+              via-[#1D4ED8]
+              to-[#14B8A6]
 
-              p-8
+              px-8
+              py-10
 
-              text-white
-
-              md:flex-row
-              md:items-center
-              md:justify-between
+              md:px-12
             "
           >
-            <div>
-              <p className="text-sm font-semibold text-white/60">
-                Total Fare
-              </p>
-
-              <h2 className="mt-2 text-5xl font-black">
-                ${price}
-              </h2>
-            </div>
-
-            <button
+            {/* BACKGROUND GLOW */}
+            <div
               className="
-                h-16
+                absolute
+                right-[-120px]
+                top-[-120px]
 
-                rounded-2xl
+                h-[260px]
+                w-[260px]
 
-                bg-gradient-to-r
-                from-[#2563EB]
-                to-[#14B8A6]
+                rounded-full
+                bg-white/10
 
-                px-10
+                blur-3xl
+              "
+            />
 
-                text-lg
-                font-bold
-                text-white
+            <div className="relative z-10">
+              <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+                {/* AIRLINE */}
+                <div className="flex items-center gap-5">
+                  <div
+                    className="
+                      flex
+                      h-24
+                      w-24
+                      items-center
+                      justify-center
 
-                shadow-xl
+                      rounded-[28px]
 
-                transition-all
-                duration-300
+                      bg-white
 
-                hover:scale-[1.03]
+                      shadow-xl
+                    "
+                  >
+                    <img
+                      src={airlineLogo}
+                      alt={airline}
+                      className="
+                        h-14
+                        w-14
+                        object-contain
+                      "
+                    />
+                  </div>
+
+                  <div>
+                    <p className="text-sm font-semibold uppercase tracking-[4px] text-white/70">
+                      Premium Flight
+                    </p>
+
+                    <h2 className="mt-2 text-4xl font-black text-white">
+                      {airline}
+                    </h2>
+
+                    <p className="mt-2 text-lg text-white/80">
+                      Luxury Economy Experience
+                    </p>
+                  </div>
+                </div>
+
+                {/* PRICE */}
+                <div className="lg:text-right">
+                  <p className="text-sm font-semibold uppercase tracking-[3px] text-white/70">
+                    Total Fare
+                  </p>
+
+                  <h2 className="mt-3 text-6xl font-black text-white">
+                    ${price}
+                  </h2>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* BODY */}
+          <div className="p-8 md:p-12">
+            {/* ROUTE */}
+            <div
+              className="
+                rounded-[36px]
+                border
+                border-slate-200
+
+                bg-slate-50
+
+                p-8
+                md:p-10
               "
             >
-              Continue Booking
-            </button>
+              <div className="flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between">
+                {/* FROM */}
+                <div>
+                  <p className="text-sm font-bold uppercase tracking-[3px] text-slate-400">
+                    Departure
+                  </p>
+
+                  <h3 className="mt-4 text-5xl font-black text-slate-900">
+                    {departureTime}
+                  </h3>
+
+                  <p className="mt-3 text-xl font-semibold text-slate-500">
+                    {from}
+                  </p>
+                </div>
+
+                {/* CENTER */}
+                <div className="flex flex-1 flex-col items-center px-4">
+                  <p className="text-sm font-bold uppercase tracking-[3px] text-slate-400">
+                    Flight Duration
+                  </p>
+
+                  <p className="mt-2 text-lg font-bold text-slate-700">
+                    {Math.floor(duration / 60)}h{" "}
+                    {duration % 60}m
+                  </p>
+
+                  <div className="relative mt-5 w-full max-w-md">
+                    <div className="h-[4px] rounded-full bg-slate-300" />
+
+                    <div
+                      className="
+                        absolute
+                        left-1/2
+                        top-1/2
+
+                        flex
+                        h-12
+                        w-12
+
+                        -translate-x-1/2
+                        -translate-y-1/2
+
+                        items-center
+                        justify-center
+
+                        rounded-full
+
+                        bg-gradient-to-r
+                        from-[#2563EB]
+                        to-[#14B8A6]
+
+                        text-lg
+                        text-white
+
+                        shadow-xl
+                      "
+                    >
+                      ✈
+                    </div>
+                  </div>
+
+                  <p className="mt-5 text-sm font-bold uppercase tracking-[3px] text-slate-400">
+                    {stops === 0
+                      ? "Non-stop"
+                      : `${stops} Stop`}
+                  </p>
+                </div>
+
+                {/* TO */}
+                <div className="lg:text-right">
+                  <p className="text-sm font-bold uppercase tracking-[3px] text-slate-400">
+                    Arrival
+                  </p>
+
+                  <h3 className="mt-4 text-5xl font-black text-slate-900">
+                    {arrivalTime}
+                  </h3>
+
+                  <p className="mt-3 text-xl font-semibold text-slate-500">
+                    {to}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* EXTRA INFO */}
+            <div className="mt-10 grid gap-6 md:grid-cols-3">
+              <div className="rounded-[28px] bg-slate-100 p-7">
+                <p className="text-sm font-bold uppercase tracking-[3px] text-slate-400">
+                  Aircraft
+                </p>
+
+                <h4 className="mt-4 text-2xl font-black leading-tight text-slate-900">
+                  Boeing 787 Dreamliner
+                </h4>
+              </div>
+
+              <div className="rounded-[28px] bg-slate-100 p-7">
+                <p className="text-sm font-bold uppercase tracking-[3px] text-slate-400">
+                  Baggage
+                </p>
+
+                <h4 className="mt-4 text-2xl font-black leading-tight text-slate-900">
+                  2 Checked Bags
+                </h4>
+              </div>
+
+              <div className="rounded-[28px] bg-slate-100 p-7">
+                <p className="text-sm font-bold uppercase tracking-[3px] text-slate-400">
+                  Cancellation
+                </p>
+
+                <h4 className="mt-4 text-2xl font-black leading-tight text-slate-900">
+                  Free Cancellation
+                </h4>
+              </div>
+            </div>
+
+            {/* SEAT SELECTION */}
+            <div className="mt-14">
+              <SeatSelection
+                selectedSeat={selectedSeat}
+                setSelectedSeat={setSelectedSeat}
+              />
+            </div>
+          </div>
+
+          {/* STICKY FOOTER */}
+          <div
+            className="
+              sticky
+              bottom-0
+              z-30
+
+              border-t
+              border-slate-200
+
+              bg-white/95
+              backdrop-blur-xl
+
+              px-8
+              py-6
+            "
+          >
+            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+              {/* LEFT */}
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-[3px] text-slate-400">
+                  Selected Seat
+                </p>
+
+                <h3 className="mt-2 text-3xl font-black text-slate-900">
+                  {selectedSeat || "Choose Your Seat"}
+                </h3>
+              </div>
+
+              {/* BUTTON */}
+              <button
+                onClick={handleContinueBooking}
+                className="
+                  h-16
+
+                  rounded-2xl
+
+                  bg-gradient-to-r
+                  from-[#2563EB]
+                  to-[#14B8A6]
+
+                  px-10
+
+                  text-lg
+                  font-bold
+                  text-white
+
+                  shadow-xl
+
+                  transition-all
+                  duration-300
+
+                  hover:scale-[1.02]
+                  hover:shadow-2xl
+
+                  active:scale-[0.98]
+                "
+              >
+                Continue Booking
+              </button>
+            </div>
           </div>
         </div>
       </div>
