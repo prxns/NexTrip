@@ -1,11 +1,15 @@
 import AirportSearch from "../search/AirportSearch";
 import PassengerSelector from "../search/PassengerSelector";
 import CategoryTabs from "./CategoryTabs";
+import TripTypeToggle from "../search/TripTypeToggle";
 
 function BookingSearch() {
   return (
     <div className="mx-auto w-full max-w-6xl">
       <CategoryTabs />
+      <div className="mt-6">
+        <TripTypeToggle />
+      </div>
 
       <div
         className="
