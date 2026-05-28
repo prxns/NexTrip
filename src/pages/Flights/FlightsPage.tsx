@@ -1,28 +1,33 @@
 import { useEffect, useMemo, useState } from "react";
+
 import { useSearchParams } from "react-router-dom";
 
 import FlightCard from "../../components/flights/FlightCard";
 import FlightCardSkeleton from "../../components/flights/FlightCardSkeleton";
+import FlightFilters from "../../components/flights/FlightFilters";
 
 import { flights } from "../../data/flights/flights";
 
 function FlightsPage() {
   const [searchParams] = useSearchParams();
 
-  const from = searchParams.get("from");
-  const to = searchParams.get("to");
+  const from =
+    searchParams.get("from") || "JFK";
+
+  const to =
+    searchParams.get("to") || "LAX";
 
   /* FILTER STATES */
-  const [nonStopOnly, setNonStopOnly] =
-    useState(false);
+  const [selectedStops, setSelectedStops] =
+    useState("all");
 
   const [maxPrice, setMaxPrice] =
-    useState(1000);
+    useState(2000);
 
-  const [sortBy, setSortBy] =
+  const [selectedSort, setSelectedSort] =
     useState("price-low");
 
-  /* LOADING STATE */
+  /* LOADING */
   const [loading, setLoading] =
     useState(true);
 
@@ -30,294 +35,276 @@ function FlightsPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 1800);
+    }, 1600);
 
     return () => clearTimeout(timer);
   }, []);
 
-  /* FILTER + SORT */
+  /* FILTERED FLIGHTS */
   const filteredFlights = useMemo(() => {
-    let updatedFlights = [...flights];
+    let filtered = [...flights];
 
-    // NON STOP FILTER
-    if (nonStopOnly) {
-      updatedFlights =
-        updatedFlights.filter(
-          (flight) => flight.stops === 0
-        );
-    }
+    /* PRICE FILTER */
+    filtered = filtered.filter(
+      (flight) => flight.price <= maxPrice
+    );
 
-    // PRICE FILTER
-    updatedFlights =
-      updatedFlights.filter(
-        (flight) => flight.price <= maxPrice
+    /* STOPS FILTER */
+    if (selectedStops === "non-stop") {
+      filtered = filtered.filter(
+        (flight) => flight.stops === 0
       );
-
-    // SORTING
-    switch (sortBy) {
-      case "price-low":
-        updatedFlights.sort(
-          (a, b) => a.price - b.price
-        );
-        break;
-
-      case "price-high":
-        updatedFlights.sort(
-          (a, b) => b.price - a.price
-        );
-        break;
-
-      case "duration":
-        updatedFlights.sort(
-          (a, b) => a.duration - b.duration
-        );
-        break;
-
-      default:
-        break;
     }
 
-    return updatedFlights;
-  }, [nonStopOnly, maxPrice, sortBy]);
+    if (selectedStops === "1-stop") {
+      filtered = filtered.filter(
+        (flight) => flight.stops === 1
+      );
+    }
+
+    /* SORTING */
+    if (selectedSort === "price-low") {
+      filtered.sort(
+        (a, b) => a.price - b.price
+      );
+    }
+
+    if (selectedSort === "price-high") {
+      filtered.sort(
+        (a, b) => b.price - a.price
+      );
+    }
+
+    if (selectedSort === "duration-low") {
+      filtered.sort(
+        (a, b) => a.duration - b.duration
+      );
+    }
+
+    return filtered;
+  }, [
+    maxPrice,
+    selectedStops,
+    selectedSort,
+  ]);
 
   return (
     <div className="min-h-screen bg-slate-100 pb-20">
       {/* HERO */}
-      <div
+      <section
         className="
+          relative
+          overflow-hidden
+
           bg-gradient-to-r
           from-[#2563EB]
+          via-[#1D4ED8]
           to-[#14B8A6]
 
           px-6
-          py-14
+          py-16
 
           text-white
         "
       >
-        <div className="mx-auto max-w-7xl">
+        {/* BACKGROUND GLOW */}
+        <div
+          className="
+            absolute
+            right-[-120px]
+            top-[-120px]
+
+            h-[320px]
+            w-[320px]
+
+            rounded-full
+
+            bg-white/10
+
+            blur-3xl
+          "
+        />
+
+        <div className="relative mx-auto max-w-7xl">
           <p
             className="
               text-sm
-              font-semibold
+              font-bold
               uppercase
-              tracking-[4px]
+              tracking-[5px]
+
               text-white/70
             "
           >
             Flight Search Results
           </p>
 
-          <h1 className="mt-4 text-5xl font-black">
-            {from} → {to}
-          </h1>
-        </div>
-      </div>
-
-      {/* MAIN CONTENT */}
-      <div
-        className="
-          mx-auto
-          mt-10
-          grid
-          max-w-7xl
-          gap-8
-          px-6
-
-          xl:grid-cols-[320px_1fr]
-        "
-      >
-        {/* SIDEBAR */}
-        <div
-          className="
-            sticky
-            top-6
-            h-fit
-
-            rounded-[32px]
-            bg-white
-            p-6
-
-            shadow-lg
-          "
-        >
-          <h2
+          <h1
             className="
-              text-2xl
+              mt-5
+
+              text-5xl
               font-black
-              text-slate-900
+
+              md:text-7xl
             "
           >
-            Filters
-          </h2>
+            {from} → {to}
+          </h1>
 
-          {/* STOPS */}
-          <div className="mt-8">
-            <p
-              className="
-                text-sm
-                font-semibold
-                text-slate-500
-              "
-            >
-              Stops
-            </p>
+          <p className="mt-6 max-w-2xl text-lg text-white/80">
+            Discover premium flights, luxury travel
+            experiences, and the best fares for your
+            next journey.
+          </p>
+        </div>
+      </section>
 
-            <label className="mt-4 flex items-center gap-3">
-              <input
-                type="checkbox"
-                checked={nonStopOnly}
-                onChange={(e) =>
-                  setNonStopOnly(
-                    e.target.checked
-                  )
-                }
-              />
+      {/* CONTENT */}
+      <section className="mx-auto mt-10 max-w-7xl px-6">
+        <div
+          className="
+            grid
+            gap-8
 
-              <span className="font-medium">
-                Non-stop only
-              </span>
-            </label>
-          </div>
-
-          {/* PRICE */}
-          <div className="mt-10">
-            <div className="flex items-center justify-between">
-              <p
-                className="
-                  text-sm
-                  font-semibold
-                  text-slate-500
-                "
-              >
-                Max Price
-              </p>
-
-              <p className="font-bold text-slate-900">
-                ${maxPrice}
-              </p>
-            </div>
-
-            <input
-              type="range"
-              min="100"
-              max="1000"
-              value={maxPrice}
-              onChange={(e) =>
-                setMaxPrice(
-                  Number(e.target.value)
-                )
+            xl:grid-cols-[320px_1fr]
+          "
+        >
+          {/* SIDEBAR */}
+          <div className="xl:sticky xl:top-6 xl:h-fit">
+            <FlightFilters
+              selectedStops={selectedStops}
+              setSelectedStops={
+                setSelectedStops
               }
-              className="mt-5 w-full"
+              maxPrice={maxPrice}
+              setMaxPrice={setMaxPrice}
+              selectedSort={selectedSort}
+              setSelectedSort={
+                setSelectedSort
+              }
             />
           </div>
 
-          {/* SORT */}
-          <div className="mt-10">
-            <p
+          {/* RESULTS */}
+          <div>
+            {/* TOP BAR */}
+            <div
               className="
-                text-sm
-                font-semibold
-                text-slate-500
+                mb-8
+
+                flex
+                flex-col
+                gap-4
+
+                rounded-[32px]
+                bg-white
+
+                p-6
+
+                shadow-lg
+
+                md:flex-row
+                md:items-center
+                md:justify-between
               "
             >
-              Sort By
-            </p>
+              <div>
+                <h2
+                  className="
+                    text-3xl
+                    font-black
+                    text-slate-900
+                  "
+                >
+                  {filteredFlights.length} Flights
+                  Found
+                </h2>
 
-            <select
-              value={sortBy}
-              onChange={(e) =>
-                setSortBy(e.target.value)
-              }
-              className="
-                mt-4
-                h-14
-                w-full
+                <p className="mt-2 text-slate-500">
+                  Showing premium fares and best
+                  available flights.
+                </p>
+              </div>
 
-                rounded-2xl
-                border
-                border-slate-200
+              <div
+                className="
+                  rounded-2xl
+                  bg-slate-100
 
-                px-4
+                  px-5
+                  py-3
 
-                font-semibold
-                outline-none
+                  text-sm
+                  font-bold
+                  text-slate-600
+                "
+              >
+                Updated just now
+              </div>
+            </div>
 
-                focus:border-[#2563EB]
-              "
-            >
-              <option value="price-low">
-                Lowest Price
-              </option>
+            {/* FLIGHTS */}
+            <div className="space-y-6">
+              {loading ? (
+                Array.from({
+                  length: 5,
+                }).map((_, index) => (
+                  <FlightCardSkeleton
+                    key={index}
+                  />
+                ))
+              ) : filteredFlights.length === 0 ? (
+                <div
+                  className="
+                    rounded-[32px]
+                    bg-white
 
-              <option value="price-high">
-                Highest Price
-              </option>
+                    p-16
 
-              <option value="duration">
-                Shortest Duration
-              </option>
-            </select>
+                    text-center
+
+                    shadow-xl
+                  "
+                >
+                  <h3 className="text-4xl font-black text-slate-900">
+                    No Flights Found
+                  </h3>
+
+                  <p className="mt-4 text-lg text-slate-500">
+                    Try adjusting your filters or
+                    increasing the maximum price.
+                  </p>
+                </div>
+              ) : (
+                filteredFlights.map((flight) => (
+                  <FlightCard
+                    key={flight.id}
+                    airline={flight.airline}
+                    airlineCode={
+                      flight.airlineCode
+                    }
+                    airlineLogo={
+                      flight.airlineLogo
+                    }
+                    from={flight.from}
+                    to={flight.to}
+                    departureTime={
+                      flight.departureTime
+                    }
+                    arrivalTime={
+                      flight.arrivalTime
+                    }
+                    duration={flight.duration}
+                    stops={flight.stops}
+                    price={flight.price}
+                  />
+                ))
+              )}
+            </div>
           </div>
         </div>
-
-        {/* RESULTS */}
-        <div>
-          {/* TOP BAR */}
-          <div className="mb-6 flex items-center justify-between">
-            <h2
-              className="
-                text-3xl
-                font-black
-                text-slate-900
-              "
-            >
-              {filteredFlights.length} Flights Found
-            </h2>
-
-            <p className="font-medium text-slate-500">
-              Showing best available fares
-            </p>
-          </div>
-
-          {/* FLIGHT CARDS */}
-          <div className="space-y-6">
-            {loading ? (
-              Array.from({
-                length: 4,
-              }).map((_, index) => (
-                <FlightCardSkeleton
-                  key={index}
-                />
-              ))
-            ) : (
-              filteredFlights.map((flight) => (
-                <FlightCard
-                  key={flight.id}
-                  airline={flight.airline}
-                  airlineCode={
-                    flight.airlineCode
-                  }
-                  airlineLogo={
-                    flight.airlineLogo
-                  }
-                  from={flight.from}
-                  to={flight.to}
-                  departureTime={
-                    flight.departureTime
-                  }
-                  arrivalTime={
-                    flight.arrivalTime
-                  }
-                  duration={flight.duration}
-                  stops={flight.stops}
-                  price={flight.price}
-                />
-              ))
-            )}
-          </div>
-        </div>
-      </div>
+      </section>
     </div>
   );
 }
