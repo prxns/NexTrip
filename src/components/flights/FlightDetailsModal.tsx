@@ -1,3 +1,4 @@
+import SeatSelection from "./SeatSelection";
 type FlightDetailsModalProps = {
   open: boolean;
 
@@ -60,17 +61,19 @@ function FlightDetailsModal({
       {/* MODAL */}
       <div
         className="
-          relative
-          w-full
-          max-w-4xl
+            relative
+            w-full
+            max-w-4xl
 
-          overflow-hidden
-          rounded-[40px]
-          bg-white
+            max-h-[90vh]
+            overflow-y-auto
 
-          shadow-2xl
+            rounded-[40px]
+            bg-white
+
+            shadow-2xl
         "
-      >
+    >
         {/* CLOSE */}
         <button
           onClick={onClose}
@@ -245,6 +248,11 @@ function FlightDetailsModal({
               </h4>
             </div>
           </div>
+
+          {/* SEAT SELECTION */}
+            <div className="mt-14">
+                <SeatSelection />
+            </div>
 
           {/* PRICE */}
           <div

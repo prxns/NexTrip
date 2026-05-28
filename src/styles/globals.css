@@ -26,3 +26,9 @@ img {
   max-width: 100%;
   display: block;
 }
+.modal-scrollbar::-webkit-scrollbar {
+  width: 0px;
+}
+.modal-scrollbar {
+  overflow-y: auto;
+}
