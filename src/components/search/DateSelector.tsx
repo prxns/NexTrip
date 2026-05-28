@@ -1,13 +1,144 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 function DateSelector() {
+  const today = new Date();
+
   const [open, setOpen] = useState(false);
+
+  const [currentMonth, setCurrentMonth] =
+    useState(new Date());
+
+  const [selectedDate, setSelectedDate] =
+    useState(new Date(2026, 5, 24));
+
+  const monthName =
+    currentMonth.toLocaleString("default", {
+      month: "long",
+    });
+
+  const year = currentMonth.getFullYear();
+
+  const daysInMonth = new Date(
+    year,
+    currentMonth.getMonth() + 1,
+    0
+  ).getDate();
+
+  const firstDayOfMonth = new Date(
+    year,
+    currentMonth.getMonth(),
+    1
+  ).getDay();
+
+  const formattedDate =
+    selectedDate.toLocaleDateString(
+      "en-US",
+      {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      }
+    );
+
+  const weekday =
+    selectedDate.toLocaleDateString(
+      "en-US",
+      {
+        weekday: "long",
+      }
+    );
+
+  const calendarDays = useMemo(() => {
+    const blanks = Array.from({
+      length: firstDayOfMonth,
+    }).map((_, index) => (
+      <div key={`blank-${index}`} />
+    ));
+
+    const days = Array.from({
+      length: daysInMonth,
+    }).map((_, index) => {
+      const day = index + 1;
+
+      const date = new Date(
+        year,
+        currentMonth.getMonth(),
+        day
+      );
+
+      const isSelected =
+        selectedDate.toDateString() ===
+        date.toDateString();
+
+      const isPast = date < today;
+
+      return (
+        <button
+          key={day}
+          disabled={isPast}
+          onClick={() => setSelectedDate(date)}
+          className={`
+            h-14
+            rounded-2xl
+
+            text-sm
+            font-semibold
+
+            transition-all
+            duration-200
+
+            ${
+              isSelected
+                ? "bg-[#2563EB] text-white shadow-lg"
+                : isPast
+                ? "cursor-not-allowed text-slate-300"
+                : "hover:bg-slate-100"
+            }
+          `}
+        >
+          {day}
+        </button>
+      );
+    });
+
+    return [...blanks, ...days];
+  }, [
+    currentMonth,
+    daysInMonth,
+    firstDayOfMonth,
+    selectedDate,
+    today,
+    year,
+  ]);
+
+  const previousMonth = () => {
+    setCurrentMonth(
+      new Date(
+        year,
+        currentMonth.getMonth() - 1,
+        1
+      )
+    );
+  };
+
+  const nextMonth = () => {
+    setCurrentMonth(
+      new Date(
+        year,
+        currentMonth.getMonth() + 1,
+        1
+      )
+    );
+  };
 
   return (
     <div className="relative w-full overflow-visible">
+      {/* CARD */}
       <button
         type="button"
-        onClick={() => setOpen((prev) => !prev)}
+        onClick={() =>
+          setOpen((prev) => !prev)
+        }
         className={`
           w-full
           rounded-[28px]
@@ -37,14 +168,15 @@ function DateSelector() {
             text-slate-900
           "
         >
-          24 Jun 2026
+          {formattedDate}
         </h3>
 
         <p className="mt-2 text-sm text-[#64748B]">
-          Tuesday
+          {weekday}
         </p>
       </button>
 
+      {/* CALENDAR */}
       {open && (
         <div
           className="
@@ -65,8 +197,11 @@ function DateSelector() {
             shadow-2xl
           "
         >
+          {/* HEADER */}
           <div className="flex items-center justify-between">
             <button
+              type="button"
+              onClick={previousMonth}
               className="
                 flex
                 h-12
@@ -95,10 +230,12 @@ function DateSelector() {
                 text-slate-900
               "
             >
-              June 2026
+              {monthName} {year}
             </h3>
 
             <button
+              type="button"
+              onClick={nextMonth}
               className="
                 flex
                 h-12
@@ -121,6 +258,7 @@ function DateSelector() {
             </button>
           </div>
 
+          {/* WEEKDAYS */}
           <div className="mt-6 grid grid-cols-7 gap-3">
             {[
               "Sun",
@@ -144,37 +282,10 @@ function DateSelector() {
               </div>
             ))}
 
-            {Array.from({ length: 30 }).map(
-              (_, index) => {
-                const day = index + 1;
-
-                return (
-                  <button
-                    key={day}
-                    className={`
-                      h-14
-                      rounded-2xl
-
-                      text-sm
-                      font-semibold
-
-                      transition-all
-                      duration-200
-
-                      ${
-                        day === 24
-                          ? "bg-[#2563EB] text-white shadow-lg"
-                          : "hover:bg-slate-100"
-                      }
-                    `}
-                  >
-                    {day}
-                  </button>
-                );
-              }
-            )}
+            {calendarDays}
           </div>
 
+          {/* DONE BUTTON */}
           <button
             type="button"
             onClick={() => setOpen(false)}
