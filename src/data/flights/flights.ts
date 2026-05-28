@@ -10,9 +10,9 @@ export const flights = [
     departureTime: "08:30",
     arrivalTime: "11:45",
 
-    duration: "6h 15m",
+    duration: 375,
 
-    stops: "Non-stop",
+    stops: 0,
 
     price: 349,
   },
@@ -28,9 +28,9 @@ export const flights = [
     departureTime: "10:15",
     arrivalTime: "14:05",
 
-    duration: "6h 50m",
+    duration: 410,
 
-    stops: "1 Stop",
+    stops: 1,
 
     price: 289,
   },
@@ -46,9 +46,9 @@ export const flights = [
     departureTime: "13:20",
     arrivalTime: "17:10",
 
-    duration: "6h 50m",
+    duration: 410,
 
-    stops: "Non-stop",
+    stops: 0,
 
     price: 410,
   },
@@ -64,10 +64,28 @@ export const flights = [
     departureTime: "16:45",
     arrivalTime: "20:35",
 
-    duration: "6h 50m",
+    duration: 410,
 
-    stops: "1 Stop",
+    stops: 1,
 
     price: 265,
+  },
+
+  {
+    id: 5,
+    airline: "Alaska Airlines",
+    airlineCode: "AS",
+
+    from: "JFK",
+    to: "LAX",
+
+    departureTime: "18:10",
+    arrivalTime: "22:00",
+
+    duration: 390,
+
+    stops: 0,
+
+    price: 520,
   },
 ];

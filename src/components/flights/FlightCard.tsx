@@ -8,9 +8,9 @@ type FlightCardProps = {
   departureTime: string;
   arrivalTime: string;
 
-  duration: string;
+  duration: number;
 
-  stops: string;
+  stops: number;
 
   price: number;
 };
@@ -94,7 +94,7 @@ function FlightCard({
           {/* FLIGHT LINE */}
           <div className="flex flex-1 flex-col items-center">
             <p className="text-sm font-semibold text-slate-500">
-              {duration}
+              {Math.floor(duration / 60)}h {duration % 60}m
             </p>
 
             <div className="relative mt-2 w-full">
@@ -126,7 +126,7 @@ function FlightCard({
             </div>
 
             <p className="mt-2 text-sm font-semibold text-slate-500">
-              {stops}
+              {stops === 0 ? "Non-stop" : `${stops} Stop`}
             </p>
           </div>
 
