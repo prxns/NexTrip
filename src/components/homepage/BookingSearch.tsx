@@ -4,7 +4,27 @@ import TripTypeToggle from "../search/TripTypeToggle";
 import DateSelector from "../search/DateSelector";
 import CategoryTabs from "./CategoryTabs";
 
+import { useNavigate } from "react-router-dom";
+
 function BookingSearch() {
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    /**
+     * TEMP STATIC DATA
+     * Later we'll connect real selected values
+     */
+    const searchParams = new URLSearchParams({
+      from: "JFK",
+      to: "LAX",
+      departure: "2026-05-29",
+      passengers: "2",
+      cabin: "Economy",
+    });
+
+    navigate(`/flights?${searchParams.toString()}`);
+  };
+
   return (
     <div className="mx-auto w-full max-w-6xl">
       {/* CATEGORY TABS */}
@@ -56,6 +76,7 @@ function BookingSearch() {
         {/* SEARCH BUTTON */}
         <button
           type="button"
+          onClick={handleSearch}
           className="
             mt-7
             h-16
