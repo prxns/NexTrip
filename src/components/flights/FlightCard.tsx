@@ -2,6 +2,8 @@ type FlightCardProps = {
   airline: string;
   airlineCode: string;
 
+  airlineLogo: string;
+
   from: string;
   to: string;
 
@@ -18,6 +20,8 @@ type FlightCardProps = {
 function FlightCard({
   airline,
   airlineCode,
+
+  airlineLogo,
 
   from,
   to,
@@ -39,9 +43,13 @@ function FlightCard({
         border-slate-200
         bg-white
         p-6
+
         shadow-lg
+
         transition-all
         duration-300
+
+        hover:-translate-y-1
         hover:shadow-2xl
       "
     >
@@ -56,15 +64,22 @@ function FlightCard({
               items-center
               justify-center
 
+              overflow-hidden
               rounded-2xl
-              bg-slate-100
-
-              text-xl
-              font-black
-              text-slate-900
+              border
+              border-slate-200
+              bg-white
             "
           >
-            {airlineCode}
+            <img
+              src={airlineLogo}
+              alt={airline}
+              className="
+                h-10
+                w-10
+                object-contain
+              "
+            />
           </div>
 
           <div>
@@ -73,7 +88,7 @@ function FlightCard({
             </h3>
 
             <p className="mt-1 text-sm text-slate-500">
-              Premium Economy
+              {airlineCode} • Premium Economy
             </p>
           </div>
         </div>
@@ -94,7 +109,8 @@ function FlightCard({
           {/* FLIGHT LINE */}
           <div className="flex flex-1 flex-col items-center">
             <p className="text-sm font-semibold text-slate-500">
-              {Math.floor(duration / 60)}h {duration % 60}m
+              {Math.floor(duration / 60)}h{" "}
+              {duration % 60}m
             </p>
 
             <div className="relative mt-2 w-full">
@@ -109,8 +125,10 @@ function FlightCard({
                   flex
                   h-8
                   w-8
+
                   -translate-x-1/2
                   -translate-y-1/2
+
                   items-center
                   justify-center
 
@@ -126,7 +144,9 @@ function FlightCard({
             </div>
 
             <p className="mt-2 text-sm font-semibold text-slate-500">
-              {stops === 0 ? "Non-stop" : `${stops} Stop`}
+              {stops === 0
+                ? "Non-stop"
+                : `${stops} Stop`}
             </p>
           </div>
 
@@ -142,7 +162,7 @@ function FlightCard({
           </div>
         </div>
 
-        {/* RIGHT */}
+        {/* PRICE */}
         <div className="xl:text-right">
           <p className="text-sm font-semibold text-slate-500">
             Starting from
@@ -156,6 +176,7 @@ function FlightCard({
             className="
               mt-4
               h-12
+
               rounded-2xl
 
               bg-gradient-to-r
@@ -172,6 +193,7 @@ function FlightCard({
 
               transition-all
               duration-300
+
               hover:scale-[1.03]
             "
           >

@@ -1,7 +1,8 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import FlightCard from "../../components/flights/FlightCard";
+import FlightCardSkeleton from "../../components/flights/FlightCardSkeleton";
 
 import { flights } from "../../data/flights/flights";
 
@@ -11,6 +12,7 @@ function FlightsPage() {
   const from = searchParams.get("from");
   const to = searchParams.get("to");
 
+  /* FILTER STATES */
   const [nonStopOnly, setNonStopOnly] =
     useState(false);
 
@@ -20,10 +22,24 @@ function FlightsPage() {
   const [sortBy, setSortBy] =
     useState("price-low");
 
+  /* LOADING STATE */
+  const [loading, setLoading] =
+    useState(true);
+
+  /* FAKE API DELAY */
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1800);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  /* FILTER + SORT */
   const filteredFlights = useMemo(() => {
     let updatedFlights = [...flights];
 
-    // FILTERS
+    // NON STOP FILTER
     if (nonStopOnly) {
       updatedFlights =
         updatedFlights.filter(
@@ -31,6 +47,7 @@ function FlightsPage() {
         );
     }
 
+    // PRICE FILTER
     updatedFlights =
       updatedFlights.filter(
         (flight) => flight.price <= maxPrice
@@ -55,10 +72,13 @@ function FlightsPage() {
           (a, b) => a.duration - b.duration
         );
         break;
+
+      default:
+        break;
     }
 
     return updatedFlights;
-  }, [maxPrice, nonStopOnly, sortBy]);
+  }, [nonStopOnly, maxPrice, sortBy]);
 
   return (
     <div className="min-h-screen bg-slate-100 pb-20">
@@ -76,7 +96,15 @@ function FlightsPage() {
         "
       >
         <div className="mx-auto max-w-7xl">
-          <p className="text-sm font-semibold uppercase tracking-[4px] text-white/70">
+          <p
+            className="
+              text-sm
+              font-semibold
+              uppercase
+              tracking-[4px]
+              text-white/70
+            "
+          >
             Flight Search Results
           </p>
 
@@ -86,8 +114,19 @@ function FlightsPage() {
         </div>
       </div>
 
-      {/* CONTENT */}
-      <div className="mx-auto mt-10 grid max-w-7xl gap-8 px-6 xl:grid-cols-[320px_1fr]">
+      {/* MAIN CONTENT */}
+      <div
+        className="
+          mx-auto
+          mt-10
+          grid
+          max-w-7xl
+          gap-8
+          px-6
+
+          xl:grid-cols-[320px_1fr]
+        "
+      >
         {/* SIDEBAR */}
         <div
           className="
@@ -98,16 +137,29 @@ function FlightsPage() {
             rounded-[32px]
             bg-white
             p-6
+
             shadow-lg
           "
         >
-          <h2 className="text-2xl font-black text-slate-900">
+          <h2
+            className="
+              text-2xl
+              font-black
+              text-slate-900
+            "
+          >
             Filters
           </h2>
 
           {/* STOPS */}
           <div className="mt-8">
-            <p className="text-sm font-semibold text-slate-500">
+            <p
+              className="
+                text-sm
+                font-semibold
+                text-slate-500
+              "
+            >
               Stops
             </p>
 
@@ -131,7 +183,13 @@ function FlightsPage() {
           {/* PRICE */}
           <div className="mt-10">
             <div className="flex items-center justify-between">
-              <p className="text-sm font-semibold text-slate-500">
+              <p
+                className="
+                  text-sm
+                  font-semibold
+                  text-slate-500
+                "
+              >
                 Max Price
               </p>
 
@@ -156,7 +214,13 @@ function FlightsPage() {
 
           {/* SORT */}
           <div className="mt-10">
-            <p className="text-sm font-semibold text-slate-500">
+            <p
+              className="
+                text-sm
+                font-semibold
+                text-slate-500
+              "
+            >
               Sort By
             </p>
 
@@ -201,7 +265,13 @@ function FlightsPage() {
         <div>
           {/* TOP BAR */}
           <div className="mb-6 flex items-center justify-between">
-            <h2 className="text-3xl font-black text-slate-900">
+            <h2
+              className="
+                text-3xl
+                font-black
+                text-slate-900
+              "
+            >
               {filteredFlights.length} Flights Found
             </h2>
 
@@ -212,24 +282,39 @@ function FlightsPage() {
 
           {/* FLIGHT CARDS */}
           <div className="space-y-6">
-            {filteredFlights.map((flight) => (
-              <FlightCard
-                key={flight.id}
-                airline={flight.airline}
-                airlineCode={flight.airlineCode}
-                from={flight.from}
-                to={flight.to}
-                departureTime={
-                  flight.departureTime
-                }
-                arrivalTime={
-                  flight.arrivalTime
-                }
-                duration={flight.duration}
-                stops={flight.stops}
-                price={flight.price}
-              />
-            ))}
+            {loading ? (
+              Array.from({
+                length: 4,
+              }).map((_, index) => (
+                <FlightCardSkeleton
+                  key={index}
+                />
+              ))
+            ) : (
+              filteredFlights.map((flight) => (
+                <FlightCard
+                  key={flight.id}
+                  airline={flight.airline}
+                  airlineCode={
+                    flight.airlineCode
+                  }
+                  airlineLogo={
+                    flight.airlineLogo
+                  }
+                  from={flight.from}
+                  to={flight.to}
+                  departureTime={
+                    flight.departureTime
+                  }
+                  arrivalTime={
+                    flight.arrivalTime
+                  }
+                  duration={flight.duration}
+                  stops={flight.stops}
+                  price={flight.price}
+                />
+              ))
+            )}
           </div>
         </div>
       </div>
