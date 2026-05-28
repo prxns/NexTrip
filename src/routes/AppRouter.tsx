@@ -10,6 +10,7 @@ import CheckoutPage from "../pages/Checkout/CheckoutPage";
 import BookingSuccessPage from "../pages/Checkout/BookingSuccessPage";
 
 import HotelDetailsPage from "../pages/Hotels/HotelDetailsPage";
+import HotelCheckoutPage from "../pages/Hotels/HotelCheckoutPage";
 /**
  * Central application routing system.
  * All major pages are registered here.
@@ -23,6 +24,7 @@ function AppRouter() {
           <Route path="/flights" element={<FlightsPage />} />
           <Route path="/hotels" element={<HotelsPage />} />
           <Route path="/hotels/:slug" element={<HotelDetailsPage />} />
+          <Route path="/hotel-checkout" element={<HotelCheckoutPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/booking-success" element={<BookingSuccessPage />} />
         </Route>

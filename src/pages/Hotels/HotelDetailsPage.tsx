@@ -428,13 +428,19 @@ function HotelDetailsPage() {
           {/* RIGHT */}
           <div>
             <HotelBookingCard
-              room={selectedRoom}
-              basePrice={
-                hotel.pricePerNight
-              }
-              nights={
-                nights || 1
-              }
+                room={selectedRoom}
+                basePrice={hotel.pricePerNight}
+                nights={nights}
+
+                hotelName={hotel.name}
+
+                city={hotel.city}
+
+                state={hotel.state}
+
+                checkIn={checkIn || ""}
+
+                checkOut={checkOut || ""}
             />
           </div>
         </div>
