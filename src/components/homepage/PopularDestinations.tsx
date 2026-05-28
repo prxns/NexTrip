@@ -1,9 +1,6 @@
-import Container from '../common/Container';
-import { popularDestinations } from '../../data/destinations';
+import Container from "../common/Container";
+import { popularDestinations } from "../../data/destinations/popularDestinations";
 
-/**
- * Popular travel destinations section.
- */
 function PopularDestinations() {
   return (
     <section className="py-24 bg-white">
@@ -33,6 +30,7 @@ function PopularDestinations() {
             <div
               key={destination.id}
               className="
+                relative
                 group
                 overflow-hidden
                 rounded-[28px]
@@ -67,20 +65,20 @@ function PopularDestinations() {
                     to-transparent
                   "
                 />
+              </div>
 
-                <div className="absolute bottom-6 left-6 text-white">
-                  <h3 className="text-2xl font-bold">
-                    {destination.city}
-                  </h3>
+              <div className="absolute bottom-6 left-6 text-white">
+                <h3 className="text-2xl font-bold">
+                  {destination.city}
+                </h3>
 
-                  <p className="mt-1 text-sm text-slate-200">
-                    {destination.state}
-                  </p>
+                <p className="mt-1 text-sm text-slate-200">
+                  {destination.state}
+                </p>
 
-                  <p className="mt-4 text-sm">
-                    {destination.properties}+ properties
-                  </p>
-                </div>
+                <p className="mt-4 text-sm font-semibold">
+                  {destination.properties}+ properties
+                </p>
               </div>
             </div>
           ))}

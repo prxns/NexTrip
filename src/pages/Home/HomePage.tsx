@@ -1,3 +1,4 @@
+import PopularDestinations from "../../components/homepage/PopularDestinations";
 import {
   FaPlane,
   FaHotel,
@@ -9,37 +10,6 @@ import {
 } from "react-icons/fa";
 
 import Container from "../../components/common/Container";
-
-const destinations = [
-  {
-    city: "New York",
-    state: "New York",
-    properties: "1240+ properties",
-    image:
-      "https://images.unsplash.com/photo-1496588152823-e1cb5c4d4d95?q=80&w=1200&auto=format&fit=crop",
-  },
-  {
-    city: "Los Angeles",
-    state: "California",
-    properties: "980+ properties",
-    image:
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop",
-  },
-  {
-    city: "Miami",
-    state: "Florida",
-    properties: "860+ properties",
-    image:
-      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1200&auto=format&fit=crop",
-  },
-  {
-    city: "Las Vegas",
-    state: "Nevada",
-    properties: "720+ properties",
-    image:
-      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1200&auto=format&fit=crop",
-  },
-];
 
 const travelTabs = [
   { icon: <FaPlane />, label: "Flights" },
@@ -229,66 +199,7 @@ function HomePage() {
       </section>
 
       {/* DESTINATIONS */}
-      <section className="py-24">
-        <Container>
-          <div className="flex items-end justify-between">
-            <div>
-              <p className="text-sm font-bold uppercase tracking-[4px] text-[#14B8A6]">
-                Trending Destinations
-              </p>
-
-              <h2 className="mt-4 text-5xl font-black text-slate-900">
-                Popular Places Across America
-              </h2>
-            </div>
-          </div>
-
-          <div className="mt-14 grid gap-8 md:grid-cols-2 xl:grid-cols-4">
-            {destinations.map((place) => (
-              <div
-                key={place.city}
-                className="
-                  group
-                  relative
-                  h-[520px]
-                  overflow-hidden
-                  rounded-[36px]
-                  shadow-xl
-                "
-              >
-                <img
-                  src={place.image}
-                  alt={place.city}
-                  className="
-                    h-full
-                    w-full
-                    object-cover
-                    transition-transform
-                    duration-700
-                    group-hover:scale-110
-                  "
-                />
-
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-
-                <div className="absolute bottom-0 p-7 text-white">
-                  <h3 className="text-5xl font-black">
-                    {place.city}
-                  </h3>
-
-                  <p className="mt-2 text-lg text-slate-200">
-                    {place.state}
-                  </p>
-
-                  <p className="mt-4 text-lg font-semibold">
-                    {place.properties}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </section>
+      <PopularDestinations />
 
       {/* PROMO SECTION */}
       <section className="pb-20">
