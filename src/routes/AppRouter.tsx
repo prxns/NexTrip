@@ -20,6 +20,15 @@ import PrivacyPolicyPage from "../pages/Legal/PrivacyPolicyPage";
 import TermsPage from "../pages/Legal/TermsPage";
 import CookiePolicyPage from "../pages/Legal/CookiePolicyPage";
 import AccessibilityPage from "../pages/Legal/AccessibilityPage";
+
+import { Navigate } from "react-router-dom";
+
+import CarRentalsPage from "../pages/CarRentals/CarRentalsPage";
+import CarRentalDetailsPage from "../pages/CarRentals/CarRentalDetailsPage";
+import CarRentalCheckoutPage from "../pages/CarRentals/CarRentalCheckoutPage";
+
+import CabsPage from "../pages/Cabs/CabsPage";
+import CabBookingPage from "../pages/Cabs/CabBookingPage";
 /**
  * Central application routing system.
  * All major pages are registered here.
@@ -44,6 +53,12 @@ function AppRouter() {
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/cookie-policy" element={<CookiePolicyPage />} />
           <Route path="/accessibility" element={<AccessibilityPage />} />
+          <Route path="/car-rentals" element={<CarRentalsPage />} />
+          <Route path="/car-rentals/:slug" element={<CarRentalDetailsPage />} />
+          <Route path="/car-rental-checkout" element={<CarRentalCheckoutPage />} />
+          <Route path="/cabs" element={<CabsPage />} />
+          <Route path="/cab-booking" element={<CabBookingPage />} />
+          <Route path="/cars" element={<Navigate to="/car-rentals" replace />} />
         </Route>
       </Routes>
     </BrowserRouter>

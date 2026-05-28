@@ -6,7 +6,8 @@ const navLinks = [
   { label: "Flights", path: "/flights" },
   { label: "Hotels", path: "/hotels" },
   { label: "Villas", path: "/villas" },
-  { label: "Cars", path: "/cars" },
+  { label: "Car Rentals", path: "/car-rentals" },
+  { label: "Cabs", path: "/cabs" },
   { label: "Tours", path: "/tours" },
 ];
 
