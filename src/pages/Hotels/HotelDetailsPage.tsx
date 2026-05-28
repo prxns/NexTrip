@@ -19,7 +19,7 @@ import {
 function HotelDetailsPage() {
   const { slug } = useParams();
 
-  const [searchParams] =
+  const [searchParams, setSearchParams] =
     useSearchParams();
 
   /* -------------------------------- */
@@ -27,10 +27,10 @@ function HotelDetailsPage() {
   /* -------------------------------- */
 
   const checkIn =
-    searchParams.get("checkIn");
+    searchParams.get("checkIn") || "";
 
   const checkOut =
-    searchParams.get("checkOut");
+    searchParams.get("checkOut") || "";
 
   /* -------------------------------- */
   /* CALCULATE NIGHTS                 */
@@ -38,7 +38,7 @@ function HotelDetailsPage() {
 
   const nights = useMemo(() => {
     if (!checkIn || !checkOut) {
-      return 1;
+      return 0;
     }
 
     const start =
@@ -62,7 +62,7 @@ function HotelDetailsPage() {
 
     return calculated > 0
       ? calculated
-      : 1;
+      : 0;
   }, [checkIn, checkOut]);
 
   /* -------------------------------- */
@@ -86,6 +86,46 @@ function HotelDetailsPage() {
   ] = useState(
     hotel?.rooms?.[0]
   );
+
+  /* -------------------------------- */
+  /* UPDATE CHECK-IN                  */
+  /* -------------------------------- */
+
+  const handleCheckInChange = (
+    value: string
+  ) => {
+    const updated =
+      new URLSearchParams(
+        searchParams
+      );
+
+    updated.set(
+      "checkIn",
+      value
+    );
+
+    setSearchParams(updated);
+  };
+
+  /* -------------------------------- */
+  /* UPDATE CHECK-OUT                 */
+  /* -------------------------------- */
+
+  const handleCheckOutChange = (
+    value: string
+  ) => {
+    const updated =
+      new URLSearchParams(
+        searchParams
+      );
+
+    updated.set(
+      "checkOut",
+      value
+    );
+
+    setSearchParams(updated);
+  };
 
   /* -------------------------------- */
   /* NOT FOUND                        */
@@ -162,100 +202,125 @@ function HotelDetailsPage() {
             {hotel.state}
           </p>
 
-          {/* DATE INFO */}
-          <div className="mt-8 flex flex-wrap gap-4">
+          {/* DATE CONTROLS */}
+          <div className="mt-10 flex flex-wrap gap-5">
             {/* CHECK IN */}
             <div
               className="
-                rounded-2xl
+                rounded-[28px]
                 bg-white
-                px-6
-                py-4
-                shadow-lg
+                p-5
+                shadow-xl
+                min-w-[230px]
               "
             >
               <p
                 className="
                   text-sm
-                  font-semibold
+                  font-bold
+                  uppercase
+                  tracking-[3px]
                   text-slate-400
                 "
               >
                 Check-in
               </p>
 
-              <h3
+              <input
+                type="date"
+                value={checkIn}
+                onChange={(e) =>
+                  handleCheckInChange(
+                    e.target.value
+                  )
+                }
                 className="
-                  mt-1
-                  text-lg
+                  mt-3
+                  w-full
+
+                  border-none
+                  bg-transparent
+
+                  text-2xl
                   font-black
                   text-slate-900
+
+                  outline-none
                 "
-              >
-                {checkIn
-                  ? new Date(
-                      checkIn
-                    ).toLocaleDateString()
-                  : "Select Date"}
-              </h3>
+              />
             </div>
 
             {/* CHECK OUT */}
             <div
               className="
-                rounded-2xl
+                rounded-[28px]
                 bg-white
-                px-6
-                py-4
-                shadow-lg
+                p-5
+                shadow-xl
+                min-w-[230px]
               "
             >
               <p
                 className="
                   text-sm
-                  font-semibold
+                  font-bold
+                  uppercase
+                  tracking-[3px]
                   text-slate-400
                 "
               >
                 Check-out
               </p>
 
-              <h3
+              <input
+                type="date"
+                min={checkIn}
+                value={checkOut}
+                onChange={(e) =>
+                  handleCheckOutChange(
+                    e.target.value
+                  )
+                }
                 className="
-                  mt-1
-                  text-lg
+                  mt-3
+                  w-full
+
+                  border-none
+                  bg-transparent
+
+                  text-2xl
                   font-black
                   text-slate-900
+
+                  outline-none
                 "
-              >
-                {checkOut
-                  ? new Date(
-                      checkOut
-                    ).toLocaleDateString()
-                  : "Select Date"}
-              </h3>
+              />
             </div>
 
-            {/* NIGHTS */}
+            {/* TOTAL NIGHTS */}
             <div
               className="
-                rounded-2xl
+                rounded-[28px]
 
                 bg-gradient-to-r
                 from-[#2563EB]
                 to-[#14B8A6]
 
-                px-6
-                py-4
+                p-5
+
+                shadow-2xl
+
+                min-w-[210px]
 
                 text-white
-                shadow-xl
               "
             >
               <p
                 className="
                   text-sm
-                  font-semibold
+                  font-bold
+                  uppercase
+                  tracking-[3px]
                   text-white/70
                 "
               >
@@ -264,8 +329,8 @@ function HotelDetailsPage() {
 
               <h3
                 className="
-                  mt-1
-                  text-2xl
+                  mt-3
+                  text-5xl
                   font-black
                 "
               >
@@ -333,7 +398,9 @@ function HotelDetailsPage() {
               basePrice={
                 hotel.pricePerNight
               }
-              nights={nights}
+              nights={
+                nights || 1
+              }
             />
 
             {/* AMENITIES */}
@@ -365,7 +432,9 @@ function HotelDetailsPage() {
               basePrice={
                 hotel.pricePerNight
               }
-              nights={nights}
+              nights={
+                nights || 1
+              }
             />
           </div>
         </div>

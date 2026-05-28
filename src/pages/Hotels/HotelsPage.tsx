@@ -1,5 +1,7 @@
 import { useMemo, useState } from "react";
 
+import { useNavigate } from "react-router-dom";
+
 import HotelCard from "../../components/hotels/HotelCard";
 import HotelFilters from "../../components/hotels/HotelFilters";
 import HotelDetailsModal from "../../components/hotels/HotelDetailsModal";
@@ -10,7 +12,15 @@ import {
 } from "../../data/hotels/hotels";
 
 function HotelsPage() {
+  const navigate = useNavigate();
+
   const [search, setSearch] =
+    useState("");
+
+  const [checkIn, setCheckIn] =
+    useState("");
+
+  const [checkOut, setCheckOut] =
     useState("");
 
   const [maxPrice, setMaxPrice] =
@@ -59,6 +69,21 @@ function HotelsPage() {
     minRating,
     category,
   ]);
+
+  const handleHotelClick = (
+    hotel: Hotel
+  ) => {
+    if (!checkIn || !checkOut) {
+      alert(
+        "Please select check-in and check-out dates."
+      );
+      return;
+    }
+
+    navigate(
+      `/hotels/${hotel.slug}?checkIn=${checkIn}&checkOut=${checkOut}`
+    );
+  };
 
   return (
     <div className="min-h-screen bg-slate-100">
@@ -176,6 +201,7 @@ function HotelsPage() {
               md:grid-cols-4
             "
           >
+            {/* DESTINATION */}
             <input
               value={search}
               onChange={(e) =>
@@ -184,59 +210,93 @@ function HotelsPage() {
               type="text"
               placeholder="Where are you going?"
               className="
-                h-14
+                h-16
                 rounded-2xl
                 border
                 border-slate-200
+                bg-white
                 px-5
+
+                text-lg
+                font-semibold
+                text-slate-900
+
                 outline-none
 
                 transition-all
                 duration-300
 
                 focus:border-[#2563EB]
+                focus:ring-4
+                focus:ring-blue-100
               "
             />
 
+            {/* CHECK IN */}
             <input
-              type="text"
-              placeholder="Check-in"
+              type="date"
+              value={checkIn}
+              onChange={(e) =>
+                setCheckIn(e.target.value)
+              }
               className="
-                h-14
+                h-16
                 rounded-2xl
                 border
                 border-slate-200
+                bg-white
                 px-5
+
+                text-lg
+                font-semibold
+                text-slate-900
+
                 outline-none
 
                 transition-all
                 duration-300
 
                 focus:border-[#2563EB]
+                focus:ring-4
+                focus:ring-blue-100
               "
             />
 
+            {/* CHECK OUT */}
             <input
-              type="text"
-              placeholder="Check-out"
+              type="date"
+              value={checkOut}
+              min={checkIn}
+              onChange={(e) =>
+                setCheckOut(e.target.value)
+              }
               className="
-                h-14
+                h-16
                 rounded-2xl
                 border
                 border-slate-200
+                bg-white
                 px-5
+
+                text-lg
+                font-semibold
+                text-slate-900
+
                 outline-none
 
                 transition-all
                 duration-300
 
                 focus:border-[#2563EB]
+                focus:ring-4
+                focus:ring-blue-100
               "
             />
 
+            {/* SEARCH BUTTON */}
             <button
               className="
-                h-14
+                h-16
 
                 rounded-2xl
 
@@ -254,6 +314,9 @@ function HotelsPage() {
                 duration-300
 
                 hover:scale-[1.02]
+                hover:shadow-2xl
+
+                active:scale-[0.98]
               "
             >
               Search Hotels
@@ -385,8 +448,8 @@ function HotelsPage() {
                   <HotelCard
                     key={hotel.id}
                     hotel={hotel}
-                    onViewDetails={
-                      setSelectedHotel
+                    onViewDetails={() =>
+                      handleHotelClick(hotel)
                     }
                   />
                 ))
