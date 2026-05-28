@@ -13,7 +13,7 @@ function HeroSection() {
         flex
         items-center
         justify-center
-        overflow-hidden
+        overflow-visible
       "
     >
       {/* Background Image */}

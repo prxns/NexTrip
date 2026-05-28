@@ -1,102 +1,83 @@
-import CategoryTabs from './CategoryTabs';
+import AirportSearch from "../search/AirportSearch";
+import PassengerSelector from "../search/PassengerSelector";
+import CategoryTabs from "./CategoryTabs";
 
-/**
- * Main homepage booking search panel.
- */
 function BookingSearch() {
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="mx-auto w-full max-w-6xl">
       <CategoryTabs />
 
       <div
         className="
           mt-6
-          bg-white
           rounded-[32px]
-          shadow-2xl
+          bg-white
           p-6
-          md:p-8
+          shadow-xl
         "
       >
+        {/* SEARCH GRID */}
         <div
           className="
             grid
             grid-cols-1
-            md:grid-cols-4
             gap-4
+            md:grid-cols-2
+            xl:grid-cols-4
+            items-start
           "
         >
-          <div className="border border-[#E2E8F0] rounded-2xl p-5 text-left">
-            <p className="text-sm text-[#64748B]">
-              From
-            </p>
+          {/* FROM */}
+          <AirportSearch />
 
-            <h3 className="mt-2 text-xl font-bold">
-              New York
-            </h3>
+          {/* TO */}
+          <AirportSearch />
 
-            <p className="text-sm text-[#64748B] mt-1">
-              JFK Airport
-            </p>
-          </div>
-
-          <div className="border border-[#E2E8F0] rounded-2xl p-5 text-left">
-            <p className="text-sm text-[#64748B]">
-              To
-            </p>
-
-            <h3 className="mt-2 text-xl font-bold">
-              Los Angeles
-            </h3>
-
-            <p className="text-sm text-[#64748B] mt-1">
-              LAX Airport
-            </p>
-          </div>
-
-          <div className="border border-[#E2E8F0] rounded-2xl p-5 text-left">
-            <p className="text-sm text-[#64748B]">
+          {/* DATE */}
+          <div
+            className="
+              min-h-[190px]
+              rounded-[24px]
+              border
+              border-[#E2E8F0]
+              bg-white
+              p-5
+            "
+          >
+            <p className="text-sm font-medium text-[#64748B]">
               Departure
             </p>
 
-            <h3 className="mt-2 text-xl font-bold">
+            <h3 className="mt-3 text-4xl font-bold text-slate-900">
               24 Jun 2026
             </h3>
 
-            <p className="text-sm text-[#64748B] mt-1">
+            <p className="mt-2 text-sm text-[#64748B]">
               Tuesday
             </p>
           </div>
 
-          <div className="border border-[#E2E8F0] rounded-2xl p-5 text-left">
-            <p className="text-sm text-[#64748B]">
-              Travelers
-            </p>
-
-            <h3 className="mt-2 text-xl font-bold">
-              2 Adults
-            </h3>
-
-            <p className="text-sm text-[#64748B] mt-1">
-              Economy
-            </p>
-          </div>
+          {/* PASSENGERS */}
+          <PassengerSelector />
         </div>
 
+        {/* BUTTON */}
         <button
           className="
-            mt-8
+            mt-6
+            h-16
             w-full
-            md:w-auto
-            bg-[#2563EB]
-            hover:bg-[#1D4ED8]
-            transition-colors
-            text-white
-            font-semibold
-            px-10
-            py-4
             rounded-2xl
+            bg-gradient-to-r
+            from-[#2563EB]
+            to-[#14B8A6]
             text-lg
+            font-bold
+            text-white
+            shadow-lg
+            transition-all
+            duration-300
+            hover:scale-[1.01]
           "
         >
           Search Flights

@@ -1,64 +1,92 @@
-import type { Airport } from "../../types/airport.types";
-
-export const airports: Airport[] = [
+export const airports = [
   {
-    id: "jfk",
     code: "JFK",
-    name: "John F. Kennedy International Airport",
     city: "New York",
+    name: "John F. Kennedy International Airport",
     state: "New York",
-    country: "United States",
-    terminals: 6,
-    passengersPerYear: "62 Million",
-    image:
-      "https://images.unsplash.com/photo-1436491865332-7a61a109cc05",
   },
   {
-    id: "lax",
+    code: "LGA",
+    city: "New York",
+    name: "LaGuardia Airport",
+    state: "New York",
+  },
+  {
+    code: "EWR",
+    city: "Newark",
+    name: "Newark Liberty International Airport",
+    state: "New Jersey",
+  },
+  {
     code: "LAX",
-    name: "Los Angeles International Airport",
     city: "Los Angeles",
+    name: "Los Angeles International Airport",
     state: "California",
-    country: "United States",
-    terminals: 9,
-    passengersPerYear: "75 Million",
-    image:
-      "https://images.unsplash.com/photo-1502920917128-1aa500764cbd",
   },
   {
-    id: "ord",
-    code: "ORD",
-    name: "O'Hare International Airport",
-    city: "Chicago",
-    state: "Illinois",
-    country: "United States",
-    terminals: 4,
-    passengersPerYear: "73 Million",
-    image:
-      "https://images.unsplash.com/photo-1494412519320-aa613dfb7738",
+    code: "SFO",
+    city: "San Francisco",
+    name: "San Francisco International Airport",
+    state: "California",
   },
   {
-    id: "mia",
-    code: "MIA",
-    name: "Miami International Airport",
-    city: "Miami",
-    state: "Florida",
-    country: "United States",
-    terminals: 3,
-    passengersPerYear: "52 Million",
-    image:
-      "https://images.unsplash.com/photo-1519046904884-53103b34b206",
-  },
-  {
-    id: "las",
     code: "LAS",
-    name: "Harry Reid International Airport",
     city: "Las Vegas",
+    name: "Harry Reid International Airport",
     state: "Nevada",
-    country: "United States",
-    terminals: 2,
-    passengersPerYear: "58 Million",
-    image:
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
+  },
+  {
+    code: "MIA",
+    city: "Miami",
+    name: "Miami International Airport",
+    state: "Florida",
+  },
+  {
+    code: "ORD",
+    city: "Chicago",
+    name: "O'Hare International Airport",
+    state: "Illinois",
+  },
+  {
+    code: "ATL",
+    city: "Atlanta",
+    name: "Hartsfield-Jackson Atlanta International Airport",
+    state: "Georgia",
+  },
+  {
+    code: "SEA",
+    city: "Seattle",
+    name: "Seattle-Tacoma International Airport",
+    state: "Washington",
+  },
+  {
+    code: "BOS",
+    city: "Boston",
+    name: "Logan International Airport",
+    state: "Massachusetts",
+  },
+  {
+    code: "DEN",
+    city: "Denver",
+    name: "Denver International Airport",
+    state: "Colorado",
+  },
+  {
+    code: "DFW",
+    city: "Dallas",
+    name: "Dallas/Fort Worth International Airport",
+    state: "Texas",
+  },
+  {
+    code: "PHX",
+    city: "Phoenix",
+    name: "Phoenix Sky Harbor International Airport",
+    state: "Arizona",
+  },
+  {
+    code: "IAH",
+    city: "Houston",
+    name: "George Bush Intercontinental Airport",
+    state: "Texas",
   },
 ];
