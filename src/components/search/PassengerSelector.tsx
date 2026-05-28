@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { Dispatch, SetStateAction } from "react";
 
 function PassengerSelector() {
   const [open, setOpen] = useState(false);
@@ -7,20 +8,55 @@ function PassengerSelector() {
   const [children, setChildren] = useState(0);
   const [infants, setInfants] = useState(0);
 
-  const [cabinClass, setCabinClass] = useState("Economy");
+  const [cabinClass, setCabinClass] =
+    useState("Economy");
+
+  const wrapperRef =
+    useRef<HTMLDivElement | null>(null);
 
   const totalPassengers =
     adults + children + infants;
 
+  useEffect(() => {
+    function handleOutsideClick(
+      event: MouseEvent
+    ) {
+      if (
+        wrapperRef.current &&
+        !wrapperRef.current.contains(
+          event.target as Node
+        )
+      ) {
+        setOpen(false);
+      }
+    }
+
+    document.addEventListener(
+      "mousedown",
+      handleOutsideClick
+    );
+
+    return () => {
+      document.removeEventListener(
+        "mousedown",
+        handleOutsideClick
+      );
+    };
+  }, []);
+
   const increase = (
-    setter: React.Dispatch<React.SetStateAction<number>>
+    setter: Dispatch<
+      SetStateAction<number>
+    >
   ) => {
     setter((prev) => prev + 1);
   };
 
   const decrease = (
     value: number,
-    setter: React.Dispatch<React.SetStateAction<number>>,
+    setter: Dispatch<
+      SetStateAction<number>
+    >,
     min = 0
   ) => {
     if (value > min) {
@@ -29,29 +65,49 @@ function PassengerSelector() {
   };
 
   return (
-    <div className="relative">
+    <div
+      ref={wrapperRef}
+      className="
+        relative
+        w-full
+        overflow-visible
+      "
+    >
       {/* CARD */}
       <button
         type="button"
-        onClick={() => setOpen(!open)}
-        className="
+        onClick={() =>
+          setOpen((prev) => !prev)
+        }
+        className={`
           w-full
-          rounded-[24px]
+          rounded-[28px]
           border
-          border-[#E2E8F0]
           bg-white
           p-5
           text-left
           transition-all
-          duration-200
-          hover:border-[#2563EB]
-        "
+          duration-300
+
+          ${
+            open
+              ? "border-[#2563EB] shadow-xl"
+              : "border-[#E2E8F0] hover:border-[#2563EB]"
+          }
+        `}
       >
         <p className="text-sm font-medium text-[#64748B]">
           Travelers
         </p>
 
-        <h3 className="mt-2 text-3xl font-bold text-slate-900">
+        <h3
+          className="
+            mt-3
+            text-3xl
+            font-black
+            text-slate-900
+          "
+        >
           {totalPassengers}{" "}
           {totalPassengers === 1
             ? "Traveler"
@@ -68,15 +124,24 @@ function PassengerSelector() {
         <div
           className="
             absolute
-            left-0
             right-0
-            top-[calc(100%+12px)]
-            z-[100]
-            rounded-[24px]
+            top-[calc(100%+14px)]
+            z-[250]
+
+            w-[360px]
+            max-h-[380px]
+
+            overflow-y-auto
+            overflow-x-hidden
+
+            rounded-[28px]
             border
             border-slate-200
             bg-white
+
             p-5
+            pr-2
+
             shadow-2xl
           "
         >
@@ -85,20 +150,31 @@ function PassengerSelector() {
             title="Adults"
             subtitle="12+ years"
             value={adults}
-            onIncrease={() => increase(setAdults)}
+            onIncrease={() =>
+              increase(setAdults)
+            }
             onDecrease={() =>
-              decrease(adults, setAdults, 1)
+              decrease(
+                adults,
+                setAdults,
+                1
+              )
             }
           />
 
           {/* CHILDREN */}
           <CounterRow
             title="Children"
-            subtitle="2-11 years"
+            subtitle="2–11 years"
             value={children}
-            onIncrease={() => increase(setChildren)}
+            onIncrease={() =>
+              increase(setChildren)
+            }
             onDecrease={() =>
-              decrease(children, setChildren)
+              decrease(
+                children,
+                setChildren
+              )
             }
           />
 
@@ -107,66 +183,114 @@ function PassengerSelector() {
             title="Infants"
             subtitle="Under 2 years"
             value={infants}
-            onIncrease={() => increase(setInfants)}
+            onIncrease={() =>
+              increase(setInfants)
+            }
             onDecrease={() =>
-              decrease(infants, setInfants)
+              decrease(
+                infants,
+                setInfants
+              )
             }
           />
 
           {/* CABIN CLASS */}
           <div className="mt-6">
-            <p className="mb-3 text-sm font-semibold text-slate-700">
+            <p
+              className="
+                mb-3
+                text-sm
+                font-semibold
+                text-slate-700
+              "
+            >
               Cabin Class
             </p>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div
+              className="
+                grid
+                grid-cols-2
+                gap-3
+              "
+            >
               {[
                 "Economy",
                 "Premium Economy",
                 "Business",
                 "First Class",
-              ].map((type) => (
-                <button
-                  key={type}
-                  type="button"
-                  onClick={() => setCabinClass(type)}
-                  className={`
-                    rounded-xl
-                    border
-                    px-4
-                    py-3
-                    text-sm
-                    font-semibold
-                    transition-all
+              ].map((type) => {
+                const active =
+                  cabinClass === type;
 
-                    ${
-                      cabinClass === type
-                        ? "border-[#2563EB] bg-[#2563EB] text-white"
-                        : "border-slate-200 bg-white text-slate-700 hover:border-[#2563EB]"
+                return (
+                  <button
+                    key={type}
+                    type="button"
+                    onClick={() =>
+                      setCabinClass(type)
                     }
-                  `}
-                >
-                  {type}
-                </button>
-              ))}
+                    className={`
+                      flex
+                      min-h-[52px]
+                      items-center
+                      justify-center
+
+                      rounded-2xl
+                      border
+
+                      px-4
+                      py-3
+
+                      text-center
+                      text-[13px]
+                      font-semibold
+
+                      whitespace-nowrap
+
+                      transition-all
+                      duration-300
+
+                      ${
+                        active
+                          ? "border-[#2563EB] bg-[#2563EB] text-white shadow-lg"
+                          : "border-slate-200 bg-white text-slate-700 hover:border-[#2563EB]"
+                      }
+                    `}
+                  >
+                    {type}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
           {/* DONE BUTTON */}
           <button
             type="button"
-            onClick={() => setOpen(false)}
+            onClick={() =>
+              setOpen(false)
+            }
             className="
               mt-6
+              h-14
               w-full
+
               rounded-2xl
-              bg-[#2563EB]
-              py-4
+
+              bg-gradient-to-r
+              from-[#2563EB]
+              to-[#14B8A6]
+
               text-sm
               font-bold
               text-white
+
+              shadow-lg
+
               transition-all
-              hover:bg-blue-700
+              duration-300
+              hover:scale-[1.01]
             "
           >
             Done
@@ -193,13 +317,36 @@ function CounterRow({
   onDecrease,
 }: CounterRowProps) {
   return (
-    <div className="flex items-center justify-between border-b border-slate-100 py-4">
-      <div>
-        <h4 className="font-semibold text-slate-900">
+    <div
+      className="
+        flex
+        items-center
+        justify-between
+
+        border-b
+        border-slate-100
+
+        py-4
+
+        last:border-b-0
+      "
+    >
+      <div className="pr-3">
+        <h4
+          className="
+            font-semibold
+            text-slate-900
+          "
+        >
           {title}
         </h4>
 
-        <p className="text-sm text-slate-500">
+        <p
+          className="
+            text-sm
+            text-slate-500
+          "
+        >
           {subtitle}
         </p>
       </div>
@@ -210,24 +357,38 @@ function CounterRow({
           onClick={onDecrease}
           className="
             flex
-            h-10
-            w-10
+            h-11
+            w-11
             items-center
             justify-center
+
             rounded-full
             border
             border-slate-200
+
             text-xl
             font-bold
             text-slate-700
+
             transition-all
+            duration-200
+
             hover:border-[#2563EB]
+            hover:text-[#2563EB]
           "
         >
-          -
+          −
         </button>
 
-        <span className="w-5 text-center font-bold text-slate-900">
+        <span
+          className="
+            w-6
+            text-center
+            text-lg
+            font-bold
+            text-slate-900
+          "
+        >
           {value}
         </span>
 
@@ -236,18 +397,24 @@ function CounterRow({
           onClick={onIncrease}
           className="
             flex
-            h-10
-            w-10
+            h-11
+            w-11
             items-center
             justify-center
+
             rounded-full
             border
             border-slate-200
+
             text-xl
             font-bold
             text-slate-700
+
             transition-all
+            duration-200
+
             hover:border-[#2563EB]
+            hover:text-[#2563EB]
           "
         >
           +

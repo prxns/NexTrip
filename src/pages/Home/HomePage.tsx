@@ -10,7 +10,7 @@ function HomePage() {
         className="
           relative
           min-h-[920px]
-          overflow-hidden
+          overflow-visible
         "
       >
         {/* BACKGROUND IMAGE */}

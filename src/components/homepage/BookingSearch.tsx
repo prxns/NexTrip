@@ -1,23 +1,30 @@
 import AirportSearch from "../search/AirportSearch";
 import PassengerSelector from "../search/PassengerSelector";
-import CategoryTabs from "./CategoryTabs";
 import TripTypeToggle from "../search/TripTypeToggle";
+import CategoryTabs from "./CategoryTabs";
 
 function BookingSearch() {
   return (
     <div className="mx-auto w-full max-w-6xl">
+      {/* CATEGORY TABS */}
       <CategoryTabs />
+
+      {/* TRIP TYPE */}
       <div className="mt-6">
         <TripTypeToggle />
       </div>
 
+      {/* SEARCH CONTAINER */}
       <div
         className="
+          relative
           mt-6
           rounded-[32px]
-          bg-white
+          bg-white/95
           p-6
-          shadow-xl
+          shadow-2xl
+          backdrop-blur-md
+          overflow-visible
         "
       >
         {/* SEARCH GRID */}
@@ -25,9 +32,9 @@ function BookingSearch() {
           className="
             grid
             grid-cols-1
-            gap-4
-            md:grid-cols-2
-            xl:grid-cols-4
+            gap-5
+            lg:grid-cols-2
+            2xl:grid-cols-4
             items-start
           "
         >
@@ -37,38 +44,53 @@ function BookingSearch() {
           {/* TO */}
           <AirportSearch />
 
-          {/* DATE */}
-          <div
+          {/* DEPARTURE */}
+          <button
             className="
               min-h-[190px]
-              rounded-[24px]
+              rounded-[28px]
               border
               border-[#E2E8F0]
               bg-white
               p-5
+              text-left
+              transition-all
+              duration-300
+              hover:border-[#2563EB]
+              hover:shadow-lg
             "
           >
             <p className="text-sm font-medium text-[#64748B]">
               Departure
             </p>
 
-            <h3 className="mt-3 text-4xl font-bold text-slate-900">
-              24 Jun 2026
+            <h3
+              className="
+                mt-4
+                text-4xl
+                font-black
+                leading-tight
+                text-slate-900
+              "
+            >
+              24 Jun
+              <br />
+              2026
             </h3>
 
-            <p className="mt-2 text-sm text-[#64748B]">
+            <p className="mt-3 text-sm text-[#64748B]">
               Tuesday
             </p>
-          </div>
+          </button>
 
           {/* PASSENGERS */}
           <PassengerSelector />
         </div>
 
-        {/* BUTTON */}
+        {/* SEARCH BUTTON */}
         <button
           className="
-            mt-6
+            mt-7
             h-16
             w-full
             rounded-2xl
@@ -78,10 +100,12 @@ function BookingSearch() {
             text-lg
             font-bold
             text-white
-            shadow-lg
+            shadow-xl
             transition-all
             duration-300
             hover:scale-[1.01]
+            hover:shadow-2xl
+            active:scale-[0.99]
           "
         >
           Search Flights
