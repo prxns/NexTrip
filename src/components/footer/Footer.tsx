@@ -1,4 +1,5 @@
 import Container from '../common/Container';
+import { Link } from "react-router-dom";
 
 /**
  * Global application footer.
@@ -26,10 +27,10 @@ function Footer() {
             </h4>
 
             <ul className="space-y-3 text-sm text-slate-400">
-              <li>About Us</li>
-              <li>Careers</li>
-              <li>Press</li>
-              <li>Investor Relations</li>
+              <li><Link to="/support">About Us</Link></li>
+              <li><Link to="/support">Careers</Link></li>
+              <li><Link to="/support">Press</Link></li>
+              <li><Link to="/support">Investor Relations</Link></li>
             </ul>
           </div>
 
@@ -39,10 +40,10 @@ function Footer() {
             </h4>
 
             <ul className="space-y-3 text-sm text-slate-400">
-              <li>Help Center</li>
-              <li>Cancellation Options</li>
-              <li>Safety Information</li>
-              <li>Contact Support</li>
+              <li><Link to="/support">Help Center</Link></li>
+              <li><Link to="/support">Cancellation Options</Link></li>
+              <li><Link to="/support">Safety Information</Link></li>
+              <li><Link to="/support">Contact Support</Link></li>
             </ul>
           </div>
 
@@ -52,10 +53,10 @@ function Footer() {
             </h4>
 
             <ul className="space-y-3 text-sm text-slate-400">
-              <li>Privacy Policy</li>
-              <li>Terms of Service</li>
-              <li>Cookie Policy</li>
-              <li>Accessibility</li>
+              <li><Link to="/support">Privacy Policy</Link></li>
+              <li><Link to="/support">Terms of Service</Link></li>
+              <li><Link to="/support">Cookie Policy</Link></li>
+              <li><Link to="/support">Accessibility</Link></li>
             </ul>
           </div>
         </div>
