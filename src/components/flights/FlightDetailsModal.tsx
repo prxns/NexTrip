@@ -51,9 +51,10 @@ function FlightDetailsModal({
   if (!open) return null;
 
   const handleContinueBooking = () => {
+    if (!selectedSeat) return;
+
     navigate("/checkout", {
       state: {
-        flight: {
           airline,
           airlineLogo,
 
@@ -67,10 +68,9 @@ function FlightDetailsModal({
           stops,
 
           price,
-        },
 
-        selectedSeat,
-      },
+          selectedSeat,
+        },
     });
   };
 
@@ -86,8 +86,6 @@ function FlightDetailsModal({
         items-center
         justify-center
 
-        overflow-y-auto
-
         bg-black/70
         backdrop-blur-md
 
@@ -100,8 +98,12 @@ function FlightDetailsModal({
         onClick={(e) => e.stopPropagation()}
         className="
           relative
+
+          flex
+          max-h-[94vh]
           w-full
-          max-w-5xl
+          max-w-6xl
+          flex-col
 
           overflow-hidden
 
@@ -148,8 +150,8 @@ function FlightDetailsModal({
         </button>
 
         {/* SCROLLABLE CONTENT */}
-        <div className="max-h-[92vh] overflow-y-auto">
-          {/* HEADER */}
+        <div className="flex-1 overflow-y-auto">
+          {/* HERO HEADER */}
           <div
             className="
               relative
@@ -166,7 +168,7 @@ function FlightDetailsModal({
               md:px-12
             "
           >
-            {/* BACKGROUND GLOW */}
+            {/* GLOW */}
             <div
               className="
                 absolute
@@ -184,7 +186,17 @@ function FlightDetailsModal({
             />
 
             <div className="relative z-10">
-              <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+              <div
+                className="
+                  flex
+                  flex-col
+                  gap-8
+
+                  lg:flex-row
+                  lg:items-center
+                  lg:justify-between
+                "
+              >
                 {/* AIRLINE */}
                 <div className="flex items-center gap-5">
                   <div
@@ -214,11 +226,26 @@ function FlightDetailsModal({
                   </div>
 
                   <div>
-                    <p className="text-sm font-semibold uppercase tracking-[4px] text-white/70">
+                    <p
+                      className="
+                        text-sm
+                        font-semibold
+                        uppercase
+                        tracking-[4px]
+                        text-white/70
+                      "
+                    >
                       Premium Flight
                     </p>
 
-                    <h2 className="mt-2 text-4xl font-black text-white">
+                    <h2
+                      className="
+                        mt-2
+                        text-4xl
+                        font-black
+                        text-white
+                      "
+                    >
                       {airline}
                     </h2>
 
@@ -230,11 +257,26 @@ function FlightDetailsModal({
 
                 {/* PRICE */}
                 <div className="lg:text-right">
-                  <p className="text-sm font-semibold uppercase tracking-[3px] text-white/70">
+                  <p
+                    className="
+                      text-sm
+                      font-semibold
+                      uppercase
+                      tracking-[3px]
+                      text-white/70
+                    "
+                  >
                     Total Fare
                   </p>
 
-                  <h2 className="mt-3 text-6xl font-black text-white">
+                  <h2
+                    className="
+                      mt-3
+                      text-6xl
+                      font-black
+                      text-white
+                    "
+                  >
                     ${price}
                   </h2>
                 </div>
@@ -244,7 +286,7 @@ function FlightDetailsModal({
 
           {/* BODY */}
           <div className="p-8 md:p-12">
-            {/* ROUTE */}
+            {/* ROUTE CARD */}
             <div
               className="
                 rounded-[36px]
@@ -257,25 +299,65 @@ function FlightDetailsModal({
                 md:p-10
               "
             >
-              <div className="flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between">
-                {/* FROM */}
+              <div
+                className="
+                  flex
+                  flex-col
+                  gap-10
+
+                  lg:flex-row
+                  lg:items-center
+                  lg:justify-between
+                "
+              >
+                {/* DEPARTURE */}
                 <div>
-                  <p className="text-sm font-bold uppercase tracking-[3px] text-slate-400">
+                  <p
+                    className="
+                      text-sm
+                      font-bold
+                      uppercase
+                      tracking-[3px]
+                      text-slate-400
+                    "
+                  >
                     Departure
                   </p>
 
-                  <h3 className="mt-4 text-5xl font-black text-slate-900">
+                  <h3
+                    className="
+                      mt-4
+                      text-5xl
+                      font-black
+                      text-slate-900
+                    "
+                  >
                     {departureTime}
                   </h3>
 
-                  <p className="mt-3 text-xl font-semibold text-slate-500">
+                  <p
+                    className="
+                      mt-3
+                      text-xl
+                      font-semibold
+                      text-slate-500
+                    "
+                  >
                     {from}
                   </p>
                 </div>
 
-                {/* CENTER */}
+                {/* FLIGHT CENTER */}
                 <div className="flex flex-1 flex-col items-center px-4">
-                  <p className="text-sm font-bold uppercase tracking-[3px] text-slate-400">
+                  <p
+                    className="
+                      text-sm
+                      font-bold
+                      uppercase
+                      tracking-[3px]
+                      text-slate-400
+                    "
+                  >
                     Flight Duration
                   </p>
 
@@ -319,24 +401,55 @@ function FlightDetailsModal({
                     </div>
                   </div>
 
-                  <p className="mt-5 text-sm font-bold uppercase tracking-[3px] text-slate-400">
+                  <p
+                    className="
+                      mt-5
+                      text-sm
+                      font-bold
+                      uppercase
+                      tracking-[3px]
+                      text-slate-400
+                    "
+                  >
                     {stops === 0
                       ? "Non-stop"
                       : `${stops} Stop`}
                   </p>
                 </div>
 
-                {/* TO */}
+                {/* ARRIVAL */}
                 <div className="lg:text-right">
-                  <p className="text-sm font-bold uppercase tracking-[3px] text-slate-400">
+                  <p
+                    className="
+                      text-sm
+                      font-bold
+                      uppercase
+                      tracking-[3px]
+                      text-slate-400
+                    "
+                  >
                     Arrival
                   </p>
 
-                  <h3 className="mt-4 text-5xl font-black text-slate-900">
+                  <h3
+                    className="
+                      mt-4
+                      text-5xl
+                      font-black
+                      text-slate-900
+                    "
+                  >
                     {arrivalTime}
                   </h3>
 
-                  <p className="mt-3 text-xl font-semibold text-slate-500">
+                  <p
+                    className="
+                      mt-3
+                      text-xl
+                      font-semibold
+                      text-slate-500
+                    "
+                  >
                     {to}
                   </p>
                 </div>
@@ -346,31 +459,79 @@ function FlightDetailsModal({
             {/* EXTRA INFO */}
             <div className="mt-10 grid gap-6 md:grid-cols-3">
               <div className="rounded-[28px] bg-slate-100 p-7">
-                <p className="text-sm font-bold uppercase tracking-[3px] text-slate-400">
+                <p
+                  className="
+                    text-sm
+                    font-bold
+                    uppercase
+                    tracking-[3px]
+                    text-slate-400
+                  "
+                >
                   Aircraft
                 </p>
 
-                <h4 className="mt-4 text-2xl font-black leading-tight text-slate-900">
+                <h4
+                  className="
+                    mt-4
+                    text-2xl
+                    font-black
+                    leading-tight
+                    text-slate-900
+                  "
+                >
                   Boeing 787 Dreamliner
                 </h4>
               </div>
 
               <div className="rounded-[28px] bg-slate-100 p-7">
-                <p className="text-sm font-bold uppercase tracking-[3px] text-slate-400">
+                <p
+                  className="
+                    text-sm
+                    font-bold
+                    uppercase
+                    tracking-[3px]
+                    text-slate-400
+                  "
+                >
                   Baggage
                 </p>
 
-                <h4 className="mt-4 text-2xl font-black leading-tight text-slate-900">
+                <h4
+                  className="
+                    mt-4
+                    text-2xl
+                    font-black
+                    leading-tight
+                    text-slate-900
+                  "
+                >
                   2 Checked Bags
                 </h4>
               </div>
 
               <div className="rounded-[28px] bg-slate-100 p-7">
-                <p className="text-sm font-bold uppercase tracking-[3px] text-slate-400">
+                <p
+                  className="
+                    text-sm
+                    font-bold
+                    uppercase
+                    tracking-[3px]
+                    text-slate-400
+                  "
+                >
                   Cancellation
                 </p>
 
-                <h4 className="mt-4 text-2xl font-black leading-tight text-slate-900">
+                <h4
+                  className="
+                    mt-4
+                    text-2xl
+                    font-black
+                    leading-tight
+                    text-slate-900
+                  "
+                >
                   Free Cancellation
                 </h4>
               </div>
@@ -384,68 +545,93 @@ function FlightDetailsModal({
               />
             </div>
           </div>
+        </div>
 
-          {/* STICKY FOOTER */}
+        {/* FOOTER */}
+        <div
+          className="
+            border-t
+            border-slate-200
+
+            bg-white
+
+            px-8
+            py-6
+          "
+        >
           <div
             className="
-              sticky
-              bottom-0
-              z-30
+              flex
+              flex-col
+              gap-6
 
-              border-t
-              border-slate-200
-
-              bg-white/95
-              backdrop-blur-xl
-
-              px-8
-              py-6
+              md:flex-row
+              md:items-center
+              md:justify-between
             "
           >
-            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-              {/* LEFT */}
-              <div>
-                <p className="text-sm font-semibold uppercase tracking-[3px] text-slate-400">
-                  Selected Seat
-                </p>
-
-                <h3 className="mt-2 text-3xl font-black text-slate-900">
-                  {selectedSeat || "Choose Your Seat"}
-                </h3>
-              </div>
-
-              {/* BUTTON */}
-              <button
-                onClick={handleContinueBooking}
+            {/* SEAT */}
+            <div>
+              <p
                 className="
-                  h-16
-
-                  rounded-2xl
-
-                  bg-gradient-to-r
-                  from-[#2563EB]
-                  to-[#14B8A6]
-
-                  px-10
-
-                  text-lg
-                  font-bold
-                  text-white
-
-                  shadow-xl
-
-                  transition-all
-                  duration-300
-
-                  hover:scale-[1.02]
-                  hover:shadow-2xl
-
-                  active:scale-[0.98]
+                  text-sm
+                  font-semibold
+                  uppercase
+                  tracking-[3px]
+                  text-slate-400
                 "
               >
-                Continue Booking
-              </button>
+                Selected Seat
+              </p>
+
+              <h3
+                className="
+                  mt-2
+                  text-3xl
+                  font-black
+                  text-slate-900
+                "
+              >
+                {selectedSeat || "No Seat Selected"}
+              </h3>
             </div>
+
+            {/* BUTTON */}
+            <button
+              onClick={handleContinueBooking}
+              disabled={!selectedSeat}
+              className="
+                h-16
+
+                rounded-2xl
+
+                bg-gradient-to-r
+                from-[#2563EB]
+                to-[#14B8A6]
+
+                px-10
+
+                text-lg
+                font-bold
+                text-white
+
+                shadow-xl
+
+                transition-all
+                duration-300
+
+                hover:scale-[1.02]
+                hover:shadow-2xl
+
+                active:scale-[0.98]
+
+                disabled:cursor-not-allowed
+                disabled:opacity-40
+                disabled:hover:scale-100
+              "
+            >
+              Continue to Checkout
+            </button>
           </div>
         </div>
       </div>

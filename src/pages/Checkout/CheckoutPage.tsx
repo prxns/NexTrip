@@ -1,169 +1,491 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useMemo, useState } from "react";
+import {
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 
 function CheckoutPage() {
+  const location = useLocation();
   const navigate = useNavigate();
 
-  const location = useLocation();
+  const bookingData = location.state;
 
-  const flight = location.state?.flight;
-  const selectedSeat = location.state?.selectedSeat;
+  const [fullName, setFullName] =
+    useState("");
 
-  if (!flight) {
+  const [email, setEmail] =
+    useState("");
+
+  const [phone, setPhone] =
+    useState("");
+
+  const [cardNumber, setCardNumber] =
+    useState("");
+
+  const [expiry, setExpiry] =
+    useState("");
+
+  const [cvv, setCvv] =
+    useState("");
+
+  const [processing, setProcessing] =
+    useState(false);
+
+  const [success, setSuccess] =
+    useState(false);
+
+  if (!bookingData) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <h1 className="text-3xl font-bold text-slate-900">
-          No flight selected.
-        </h1>
+      <div className="flex min-h-screen items-center justify-center bg-slate-100 px-6">
+        <div
+          className="
+            w-full
+            max-w-xl
+
+            rounded-[32px]
+            bg-white
+            p-12
+
+            text-center
+
+            shadow-2xl
+          "
+        >
+          <div className="text-7xl">
+            ✈️
+          </div>
+
+          <h1
+            className="
+              mt-8
+              text-4xl
+              font-black
+              text-slate-900
+            "
+          >
+            No Booking Selected
+          </h1>
+
+          <p className="mt-4 text-lg text-slate-500">
+            Please select a flight before
+            proceeding to checkout.
+          </p>
+
+          <button
+            onClick={() => navigate("/flights")}
+            className="
+              mt-10
+              h-14
+
+              rounded-2xl
+
+              bg-gradient-to-r
+              from-[#2563EB]
+              to-[#14B8A6]
+
+              px-8
+
+              text-lg
+              font-bold
+              text-white
+
+              shadow-xl
+
+              transition-all
+              duration-300
+
+              hover:scale-[1.03]
+            "
+          >
+            Browse Flights
+          </button>
+        </div>
       </div>
     );
   }
 
-  const totalPrice = flight.price + 49;
+  const formattedCardNumber = useMemo(() => {
+    return cardNumber
+      .replace(/\D/g, "")
+      .replace(/(.{4})/g, "$1 ")
+      .trim();
+  }, [cardNumber]);
 
-  const handlePayment = () => {
-    navigate("/booking-success", {
-      state: {
-        flight,
-        selectedSeat,
-      },
-    });
+  const handlePayment = async () => {
+    if (
+      !fullName ||
+      !email ||
+      !phone ||
+      !cardNumber ||
+      !expiry ||
+      !cvv
+    ) {
+      alert(
+        "Please complete all payment details."
+      );
+
+      return;
+    }
+
+    if (
+      formattedCardNumber.replace(/\s/g, "")
+        .length < 16
+    ) {
+      alert("Invalid card number.");
+
+      return;
+    }
+
+    if (cvv.length < 3) {
+      alert("Invalid CVV.");
+
+      return;
+    }
+
+    setProcessing(true);
+
+    await new Promise((resolve) =>
+      setTimeout(resolve, 2500)
+    );
+
+    setProcessing(false);
+
+    setSuccess(true);
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 py-14">
-      <div className="mx-auto grid max-w-7xl gap-8 px-6 xl:grid-cols-[1fr_420px]">
-        {/* LEFT */}
-        <div className="space-y-8">
-          {/* PASSENGER DETAILS */}
-          <div className="rounded-[32px] bg-white p-8 shadow-xl">
-            <h2 className="text-4xl font-black text-slate-900">
-              Passenger Details
-            </h2>
+    <div className="min-h-screen bg-slate-100 py-10">
+      <div
+        className="
+          mx-auto
+          grid
+          max-w-7xl
+          gap-8
+          px-6
 
-            <div className="mt-8 grid gap-6 md:grid-cols-2">
-              <input
-                placeholder="First Name"
-                className="h-14 rounded-2xl border border-slate-200 px-5 outline-none focus:border-[#2563EB]"
-              />
+          xl:grid-cols-[1fr_420px]
+        "
+      >
+        {/* LEFT SIDE */}
+        <div
+          className="
+            rounded-[32px]
+            bg-white
+            p-8
 
-              <input
-                placeholder="Last Name"
-                className="h-14 rounded-2xl border border-slate-200 px-5 outline-none focus:border-[#2563EB]"
-              />
+            shadow-2xl
+          "
+        >
+          {!success ? (
+            <>
+              {/* HEADER */}
+              <div>
+                <p
+                  className="
+                    text-sm
+                    font-bold
+                    uppercase
+                    tracking-[4px]
+                    text-[#14B8A6]
+                  "
+                >
+                  Secure Checkout
+                </p>
 
-              <input
-                placeholder="Email Address"
-                className="h-14 rounded-2xl border border-slate-200 px-5 outline-none focus:border-[#2563EB]"
-              />
+                <h1
+                  className="
+                    mt-4
+                    text-5xl
+                    font-black
+                    leading-tight
+                    text-slate-900
+                  "
+                >
+                  Complete Your Booking
+                </h1>
 
-              <input
-                placeholder="Phone Number"
-                className="h-14 rounded-2xl border border-slate-200 px-5 outline-none focus:border-[#2563EB]"
-              />
-
-              <input
-                placeholder="Passport Number"
-                className="h-14 rounded-2xl border border-slate-200 px-5 outline-none focus:border-[#2563EB]"
-              />
-
-              <input
-                placeholder="Nationality"
-                className="h-14 rounded-2xl border border-slate-200 px-5 outline-none focus:border-[#2563EB]"
-              />
-            </div>
-          </div>
-
-          {/* PAYMENT */}
-          <div className="rounded-[32px] bg-white p-8 shadow-xl">
-            <h2 className="text-4xl font-black text-slate-900">
-              Payment Method
-            </h2>
-
-            <div className="mt-8 space-y-5">
-              <input
-                placeholder="Card Number"
-                className="h-14 w-full rounded-2xl border border-slate-200 px-5 outline-none focus:border-[#2563EB]"
-              />
-
-              <div className="grid gap-5 md:grid-cols-2">
-                <input
-                  placeholder="Expiry Date"
-                  className="h-14 rounded-2xl border border-slate-200 px-5 outline-none focus:border-[#2563EB]"
-                />
-
-                <input
-                  placeholder="CVV"
-                  className="h-14 rounded-2xl border border-slate-200 px-5 outline-none focus:border-[#2563EB]"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* RIGHT */}
-        <div>
-          <div className="sticky top-10 rounded-[32px] bg-white p-8 shadow-2xl">
-            <h2 className="text-3xl font-black text-slate-900">
-              Booking Summary
-            </h2>
-
-            <div className="mt-8 space-y-5">
-              <div className="flex items-center justify-between">
-                <p className="text-slate-500">Airline</p>
-
-                <p className="font-bold text-slate-900">
-                  {flight.airline}
+                <p className="mt-5 text-lg text-slate-500">
+                  Enter traveler and payment
+                  details to confirm your luxury
+                  journey.
                 </p>
               </div>
 
-              <div className="flex items-center justify-between">
-                <p className="text-slate-500">Route</p>
+              {/* FORM */}
+              <div className="mt-12 space-y-6">
+                {/* NAME */}
+                <div>
+                  <label className="text-sm font-bold text-slate-500">
+                    Full Name
+                  </label>
 
-                <p className="font-bold text-slate-900">
-                  {flight.from} → {flight.to}
-                </p>
+                  <input
+                    type="text"
+                    value={fullName}
+                    onChange={(e) =>
+                      setFullName(e.target.value)
+                    }
+                    placeholder="John Doe"
+                    className="
+                      mt-2
+                      h-14
+                      w-full
+
+                      rounded-2xl
+                      border
+                      border-slate-200
+
+                      px-5
+
+                      outline-none
+
+                      transition-all
+                      duration-300
+
+                      focus:border-[#2563EB]
+                      focus:ring-4
+                      focus:ring-blue-100
+                    "
+                  />
+                </div>
+
+                {/* EMAIL */}
+                <div>
+                  <label className="text-sm font-bold text-slate-500">
+                    Email Address
+                  </label>
+
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) =>
+                      setEmail(e.target.value)
+                    }
+                    placeholder="john@example.com"
+                    className="
+                      mt-2
+                      h-14
+                      w-full
+
+                      rounded-2xl
+                      border
+                      border-slate-200
+
+                      px-5
+
+                      outline-none
+
+                      transition-all
+                      duration-300
+
+                      focus:border-[#2563EB]
+                      focus:ring-4
+                      focus:ring-blue-100
+                    "
+                  />
+                </div>
+
+                {/* PHONE */}
+                <div>
+                  <label className="text-sm font-bold text-slate-500">
+                    Phone Number
+                  </label>
+
+                  <input
+                    type="tel"
+                    value={phone}
+                    onChange={(e) =>
+                      setPhone(e.target.value)
+                    }
+                    placeholder="+1 234 567 890"
+                    className="
+                      mt-2
+                      h-14
+                      w-full
+
+                      rounded-2xl
+                      border
+                      border-slate-200
+
+                      px-5
+
+                      outline-none
+
+                      transition-all
+                      duration-300
+
+                      focus:border-[#2563EB]
+                      focus:ring-4
+                      focus:ring-blue-100
+                    "
+                  />
+                </div>
               </div>
 
-              <div className="flex items-center justify-between">
-                <p className="text-slate-500">Seat</p>
+              {/* PAYMENT */}
+              <div className="mt-14">
+                <h2
+                  className="
+                    text-3xl
+                    font-black
+                    text-slate-900
+                  "
+                >
+                  Payment Method
+                </h2>
 
-                <p className="font-bold text-slate-900">
-                  {selectedSeat || "Not Selected"}
-                </p>
+                <div
+                  className="
+                    mt-6
+
+                    rounded-[28px]
+                    border
+                    border-slate-200
+
+                    bg-slate-50
+
+                    p-6
+                  "
+                >
+                  <div className="flex items-center justify-between">
+                    <p className="font-semibold text-slate-500">
+                      Credit / Debit Card
+                    </p>
+
+                    <div className="flex items-center gap-2 text-2xl">
+                      <span>💳</span>
+                    </div>
+                  </div>
+
+                  <div className="mt-6 space-y-5">
+                    {/* CARD NUMBER */}
+                    <div>
+                      <label className="text-sm font-bold text-slate-500">
+                        Card Number
+                      </label>
+
+                      <input
+                        type="text"
+                        maxLength={19}
+                        value={formattedCardNumber}
+                        onChange={(e) =>
+                          setCardNumber(
+                            e.target.value
+                          )
+                        }
+                        placeholder="1234 5678 9012 3456"
+                        className="
+                          mt-2
+                          h-14
+                          w-full
+
+                          rounded-2xl
+                          border
+                          border-slate-200
+
+                          px-5
+
+                          outline-none
+
+                          transition-all
+                          duration-300
+
+                          focus:border-[#2563EB]
+                          focus:ring-4
+                          focus:ring-blue-100
+                        "
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      {/* EXPIRY */}
+                      <div>
+                        <label className="text-sm font-bold text-slate-500">
+                          Expiry Date
+                        </label>
+
+                        <input
+                          type="text"
+                          maxLength={5}
+                          value={expiry}
+                          onChange={(e) =>
+                            setExpiry(
+                              e.target.value
+                            )
+                          }
+                          placeholder="MM/YY"
+                          className="
+                            mt-2
+                            h-14
+                            w-full
+
+                            rounded-2xl
+                            border
+                            border-slate-200
+
+                            px-5
+
+                            outline-none
+
+                            transition-all
+                            duration-300
+
+                            focus:border-[#2563EB]
+                            focus:ring-4
+                            focus:ring-blue-100
+                          "
+                        />
+                      </div>
+
+                      {/* CVV */}
+                      <div>
+                        <label className="text-sm font-bold text-slate-500">
+                          CVV
+                        </label>
+
+                        <input
+                          type="password"
+                          maxLength={4}
+                          value={cvv}
+                          onChange={(e) =>
+                            setCvv(
+                              e.target.value
+                            )
+                          }
+                          placeholder="123"
+                          className="
+                            mt-2
+                            h-14
+                            w-full
+
+                            rounded-2xl
+                            border
+                            border-slate-200
+
+                            px-5
+
+                            outline-none
+
+                            transition-all
+                            duration-300
+
+                            focus:border-[#2563EB]
+                            focus:ring-4
+                            focus:ring-blue-100
+                          "
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              <div className="flex items-center justify-between">
-                <p className="text-slate-500">Flight Price</p>
-
-                <p className="font-bold text-slate-900">
-                  ${flight.price}
-                </p>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <p className="text-slate-500">Taxes & Fees</p>
-
-                <p className="font-bold text-slate-900">
-                  $49
-                </p>
-              </div>
-
-              <div className="my-6 h-px bg-slate-200" />
-
-              <div className="flex items-center justify-between">
-                <p className="text-xl font-bold text-slate-900">
-                  Total
-                </p>
-
-                <p className="text-4xl font-black text-slate-900">
-                  ${totalPrice}
-                </p>
-              </div>
-
+              {/* PAYMENT BUTTON */}
               <button
                 onClick={handlePayment}
+                disabled={processing}
                 className="
-                  mt-8
+                  mt-10
                   h-16
                   w-full
 
@@ -182,12 +504,245 @@ function CheckoutPage() {
                   transition-all
                   duration-300
 
-                  hover:scale-[1.02]
+                  hover:scale-[1.01]
+                  hover:shadow-2xl
+
+                  active:scale-[0.99]
+
+                  disabled:cursor-not-allowed
+                  disabled:opacity-50
                 "
               >
-                Complete Booking
+                {processing
+                  ? "Processing Payment..."
+                  : `Pay $${bookingData.price}`}
               </button>
+            </>
+          ) : (
+            <div className="py-20 text-center">
+              <div className="text-8xl">
+                ✈️
+              </div>
+
+              <h1
+                className="
+                  mt-8
+                  text-5xl
+                  font-black
+                  text-slate-900
+                "
+              >
+                Booking Confirmed
+              </h1>
+
+              <p className="mt-6 text-xl text-slate-500">
+                Your luxury journey has been
+                successfully booked.
+              </p>
+
+              <div
+                className="
+                  mt-10
+                  inline-flex
+
+                  rounded-2xl
+                  bg-slate-100
+
+                  px-8
+                  py-5
+                "
+              >
+                <span className="font-bold">
+                  Seat:{" "}
+                  {bookingData.selectedSeat}
+                </span>
+              </div>
+
+              {/* ACTION BUTTONS */}
+              <div className="mt-10 flex flex-wrap justify-center gap-4">
+                <button
+                  onClick={() => navigate("/")}
+                  className="
+                    h-14
+
+                    rounded-2xl
+
+                    bg-gradient-to-r
+                    from-[#2563EB]
+                    to-[#14B8A6]
+
+                    px-8
+
+                    text-lg
+                    font-bold
+                    text-white
+
+                    shadow-xl
+
+                    transition-all
+                    duration-300
+
+                    hover:scale-[1.03]
+                    hover:shadow-2xl
+
+                    active:scale-[0.98]
+                  "
+                >
+                  Back to Home
+                </button>
+
+                <button
+                  onClick={() =>
+                    navigate("/flights")
+                  }
+                  className="
+                    h-14
+
+                    rounded-2xl
+                    border
+                    border-slate-200
+
+                    bg-white
+
+                    px-8
+
+                    text-lg
+                    font-bold
+                    text-slate-900
+
+                    transition-all
+                    duration-300
+
+                    hover:bg-slate-50
+                  "
+                >
+                  Browse More Flights
+                </button>
+              </div>
             </div>
+          )}
+        </div>
+
+        {/* RIGHT SIDEBAR */}
+        <div
+          className="
+            sticky
+            top-6
+
+            h-fit
+
+            rounded-[32px]
+            bg-white
+
+            p-8
+
+            shadow-2xl
+          "
+        >
+          <p
+            className="
+              text-sm
+              font-bold
+              uppercase
+              tracking-[4px]
+              text-slate-400
+            "
+          >
+            Booking Summary
+          </p>
+
+          <h2
+            className="
+              mt-5
+              text-4xl
+              font-black
+              text-slate-900
+            "
+          >
+            {bookingData.from} →{" "}
+            {bookingData.to}
+          </h2>
+
+          <div className="mt-8 space-y-5">
+            <div className="flex justify-between">
+              <span className="text-slate-500">
+                Airline
+              </span>
+
+              <span className="font-bold">
+                {bookingData.airline}
+              </span>
+            </div>
+
+            <div className="flex justify-between">
+              <span className="text-slate-500">
+                Seat
+              </span>
+
+              <span className="font-bold">
+                {bookingData.selectedSeat}
+              </span>
+            </div>
+
+            <div className="flex justify-between">
+              <span className="text-slate-500">
+                Cabin
+              </span>
+
+              <span className="font-bold">
+                Premium Economy
+              </span>
+            </div>
+          </div>
+
+          <div
+            className="
+              mt-8
+
+              rounded-2xl
+              bg-slate-100
+
+              p-6
+            "
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-lg font-semibold">
+                Total
+              </span>
+
+              <span
+                className="
+                  text-4xl
+                  font-black
+                  text-slate-900
+                "
+              >
+                ${bookingData.price}
+              </span>
+            </div>
+          </div>
+
+          <div
+            className="
+              mt-6
+
+              rounded-2xl
+              border
+              border-emerald-200
+
+              bg-emerald-50
+
+              p-5
+            "
+          >
+            <p className="font-semibold text-emerald-700">
+              ✓ Secure encrypted payment
+            </p>
+
+            <p className="mt-2 text-sm text-emerald-600">
+              Your transaction is protected
+              with enterprise-grade security.
+            </p>
           </div>
         </div>
       </div>
