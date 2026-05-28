@@ -46,7 +46,7 @@ function HomePage() {
             >
               Explore Your Next{" "}
               <span className="text-[#14B8A6]">
-                Luxury Journey
+                Dream Destination
               </span>
             </h1>
 

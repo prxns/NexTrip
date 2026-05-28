@@ -27,9 +27,9 @@ function Footer() {
             </h4>
 
             <ul className="space-y-3 text-sm text-slate-400">
-              <li><Link to="/support">About Us</Link></li>
-              <li><Link to="/support">Careers</Link></li>
-              <li><Link to="/support">Press</Link></li>
+              <li><Link to="/about">About Us</Link></li>
+              <li><Link to="/careers">Careers</Link></li>
+              <li><Link to="/press">Press</Link></li>
               <li><Link to="/support">Investor Relations</Link></li>
             </ul>
           </div>
@@ -53,10 +53,10 @@ function Footer() {
             </h4>
 
             <ul className="space-y-3 text-sm text-slate-400">
-              <li><Link to="/support">Privacy Policy</Link></li>
-              <li><Link to="/support">Terms of Service</Link></li>
-              <li><Link to="/support">Cookie Policy</Link></li>
-              <li><Link to="/support">Accessibility</Link></li>
+              <li><Link to="/privacy-policy">Privacy Policy</Link></li>
+              <li><Link to="/terms">Terms of Service</Link></li>
+              <li><Link to="/cookie-policy">Cookie Policy</Link></li>
+              <li><Link to="/accessibility">Accessibility</Link></li>
             </ul>
           </div>
         </div>

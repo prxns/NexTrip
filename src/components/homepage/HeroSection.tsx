@@ -96,7 +96,7 @@ function HeroSection() {
           >
             Explore Your Next{" "}
             <span className="text-[#14B8A6]">
-              Luxury Journey
+              Dream Destination
             </span>
           </h1>
 
@@ -110,9 +110,7 @@ function HeroSection() {
               md:text-xl
             "
           >
-            Flights, luxury stays, villas,
-            attractions, and unforgettable travel
-            experiences across the United States.
+            Flights, hotels, villas, attractions, and unforgettable travel experiences across the United States.
           </p>
         </div>
 

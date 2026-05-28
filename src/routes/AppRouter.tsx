@@ -12,6 +12,14 @@ import BookingSuccessPage from "../pages/Checkout/BookingSuccessPage";
 import HotelDetailsPage from "../pages/Hotels/HotelDetailsPage";
 import HotelCheckoutPage from "../pages/Hotels/HotelCheckoutPage";
 import SupportPage from "../pages/Support/SupportPage";
+import AboutPage from "../pages/About/AboutPage";
+import CareersPage from "../pages/Careers/CareersPage";
+import PressPage from "../pages/Press/PressPage";
+
+import PrivacyPolicyPage from "../pages/Legal/PrivacyPolicyPage";
+import TermsPage from "../pages/Legal/TermsPage";
+import CookiePolicyPage from "../pages/Legal/CookiePolicyPage";
+import AccessibilityPage from "../pages/Legal/AccessibilityPage";
 /**
  * Central application routing system.
  * All major pages are registered here.
@@ -29,6 +37,13 @@ function AppRouter() {
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/booking-success" element={<BookingSuccessPage />} />
           <Route path="/support" element={<SupportPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/careers" element={<CareersPage />} />
+          <Route path="/press" element={<PressPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms" element={<TermsPage />} />
+          <Route path="/cookie-policy" element={<CookiePolicyPage />} />
+          <Route path="/accessibility" element={<AccessibilityPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
