@@ -1,7 +1,69 @@
+import { useMemo, useState } from "react";
+
+import HotelCard from "../../components/hotels/HotelCard";
+import HotelFilters from "../../components/hotels/HotelFilters";
+import HotelDetailsModal from "../../components/hotels/HotelDetailsModal";
+
+import {
+  hotels,
+  type Hotel,
+} from "../../data/hotels/hotels";
+
 function HotelsPage() {
+  const [search, setSearch] =
+    useState("");
+
+  const [maxPrice, setMaxPrice] =
+    useState(1000);
+
+  const [minRating, setMinRating] =
+    useState(4);
+
+  const [category, setCategory] =
+    useState("All");
+
+  const [selectedHotel, setSelectedHotel] =
+    useState<Hotel | null>(null);
+
+  const filteredHotels = useMemo(() => {
+    return hotels.filter((hotel) => {
+      const matchesSearch =
+        `
+          ${hotel.name}
+          ${hotel.city}
+          ${hotel.state}
+        `
+          .toLowerCase()
+          .includes(search.toLowerCase());
+
+      const matchesPrice =
+        hotel.pricePerNight <= maxPrice;
+
+      const matchesRating =
+        hotel.rating >= minRating;
+
+      const matchesCategory =
+        category === "All" ||
+        hotel.category === category;
+
+      return (
+        matchesSearch &&
+        matchesPrice &&
+        matchesRating &&
+        matchesCategory
+      );
+    });
+  }, [
+    search,
+    maxPrice,
+    minRating,
+    category,
+  ]);
+
   return (
     <div className="min-h-screen bg-slate-100">
-      <div
+      {/* HERO */}
+      <section
         className="
           relative
           overflow-hidden
@@ -11,7 +73,12 @@ function HotelsPage() {
       >
         {/* BACKGROUND */}
         <div
-          className="absolute inset-0 bg-cover bg-center"
+          className="
+            absolute
+            inset-0
+            bg-cover
+            bg-center
+          "
           style={{
             backgroundImage:
               "url('https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070&auto=format&fit=crop')",
@@ -20,6 +87,23 @@ function HotelsPage() {
 
         {/* OVERLAY */}
         <div className="absolute inset-0 bg-black/60" />
+
+        {/* GLOW */}
+        <div
+          className="
+            absolute
+            right-[-120px]
+            top-[-120px]
+
+            h-[320px]
+            w-[320px]
+
+            rounded-full
+            bg-[#14B8A6]/20
+
+            blur-3xl
+          "
+        />
 
         {/* CONTENT */}
         <div
@@ -46,11 +130,13 @@ function HotelsPage() {
           <h1
             className="
               mt-6
-              max-w-4xl
+              max-w-5xl
+
               text-6xl
               font-black
               leading-tight
               text-white
+
               md:text-8xl
             "
           >
@@ -61,6 +147,7 @@ function HotelsPage() {
             className="
               mt-8
               max-w-2xl
+
               text-xl
               leading-9
               text-slate-300
@@ -84,11 +171,16 @@ function HotelsPage() {
               p-6
 
               shadow-2xl
+              backdrop-blur-md
 
               md:grid-cols-4
             "
           >
             <input
+              value={search}
+              onChange={(e) =>
+                setSearch(e.target.value)
+              }
               type="text"
               placeholder="Where are you going?"
               className="
@@ -98,6 +190,11 @@ function HotelsPage() {
                 border-slate-200
                 px-5
                 outline-none
+
+                transition-all
+                duration-300
+
+                focus:border-[#2563EB]
               "
             />
 
@@ -111,6 +208,11 @@ function HotelsPage() {
                 border-slate-200
                 px-5
                 outline-none
+
+                transition-all
+                duration-300
+
+                focus:border-[#2563EB]
               "
             />
 
@@ -124,6 +226,11 @@ function HotelsPage() {
                 border-slate-200
                 px-5
                 outline-none
+
+                transition-all
+                duration-300
+
+                focus:border-[#2563EB]
               "
             />
 
@@ -141,6 +248,8 @@ function HotelsPage() {
                 font-bold
                 text-white
 
+                shadow-xl
+
                 transition-all
                 duration-300
 
@@ -150,13 +259,55 @@ function HotelsPage() {
               Search Hotels
             </button>
           </div>
-        </div>
-      </div>
 
-      {/* FEATURED SECTION */}
+          {/* DESTINATION CHIPS */}
+          <div className="mt-8 flex flex-wrap gap-3">
+            {[
+              "Miami",
+              "New York",
+              "Los Angeles",
+              "Las Vegas",
+              "Chicago",
+            ].map((city) => (
+              <button
+                key={city}
+                onClick={() =>
+                  setSearch(city)
+                }
+                className="
+                  rounded-full
+                  border
+                  border-white/20
+
+                  bg-white/10
+                  px-5
+                  py-2
+
+                  text-sm
+                  font-semibold
+                  text-white
+
+                  backdrop-blur-md
+
+                  transition-all
+                  duration-300
+
+                  hover:bg-white
+                  hover:text-slate-900
+                "
+              >
+                {city}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* MAIN CONTENT */}
       <section className="py-24">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="flex items-end justify-between">
+          {/* TOP */}
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <p
                 className="
@@ -181,127 +332,114 @@ function HotelsPage() {
                 Luxury Escapes
               </h2>
             </div>
+
+            <div
+              className="
+                rounded-2xl
+                bg-white
+                px-6
+                py-4
+
+                shadow-lg
+              "
+            >
+              <p className="text-lg font-bold text-slate-900">
+                {filteredHotels.length} Hotels Found
+              </p>
+            </div>
           </div>
 
+          {/* GRID */}
           <div
             className="
               mt-14
               grid
               gap-8
 
-              md:grid-cols-2
-              xl:grid-cols-3
+              xl:grid-cols-[320px_1fr]
             "
           >
-            {[1, 2, 3].map((hotel) => (
-              <div
-                key={hotel}
-                className="
-                  overflow-hidden
-                  rounded-[32px]
-                  bg-white
-                  shadow-xl
+            {/* FILTERS */}
+            <div className="xl:sticky xl:top-6 xl:h-fit">
+              <HotelFilters
+                maxPrice={maxPrice}
+                setMaxPrice={setMaxPrice}
+                minRating={minRating}
+                setMinRating={setMinRating}
+                category={category}
+                setCategory={setCategory}
+              />
+            </div>
 
-                  transition-all
-                  duration-300
+            {/* HOTELS */}
+            <div
+              className="
+                grid
+                gap-8
 
-                  hover:-translate-y-2
-                  hover:shadow-2xl
-                "
-              >
+                md:grid-cols-2
+              "
+            >
+              {filteredHotels.length > 0 ? (
+                filteredHotels.map((hotel) => (
+                  <HotelCard
+                    key={hotel.id}
+                    hotel={hotel}
+                    onViewDetails={
+                      setSelectedHotel
+                    }
+                  />
+                ))
+              ) : (
                 <div
                   className="
-                    h-[280px]
-                    bg-cover
-                    bg-center
+                    col-span-full
+
+                    rounded-[32px]
+                    bg-white
+
+                    p-20
+
+                    text-center
+
+                    shadow-xl
                   "
-                  style={{
-                    backgroundImage:
-                      "url('https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=2070&auto=format&fit=crop')",
-                  }}
-                />
+                >
+                  <h3
+                    className="
+                      text-4xl
+                      font-black
+                      text-slate-900
+                    "
+                  >
+                    No Hotels Found
+                  </h3>
 
-                <div className="p-6">
-                  <div className="flex items-center justify-between">
-                    <h3
-                      className="
-                        text-2xl
-                        font-black
-                        text-slate-900
-                      "
-                    >
-                      Grand Horizon Resort
-                    </h3>
-
-                    <span
-                      className="
-                        rounded-full
-                        bg-emerald-100
-                        px-3
-                        py-1
-
-                        text-sm
-                        font-bold
-                        text-emerald-700
-                      "
-                    >
-                      5★
-                    </span>
-                  </div>
-
-                  <p className="mt-4 text-slate-500">
-                    Miami Beach, Florida
+                  <p
+                    className="
+                      mt-4
+                      text-lg
+                      text-slate-500
+                    "
+                  >
+                    Try changing your filters
+                    or search destination.
                   </p>
-
-                  <div className="mt-8 flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-slate-400">
-                        Starting from
-                      </p>
-
-                      <h4
-                        className="
-                          text-3xl
-                          font-black
-                          text-slate-900
-                        "
-                      >
-                        $420
-                      </h4>
-
-                      <p className="text-sm text-slate-400">
-                        per night
-                      </p>
-                    </div>
-
-                    <button
-                      className="
-                        h-12
-
-                        rounded-2xl
-
-                        bg-slate-900
-
-                        px-6
-
-                        font-bold
-                        text-white
-
-                        transition-all
-                        duration-300
-
-                        hover:bg-slate-800
-                      "
-                    >
-                      View Hotel
-                    </button>
-                  </div>
                 </div>
-              </div>
-            ))}
+              )}
+            </div>
           </div>
         </div>
       </section>
+
+      {/* MODAL */}
+      <HotelDetailsModal
+        open={!!selectedHotel}
+        hotel={selectedHotel}
+        onClose={() =>
+          setSelectedHotel(null)
+        }
+      />
     </div>
   );
 }
