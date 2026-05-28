@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode } from "react";
 
 interface ContainerProps {
   children: ReactNode;
@@ -6,19 +6,19 @@ interface ContainerProps {
 }
 
 /**
- * Global responsive container wrapper.
- * Keeps consistent page spacing across the app.
+ * Shared responsive width wrapper.
+ * Used across all major sections.
  */
-function Container({ children, className = '' }: ContainerProps) {
+function Container({ children, className = "" }: ContainerProps) {
   return (
     <div
       className={`
         w-full
         max-w-[1440px]
         mx-auto
-        px-4
-        sm:px-6
-        lg:px-8
+        px-5
+        sm:px-8
+        lg:px-12
         ${className}
       `}
     >

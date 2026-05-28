@@ -1,81 +1,65 @@
-import { Link, NavLink } from 'react-router-dom';
-import Container from '../common/Container';
+import { Link } from "react-router-dom";
 
-const navItems = [
-  {
-    label: 'Flights',
-    path: '/flights',
-  },
-  {
-    label: 'Hotels',
-    path: '/hotels',
-  },
-  {
-    label: 'Villas',
-    path: '/villas',
-  },
-  {
-    label: 'Cars',
-    path: '/cars',
-  },
-  {
-    label: 'Tours',
-    path: '/tours',
-  },
+import Container from "../common/Container";
+
+const navLinks = [
+  { label: "Flights", path: "/flights" },
+  { label: "Hotels", path: "/hotels" },
+  { label: "Villas", path: "/villas" },
+  { label: "Cars", path: "/cars" },
+  { label: "Tours", path: "/tours" },
 ];
 
-/**
- * Global top navigation bar.
- */
 function Navbar() {
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-[#E2E8F0]">
-      <Container className="h-20 flex items-center justify-between">
-        <Link
-          to="/"
-          className="text-3xl font-bold text-[#2563EB]"
-        >
-          NexTrip
-        </Link>
+    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur-md">
+      <Container>
+        <div className="flex h-20 items-center justify-between">
+          <Link
+            to="/"
+            className="text-4xl font-black tracking-tight text-[#2563EB]"
+          >
+            NexTrip
+          </Link>
 
-        <nav className="hidden md:flex items-center gap-8">
-          {navItems.map((item) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              className={({ isActive }) =>
-                `
-                  text-sm
+          <nav className="hidden items-center gap-10 md:flex">
+            {navLinks.map((item) => (
+              <Link
+                key={item.label}
+                to={item.path}
+                className="
+                  text-[16px]
                   font-medium
-                  transition-colors
-                  ${
-                    isActive
-                      ? 'text-[#2563EB]'
-                      : 'text-[#64748B] hover:text-[#2563EB]'
-                  }
-                `
-              }
-            >
-              {item.label}
-            </NavLink>
-          ))}
-        </nav>
+                  text-slate-600
+                  transition-all
+                  duration-300
+                  hover:text-[#2563EB]
+                "
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
 
-        <button
-          className="
-            bg-[#2563EB]
-            hover:bg-[#1D4ED8]
-            transition-colors
-            text-white
-            px-5
-            py-2.5
-            rounded-xl
-            text-sm
-            font-semibold
-          "
-        >
-          Sign In
-        </button>
+          <button
+            className="
+              rounded-full
+              bg-[#2563EB]
+              px-6
+              py-3
+              text-sm
+              font-semibold
+              text-white
+              shadow-lg
+              shadow-blue-500/20
+              transition-all
+              duration-300
+              hover:scale-105
+            "
+          >
+            Sign In
+          </button>
+        </div>
       </Container>
     </header>
   );
