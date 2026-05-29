@@ -1,6 +1,6 @@
-import "@fontsource/inter";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+
 import { CurrencyProvider } from "./context/CurrencyContext";
 
 import "./styles/globals.css";

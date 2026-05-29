@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCurrency } from "../../context/CurrencyContext";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -10,7 +10,8 @@ function CabBookingPage() {
   const ride = searchParams.get("ride") || "Cab Ride";
   const from = searchParams.get("from") || "Pickup";
   const to = searchParams.get("to") || "Drop";
-  const distance = Number(searchParams.get("distance") || 1);
+  const passengers = searchParams.get("passengers") || "1";
+  const distance = Number(searchParams.get("distance") || 0);
   const fare = Number(searchParams.get("fare") || 0);
   const eta = Number(searchParams.get("eta") || 5);
 
@@ -26,24 +27,47 @@ function CabBookingPage() {
   const [expiry, setExpiry] = useState("");
   const [cvv, setCvv] = useState("");
 
-  const bookingReference =
-    "CAB-" +
-    Math.random()
-      .toString(36)
-      .substring(2, 8)
-      .toUpperCase();
+  const [bookingReference] = useState(
+    () =>
+      `CAB-${Math.random().toString(36).substring(2, 8).toUpperCase()}`
+  );
+
+  useEffect(() => {
+    document.title = `NextTrip | ${ride}`;
+  }, [ride]);
+
+  const passengerLabel =
+    Number(passengers) === 1 ? "1 Passenger" : `${passengers} Passengers`;
+
+  const isFormValid =
+    fullName.trim().length >= 2 &&
+    phone.replace(/\D/g, "").length >= 8 &&
+    cardNumber.replace(/\s+/g, "").length >= 12 &&
+    cardName.trim().length >= 2 &&
+    expiry.trim().length >= 4 &&
+    cvv.trim().length >= 3;
 
   const confirmRide = () => {
-    if (!fullName || !phone || !cardNumber || !cardName || !expiry || !cvv) {
+    const cleanCardNumber = cardNumber.replace(/\s+/g, "");
+
+    if (!isFormValid || cleanCardNumber.length < 12) {
       alert("Please complete all payment details.");
       return;
     }
+
     navigate("/booking-success", {
       state: {
+        type: "cab",
         ride,
         from,
         to,
+        passengers: passengerLabel,
+        distance,
+        fare,
+        taxes,
+        serviceFee,
         total,
+        paymentMethod,
         bookingReference,
       },
     });
@@ -66,7 +90,10 @@ function CabBookingPage() {
           </p>
 
           <div className="mt-14">
-            <h2 className="text-3xl font-black text-slate-900">Passenger Details</h2>
+            <h2 className="text-3xl font-black text-slate-900">
+              Passenger Details
+            </h2>
+
             <div className="mt-8 grid gap-6">
               <input
                 value={fullName}
@@ -74,6 +101,7 @@ function CabBookingPage() {
                 placeholder="Full Name"
                 className="h-16 rounded-2xl border border-slate-200 px-6 text-lg outline-none focus:border-[#2563EB]"
               />
+
               <input
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
@@ -84,7 +112,9 @@ function CabBookingPage() {
           </div>
 
           <div className="mt-16">
-            <h2 className="text-3xl font-black text-slate-900">Payment</h2>
+            <h2 className="text-3xl font-black text-slate-900">
+              Payment
+            </h2>
 
             <div className="mt-8 grid gap-6">
               <select
@@ -103,12 +133,14 @@ function CabBookingPage() {
                 placeholder="Card Number"
                 className="h-16 rounded-2xl border border-slate-200 px-6 text-lg outline-none focus:border-[#2563EB]"
               />
+
               <input
                 value={cardName}
                 onChange={(e) => setCardName(e.target.value)}
                 placeholder="Card Holder Name"
                 className="h-16 rounded-2xl border border-slate-200 px-6 text-lg outline-none focus:border-[#2563EB]"
               />
+
               <div className="grid gap-6 md:grid-cols-2">
                 <input
                   value={expiry}
@@ -116,6 +148,7 @@ function CabBookingPage() {
                   placeholder="MM/YY"
                   className="h-16 rounded-2xl border border-slate-200 px-6 text-lg outline-none focus:border-[#2563EB]"
                 />
+
                 <input
                   value={cvv}
                   onChange={(e) => setCvv(e.target.value)}
@@ -138,7 +171,26 @@ function CabBookingPage() {
 
           <button
             onClick={confirmRide}
-            className="mt-16 h-20 w-full rounded-[24px] bg-gradient-to-r from-[#2563EB] to-[#14B8A6] text-2xl font-black text-white shadow-2xl transition-all duration-300 hover:scale-[1.01]"
+            disabled={!isFormValid}
+            className="
+              mt-16
+              h-20
+              w-full
+              rounded-[24px]
+              bg-gradient-to-r
+              from-[#2563EB]
+              to-[#14B8A6]
+              text-2xl
+              font-black
+              text-white
+              shadow-2xl
+              transition-all
+              duration-300
+              hover:scale-[1.01]
+              disabled:cursor-not-allowed
+              disabled:opacity-50
+              disabled:hover:scale-100
+            "
           >
             Confirm Ride
           </button>
@@ -153,6 +205,7 @@ function CabBookingPage() {
             <h2 className="mt-6 text-5xl font-black leading-tight">
               {ride}
             </h2>
+
             <p className="mt-3 text-sm text-white/50">
               Reference: {bookingReference}
             </p>
@@ -162,36 +215,56 @@ function CabBookingPage() {
                 <span className="text-white/60">From</span>
                 <span className="font-bold">{from}</span>
               </div>
+
               <div className="flex justify-between">
                 <span className="text-white/60">To</span>
                 <span className="font-bold">{to}</span>
               </div>
+
+              <div className="flex justify-between">
+                <span className="text-white/60">Passengers</span>
+                <span className="font-bold">{passengerLabel}</span>
+              </div>
+
               <div className="flex justify-between">
                 <span className="text-white/60">Distance</span>
-                <span className="font-bold">{distance} mi</span>
+                <span className="font-bold">{distance > 0 ? `${distance} mi` : "Pending"}</span>
               </div>
+
               <div className="flex justify-between">
                 <span className="text-white/60">ETA</span>
                 <span className="font-bold">{eta} mins</span>
               </div>
+
+              <div className="flex justify-between">
+                <span className="text-white/60">Payment</span>
+                <span className="font-bold">{paymentMethod}</span>
+              </div>
+
               <div className="h-px bg-white/10" />
+
               <div className="flex justify-between">
                 <span className="text-white/60">Fare</span>
                 <span className="font-bold">{formatPrice(fare)}</span>
               </div>
+
               <div className="flex justify-between">
                 <span className="text-white/60">Taxes</span>
                 <span className="font-bold">{formatPrice(taxes)}</span>
               </div>
+
               <div className="flex justify-between">
                 <span className="text-white/60">Service Fee</span>
                 <span className="font-bold">{formatPrice(serviceFee)}</span>
               </div>
+
               <div className="h-px bg-white/10" />
+
               <div className="flex justify-between">
                 <span className="text-2xl font-bold">Total</span>
                 <span className="text-5xl font-black">{formatPrice(total)}</span>
               </div>
+
               <p className="mt-2 text-right text-sm text-white/50">
                 Taxes and fees included
               </p>

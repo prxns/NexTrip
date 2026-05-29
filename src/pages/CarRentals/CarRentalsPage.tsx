@@ -1,8 +1,8 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import type { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useCurrency } from "../../context/CurrencyContext";
-
 import { rentalCars } from "../../data/Cars/carRentals";
 
 function CarRentalsPage() {
@@ -17,6 +17,19 @@ function CarRentalsPage() {
   const [pickupDate, setPickupDate] = useState("");
   const [returnDate, setReturnDate] = useState("");
   const [driverAge, setDriverAge] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    document.title = "NextTrip | Car Rentals";
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1200);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const rentalDays = useMemo(() => {
     if (!pickupDate || !returnDate) return 1;
@@ -56,6 +69,20 @@ function CarRentalsPage() {
 
   const categories = ["All", "Economy", "SUV", "Luxury", "Sports", "Electric"];
 
+  const canSearch =
+    pickupLocation.trim().length > 0 &&
+    pickupDate.length > 0 &&
+    returnDate.length > 0 &&
+    driverAge.length > 0;
+
+  const handleSearch = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    document
+      .getElementById("car-rental-results")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   const handleViewDetails = (slug: string) => {
     const params = new URLSearchParams({
       pickupLocation,
@@ -65,6 +92,17 @@ function CarRentalsPage() {
     });
 
     navigate(`/car-rentals/${slug}?${params.toString()}`);
+  };
+
+  const handleResetFilters = () => {
+    setSearch("");
+    setCategory("All");
+    setTransmission("All");
+    setMaxPrice(400);
+    setPickupLocation("");
+    setPickupDate("");
+    setReturnDate("");
+    setDriverAge("");
   };
 
   return (
@@ -89,45 +127,91 @@ function CarRentalsPage() {
           </h1>
 
           <p className="mt-8 max-w-2xl text-xl leading-9 text-slate-300">
-            Browse economy cars, SUVs, luxury rides, and electric vehicles with quick pickup and easy booking.
+            Browse economy cars, SUVs, premium rides, and electric vehicles with
+            quick pickup and easy booking.
           </p>
 
-          <div className="mt-14 grid gap-4 rounded-[32px] bg-white/95 p-6 shadow-2xl backdrop-blur-md md:grid-cols-4">
-            <input
-              value={pickupLocation}
-              onChange={(e) => setPickupLocation(e.target.value)}
-              type="text"
-              placeholder="Pickup location"
-              className="h-16 rounded-2xl border border-slate-200 bg-white px-5 text-lg font-semibold text-slate-900 outline-none focus:border-[#2563EB] focus:ring-4 focus:ring-blue-100"
-            />
-            <input
-              type="date"
-              value={pickupDate}
-              onChange={(e) => setPickupDate(e.target.value)}
-              className="h-16 rounded-2xl border border-slate-200 bg-white px-5 text-lg font-semibold text-slate-900 outline-none focus:border-[#2563EB] focus:ring-4 focus:ring-blue-100"
-            />
-            <input
-              type="date"
-              min={pickupDate}
-              value={returnDate}
-              onChange={(e) => setReturnDate(e.target.value)}
-              className="h-16 rounded-2xl border border-slate-200 bg-white px-5 text-lg font-semibold text-slate-900 outline-none focus:border-[#2563EB] focus:ring-4 focus:ring-blue-100"
-            />
-            <select
-              value={driverAge}
-              onChange={(e) => setDriverAge(e.target.value)}
-              className="h-16 rounded-2xl border border-slate-200 bg-white px-5 text-lg font-semibold text-slate-900 outline-none focus:border-[#2563EB] focus:ring-4 focus:ring-blue-100"
-            >
-              <option value="">
-                Driver's Age
-              </option>
-              {Array.from({ length: 43 }, (_, i) => i + 18).map((age) => (
-                <option key={age} value={age}>
-                  {age}
-                </option>
-              ))}
-            </select>
-          </div>
+          <form
+            onSubmit={handleSearch}
+            className="
+              mt-14
+              rounded-[32px]
+              bg-white/95
+              p-6
+              shadow-2xl
+              backdrop-blur-md
+            "
+          >
+            <div className="grid gap-4 md:grid-cols-4">
+              <input
+                value={pickupLocation}
+                onChange={(e) => setPickupLocation(e.target.value)}
+                type="text"
+                placeholder="Pickup location"
+                className="h-16 rounded-2xl border border-slate-200 bg-white px-5 text-lg font-semibold text-slate-900 outline-none focus:border-[#2563EB] focus:ring-4 focus:ring-blue-100"
+              />
+
+              <input
+                type="date"
+                value={pickupDate}
+                onChange={(e) => setPickupDate(e.target.value)}
+                className="h-16 rounded-2xl border border-slate-200 bg-white px-5 text-lg font-semibold text-slate-900 outline-none focus:border-[#2563EB] focus:ring-4 focus:ring-blue-100"
+              />
+
+              <input
+                type="date"
+                min={pickupDate}
+                value={returnDate}
+                onChange={(e) => setReturnDate(e.target.value)}
+                className="h-16 rounded-2xl border border-slate-200 bg-white px-5 text-lg font-semibold text-slate-900 outline-none focus:border-[#2563EB] focus:ring-4 focus:ring-blue-100"
+              />
+
+              <select
+                value={driverAge}
+                onChange={(e) => setDriverAge(e.target.value)}
+                className="h-16 rounded-2xl border border-slate-200 bg-white px-5 text-lg font-semibold text-slate-900 outline-none focus:border-[#2563EB] focus:ring-4 focus:ring-blue-100"
+              >
+                <option value="">Driver's Age</option>
+                {Array.from({ length: 43 }, (_, i) => i + 18).map((age) => (
+                  <option key={age} value={age}>
+                    {age}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="mt-5 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+              <button
+                type="submit"
+                disabled={!canSearch}
+                className="
+                  h-16
+                  rounded-2xl
+                  bg-gradient-to-r
+                  from-[#2563EB]
+                  to-[#14B8A6]
+                  px-8
+                  text-lg
+                  font-bold
+                  text-white
+                  shadow-xl
+                  transition-all
+                  duration-300
+                  hover:scale-[1.02]
+                  disabled:cursor-not-allowed
+                  disabled:opacity-50
+                  disabled:hover:scale-100
+                "
+              >
+                Search Cars
+              </button>
+
+              <p className="text-sm text-slate-500">
+                Choose a pickup city, travel dates, and driver age to unlock
+                availability.
+              </p>
+            </div>
+          </form>
 
           <div className="mt-8 flex flex-wrap gap-3">
             {categories.map((item) => (
@@ -147,7 +231,7 @@ function CarRentalsPage() {
         </div>
       </section>
 
-      <section className="py-24">
+      <section className="py-24" id="car-rental-results">
         <div className="mx-auto max-w-7xl px-6">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div>
@@ -159,7 +243,7 @@ function CarRentalsPage() {
               </h2>
             </div>
 
-            <div className="rounded-2xl bg-white px-6 py-4 shadow-lg">
+            <div className="flex items-center gap-3 rounded-2xl bg-white px-6 py-4 shadow-lg">
               <p className="text-lg font-bold text-slate-900">
                 {filteredCars.length} Cars Found
               </p>
@@ -191,7 +275,9 @@ function CarRentalsPage() {
                     Max Price / Day
                   </p>
                   <div className="mt-3 flex items-center justify-between">
-                    <span className="font-black text-slate-900">{formatPrice(maxPrice)}</span>
+                    <span className="font-black text-slate-900">
+                      {formatPrice(maxPrice)}
+                    </span>
                     <span className="text-sm text-slate-500">/ day</span>
                   </div>
                   <input
@@ -246,77 +332,144 @@ function CarRentalsPage() {
                     ))}
                   </div>
                 </div>
+
+                <button
+                  type="button"
+                  onClick={handleResetFilters}
+                  className="
+                    h-12
+                    w-full
+                    rounded-2xl
+                    border
+                    border-slate-200
+                    bg-white
+                    font-bold
+                    text-slate-900
+                    transition-all
+                    duration-300
+                    hover:bg-slate-50
+                  "
+                >
+                  Reset Filters
+                </button>
               </div>
             </aside>
 
             <div className="grid gap-8 md:grid-cols-2">
-              {filteredCars.map((car) => (
-                <div
-                  key={car.id}
-                  className="overflow-hidden rounded-[34px] bg-white shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
-                >
-                  <img src={car.image} alt={car.name} className="h-[250px] w-full object-cover" />
-
-                  <div className="p-7">
-                    <div className="flex items-start justify-between gap-4">
-                      <div>
-                        <p className="text-sm font-bold uppercase tracking-[3px] text-[#14B8A6]">
-                          {car.category}
-                        </p>
-                        <h3 className="mt-3 text-3xl font-black text-slate-900">
-                          {car.name}
-                        </h3>
-                        <p className="mt-2 text-slate-500">
-                          {car.brand} • {car.year}
-                        </p>
+              {loading ? (
+                Array.from({ length: 6 }).map((_, index) => (
+                  <div
+                    key={index}
+                    className="overflow-hidden rounded-[34px] bg-white shadow-xl animate-pulse"
+                  >
+                    <div className="h-[250px] bg-slate-200" />
+                    <div className="p-7 space-y-4">
+                      <div className="h-4 w-24 rounded bg-slate-200" />
+                      <div className="h-7 w-3/4 rounded bg-slate-200" />
+                      <div className="h-4 w-1/2 rounded bg-slate-200" />
+                      <div className="grid grid-cols-2 gap-3">
+                        <div className="h-10 rounded-2xl bg-slate-200" />
+                        <div className="h-10 rounded-2xl bg-slate-200" />
+                        <div className="h-10 rounded-2xl bg-slate-200" />
+                        <div className="h-10 rounded-2xl bg-slate-200" />
                       </div>
-
-                      <div className="rounded-full bg-emerald-100 px-3 py-1 text-sm font-bold text-emerald-700">
-                        ⭐ {car.rating}
-                      </div>
-                    </div>
-
-                    <div className="mt-6 grid grid-cols-2 gap-3 text-sm text-slate-600">
-                      <div className="rounded-2xl bg-slate-100 p-3">Seats: {car.seats}</div>
-                      <div className="rounded-2xl bg-slate-100 p-3">Luggage: {car.luggage}</div>
-                      <div className="rounded-2xl bg-slate-100 p-3">{car.transmission}</div>
-                      <div className="rounded-2xl bg-slate-100 p-3">{car.fuelType}</div>
-                    </div>
-
-                    <div className="mt-6 flex flex-wrap gap-2">
-                      {car.availableIn.slice(0, 3).map((place) => (
-                        <span key={place} className="rounded-full bg-slate-100 px-3 py-1 text-sm font-semibold text-slate-600">
-                          {place}
-                        </span>
-                      ))}
-                    </div>
-
-                    <div className="mt-8 flex items-end justify-between gap-4">
-                      <div>
-                        <p className="text-sm text-slate-400">Starting from</p>
-                        <h4 className="text-4xl font-black text-slate-900">
-                          {formatPrice(car.pricePerDay)}
-                        </h4>
-                        <p className="text-sm text-slate-400">per day • taxes excluded</p>
-                      </div>
-
-                      <button
-                        onClick={() => handleViewDetails(car.slug)}
-                        className="h-12 rounded-2xl bg-gradient-to-r from-[#2563EB] to-[#14B8A6] px-6 font-bold text-white transition-all duration-300 hover:scale-[1.03]"
-                      >
-                        View Details
-                      </button>
+                      <div className="h-10 w-full rounded-2xl bg-slate-200" />
                     </div>
                   </div>
-                </div>
-              ))}
+                ))
+              ) : filteredCars.length > 0 ? (
+                filteredCars.map((car) => (
+                  <div
+                    key={car.id}
+                    className="overflow-hidden rounded-[34px] bg-white shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+                  >
+                    <img
+                      src={car.image}
+                      alt={car.name}
+                      className="h-[250px] w-full object-cover"
+                    />
 
-              {filteredCars.length === 0 && (
+                    <div className="p-7">
+                      <div className="flex items-start justify-between gap-4">
+                        <div>
+                          <p className="text-sm font-bold uppercase tracking-[3px] text-[#14B8A6]">
+                            {car.category}
+                          </p>
+                          <h3 className="mt-3 text-3xl font-black text-slate-900">
+                            {car.name}
+                          </h3>
+                          <p className="mt-2 text-slate-500">
+                            {car.brand} • {car.year}
+                          </p>
+                        </div>
+
+                        <div className="rounded-full bg-emerald-100 px-3 py-1 text-sm font-bold text-emerald-700">
+                          ⭐ {car.rating}
+                        </div>
+                      </div>
+
+                      <div className="mt-6 grid grid-cols-2 gap-3 text-sm text-slate-600">
+                        <div className="rounded-2xl bg-slate-100 p-3">Seats: {car.seats}</div>
+                        <div className="rounded-2xl bg-slate-100 p-3">Luggage: {car.luggage}</div>
+                        <div className="rounded-2xl bg-slate-100 p-3">{car.transmission}</div>
+                        <div className="rounded-2xl bg-slate-100 p-3">{car.fuelType}</div>
+                      </div>
+
+                      <div className="mt-6 flex flex-wrap gap-2">
+                        {car.availableIn.slice(0, 3).map((place) => (
+                          <span
+                            key={place}
+                            className="rounded-full bg-slate-100 px-3 py-1 text-sm font-semibold text-slate-600"
+                          >
+                            {place}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div className="mt-8 flex items-end justify-between gap-4">
+                        <div>
+                          <p className="text-sm text-slate-400">Starting from</p>
+                          <h4 className="text-4xl font-black text-slate-900">
+                            {formatPrice(car.pricePerDay)}
+                          </h4>
+                          <p className="text-sm text-slate-400">per day • taxes excluded</p>
+                        </div>
+
+                        <button
+                          onClick={() => handleViewDetails(car.slug)}
+                          className="h-12 rounded-2xl bg-gradient-to-r from-[#2563EB] to-[#14B8A6] px-6 font-bold text-white transition-all duration-300 hover:scale-[1.03]"
+                        >
+                          View Details
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : (
                 <div className="col-span-full rounded-[32px] bg-white p-16 text-center shadow-xl">
                   <h3 className="text-4xl font-black text-slate-900">No Cars Found</h3>
+
                   <p className="mt-4 text-lg text-slate-500">
                     Try changing the filters or pickup location.
                   </p>
+
+                  <button
+                    type="button"
+                    onClick={handleResetFilters}
+                    className="
+                      mt-8
+                      h-12
+                      rounded-2xl
+                      bg-gradient-to-r
+                      from-[#2563EB]
+                      to-[#14B8A6]
+                      px-6
+                      font-bold
+                      text-white
+                    "
+                  >
+                    Reset Filters
+                  </button>
                 </div>
               )}
             </div>
