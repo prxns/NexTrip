@@ -6,7 +6,11 @@ function BookingSuccessPage() {
 
   const { formatPrice } = useCurrency();
 
-  const flight = location.state?.flight;
+  const bookingType =
+  location.state?.type || "flight";
+
+  const flight =
+  location.state?.flight;
 
   const bookingReference =
     Math.random()
@@ -16,6 +20,43 @@ function BookingSuccessPage() {
 
   const bookingDate =
     new Date().toLocaleDateString();
+
+  const browseConfig = {
+  flight: {
+    label: "Browse Flights",
+    path: "/flights",
+  },
+
+  hotel: {
+    label: "Browse Hotels",
+    path: "/hotels",
+  },
+
+  car: {
+    label: "Browse Cars",
+    path: "/car-rentals",
+  },
+
+  cab: {
+    label: "Book Another Ride",
+    path: "/cabs",
+  },
+
+  villa: {
+    label: "Browse Villas",
+    path: "/villas",
+  },
+
+  tour: {
+    label: "Browse Tours",
+    path: "/tours",
+  },
+};
+
+const secondaryButton =
+  browseConfig[
+    bookingType as keyof typeof browseConfig
+  ] || browseConfig.flight;
 
   return (
     <div className="min-h-screen bg-slate-100 px-6 py-16">
@@ -245,32 +286,32 @@ function BookingSuccessPage() {
             </button>
           </Link>
 
-          <Link to="/flights">
+          <Link to={secondaryButton.path}>
             <button
               className="
                 h-16
                 rounded-2xl
 
                 border
-                border-slate-200
+              border-slate-200
 
-                bg-white
+              bg-white
 
                 px-10
 
                 text-lg
                 font-bold
-                text-slate-900
+              text-slate-900
 
                 transition-all
                 duration-300
 
-                hover:bg-slate-50
+              hover:bg-slate-50
               "
             >
-              Browse Flights
+              {secondaryButton.label}
             </button>
-          </Link>
+          </Link> 
         </div>
       </div>
     </div>

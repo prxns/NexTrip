@@ -38,7 +38,25 @@ function CarRentalCheckoutPage() {
       return;
     }
 
-    navigate("/booking-success");
+    navigate("/booking-success", {
+  state: {
+    type: "car",
+
+    car: {
+      name: car,
+      brand,
+      pickupLocation,
+      pickupDate,
+      returnDate,
+      days,
+      total:
+        total ||
+        price * days +
+          taxes +
+          serviceFee,
+    },
+  },
+});
   };
 
   return (

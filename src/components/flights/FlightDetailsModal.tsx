@@ -62,6 +62,7 @@ function FlightDetailsModal({
 
     navigate("/checkout", {
       state: {
+        type: "flight",
           airline,
           airlineLogo,
 

@@ -96,6 +96,7 @@ function HotelCheckoutPage() {
 
     navigate("/booking-success", {
       state: {
+        type: "hotel",
         hotel,
         room,
         city,
