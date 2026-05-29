@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
-import type { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 
 import HotelCard from "../../components/hotels/HotelCard";
+import HotelCardSkeleton from "../../components/hotels/HotelCardSkeleton";
 import HotelFilters from "../../components/hotels/HotelFilters";
+import HotelDetailsModal from "../../components/hotels/HotelDetailsModal";
 
 import { hotels, type Hotel } from "../../data/hotels/hotels";
 
@@ -16,41 +17,25 @@ function HotelsPage() {
   const [maxPrice, setMaxPrice] = useState(1000);
   const [minRating, setMinRating] = useState(4);
   const [category, setCategory] = useState("All");
+  const [selectedHotel, setSelectedHotel] = useState<Hotel | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    document.title = "NextTrip | Hotels";
-  }, []);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1200);
-
+    const timer = setTimeout(() => setLoading(false), 1200);
     return () => clearTimeout(timer);
   }, []);
 
   const filteredHotels = useMemo(() => {
     return hotels.filter((hotel) => {
-      const matchesSearch = `
-        ${hotel.name}
-        ${hotel.city}
-        ${hotel.state}
-      `
+      const matchesSearch = `${hotel.name} ${hotel.city} ${hotel.state}`
         .toLowerCase()
         .includes(search.toLowerCase());
 
       const matchesPrice = hotel.pricePerNight <= maxPrice;
       const matchesRating = hotel.rating >= minRating;
-      const matchesCategory =
-        category === "All" || hotel.category === category;
+      const matchesCategory = category === "All" || hotel.category === category;
 
-      return (
-        matchesSearch &&
-        matchesPrice &&
-        matchesRating &&
-        matchesCategory
-      );
+      return matchesSearch && matchesPrice && matchesRating && matchesCategory;
     });
   }, [search, maxPrice, minRating, category]);
 
@@ -63,14 +48,6 @@ function HotelsPage() {
     navigate(`/hotels/${hotel.slug}?checkIn=${checkIn}&checkOut=${checkOut}`);
   };
 
-  const handleSearchHotels = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    document
-      .getElementById("hotel-results")
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
   const handleResetFilters = () => {
     setSearch("");
     setCheckIn("");
@@ -78,6 +55,11 @@ function HotelsPage() {
     setMaxPrice(1000);
     setMinRating(4);
     setCategory("All");
+  };
+
+  const handleSearchHotels = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    document.getElementById("hotel-results")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   const canSearch = Boolean(checkIn && checkOut);
@@ -92,9 +74,7 @@ function HotelsPage() {
               "url('https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070&auto=format&fit=crop')",
           }}
         />
-
         <div className="absolute inset-0 bg-black/60" />
-
         <div
           className="
             absolute
@@ -141,46 +121,14 @@ function HotelsPage() {
               onChange={(e) => setSearch(e.target.value)}
               type="text"
               placeholder="Where are you going?"
-              className="
-                h-16
-                rounded-2xl
-                border
-                border-slate-200
-                bg-white
-                px-5
-                text-lg
-                font-semibold
-                text-slate-900
-                outline-none
-                transition-all
-                duration-300
-                focus:border-[#2563EB]
-                focus:ring-4
-                focus:ring-blue-100
-              "
+              className="h-16 rounded-2xl border border-slate-200 bg-white px-5 text-lg font-semibold text-slate-900 outline-none transition-all duration-300 focus:border-[#2563EB] focus:ring-4 focus:ring-blue-100"
             />
 
             <input
               type="date"
               value={checkIn}
               onChange={(e) => setCheckIn(e.target.value)}
-              className="
-                h-16
-                rounded-2xl
-                border
-                border-slate-200
-                bg-white
-                px-5
-                text-lg
-                font-semibold
-                text-slate-900
-                outline-none
-                transition-all
-                duration-300
-                focus:border-[#2563EB]
-                focus:ring-4
-                focus:ring-blue-100
-              "
+              className="h-16 rounded-2xl border border-slate-200 bg-white px-5 text-lg font-semibold text-slate-900 outline-none transition-all duration-300 focus:border-[#2563EB] focus:ring-4 focus:ring-blue-100"
             />
 
             <input
@@ -188,23 +136,7 @@ function HotelsPage() {
               value={checkOut}
               min={checkIn}
               onChange={(e) => setCheckOut(e.target.value)}
-              className="
-                h-16
-                rounded-2xl
-                border
-                border-slate-200
-                bg-white
-                px-5
-                text-lg
-                font-semibold
-                text-slate-900
-                outline-none
-                transition-all
-                duration-300
-                focus:border-[#2563EB]
-                focus:ring-4
-                focus:ring-blue-100
-              "
+              className="h-16 rounded-2xl border border-slate-200 bg-white px-5 text-lg font-semibold text-slate-900 outline-none transition-all duration-300 focus:border-[#2563EB] focus:ring-4 focus:ring-blue-100"
             />
 
             <button
@@ -223,8 +155,6 @@ function HotelsPage() {
                 transition-all
                 duration-300
                 hover:scale-[1.02]
-                hover:shadow-2xl
-                active:scale-[0.98]
                 disabled:cursor-not-allowed
                 disabled:opacity-50
                 disabled:hover:scale-100
@@ -282,7 +212,7 @@ function HotelsPage() {
 
             <div className="flex items-center gap-3 rounded-2xl bg-white px-6 py-4 shadow-lg">
               <p className="text-lg font-bold text-slate-900">
-                {filteredHotels.length} Hotels Found
+                {loading ? "Loading top stays..." : `${filteredHotels.length} Hotels Found`}
               </p>
 
               <button
@@ -318,32 +248,7 @@ function HotelsPage() {
             <div className="grid gap-8 md:grid-cols-2">
               {loading ? (
                 Array.from({ length: 6 }).map((_, index) => (
-                  <div
-                    key={index}
-                    className="
-                      overflow-hidden
-                      rounded-[36px]
-                      bg-white
-                      shadow-xl
-                      animate-pulse
-                    "
-                  >
-                    <div className="h-[280px] bg-slate-200" />
-                    <div className="p-6 space-y-4">
-                      <div className="h-6 w-2/3 rounded bg-slate-200" />
-                      <div className="h-4 w-1/2 rounded bg-slate-200" />
-                      <div className="grid grid-cols-2 gap-3">
-                        <div className="h-10 rounded-2xl bg-slate-200" />
-                        <div className="h-10 rounded-2xl bg-slate-200" />
-                        <div className="h-10 rounded-2xl bg-slate-200" />
-                        <div className="h-10 rounded-2xl bg-slate-200" />
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <div className="h-10 w-28 rounded bg-slate-200" />
-                        <div className="h-12 w-32 rounded-2xl bg-slate-200" />
-                      </div>
-                    </div>
-                  </div>
+                  <HotelCardSkeleton key={index} />
                 ))
               ) : filteredHotels.length > 0 ? (
                 filteredHotels.map((hotel) => (
@@ -386,6 +291,12 @@ function HotelsPage() {
           </div>
         </div>
       </section>
+
+      <HotelDetailsModal
+        open={!!selectedHotel}
+        hotel={selectedHotel}
+        onClose={() => setSelectedHotel(null)}
+      />
     </div>
   );
 }

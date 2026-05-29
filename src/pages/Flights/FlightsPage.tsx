@@ -19,14 +19,7 @@ function FlightsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    document.title = `NextTrip | Flights ${from} → ${to}`;
-  }, [from, to]);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1400);
-
+    const timer = setTimeout(() => setLoading(false), 1400);
     return () => clearTimeout(timer);
   }, []);
 
@@ -57,12 +50,6 @@ function FlightsPage() {
 
     return filtered;
   }, [maxPrice, selectedStops, selectedSort]);
-
-  const handleResetFilters = () => {
-    setSelectedStops("all");
-    setMaxPrice(2000);
-    setSelectedSort("price-low");
-  };
 
   return (
     <div className="min-h-screen bg-slate-100 pb-20">
@@ -102,7 +89,7 @@ function FlightsPage() {
           </h1>
 
           <p className="mt-6 max-w-2xl text-lg text-white/80">
-            Discover flexible flights, comfortable travel experiences, and the best
+            Discover premium flights, comfortable travel experiences, and the best
             fares for your next journey.
           </p>
         </div>
@@ -139,49 +126,18 @@ function FlightsPage() {
             >
               <div>
                 <h2 className="text-3xl font-black text-slate-900">
-                  {filteredFlights.length} Flights Found
+                  {loading ? "Searching flights..." : `${filteredFlights.length} Flights Found`}
                 </h2>
 
                 <p className="mt-2 text-slate-500">
-                  Showing premium fares and best available flights.
+                  {loading
+                    ? "Shimmer cards are loading your best options."
+                    : "Showing premium fares and best available flights."}
                 </p>
               </div>
 
-              <div className="flex flex-wrap items-center gap-3">
-                <div
-                  className="
-                    rounded-2xl
-                    bg-slate-100
-                    px-5
-                    py-3
-                    text-sm
-                    font-bold
-                    text-slate-600
-                  "
-                >
-                  Updated just now
-                </div>
-
-                <button
-                  type="button"
-                  onClick={handleResetFilters}
-                  className="
-                    rounded-2xl
-                    border
-                    border-slate-200
-                    bg-white
-                    px-5
-                    py-3
-                    text-sm
-                    font-bold
-                    text-slate-900
-                    transition-all
-                    duration-300
-                    hover:bg-slate-50
-                  "
-                >
-                  Reset Filters
-                </button>
+              <div className="rounded-2xl bg-slate-100 px-5 py-3 text-sm font-bold text-slate-600">
+                {loading ? "Loading live results" : "Updated just now"}
               </div>
             </div>
 
@@ -191,40 +147,14 @@ function FlightsPage() {
                   <FlightCardSkeleton key={index} />
                 ))
               ) : filteredFlights.length === 0 ? (
-                <div
-                  className="
-                    rounded-[32px]
-                    bg-white
-                    p-16
-                    text-center
-                    shadow-xl
-                  "
-                >
+                <div className="rounded-[32px] bg-white p-16 text-center shadow-xl">
                   <h3 className="text-4xl font-black text-slate-900">
                     No Flights Found
                   </h3>
 
                   <p className="mt-4 text-lg text-slate-500">
-                    Try adjusting your filters or reset them to see more options.
+                    Try adjusting your filters or increasing the maximum price.
                   </p>
-
-                  <button
-                    type="button"
-                    onClick={handleResetFilters}
-                    className="
-                      mt-8
-                      h-12
-                      rounded-2xl
-                      bg-gradient-to-r
-                      from-[#2563EB]
-                      to-[#14B8A6]
-                      px-6
-                      font-bold
-                      text-white
-                    "
-                  >
-                    Reset Filters
-                  </button>
                 </div>
               ) : (
                 filteredFlights.map((flight) => (

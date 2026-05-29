@@ -3,6 +3,8 @@ import type { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useCurrency } from "../../context/CurrencyContext";
+import CarRentalCardSkeleton from "../../components/car-rentals/CarRentalCardSkeleton";
+
 import { rentalCars } from "../../data/Cars/carRentals";
 
 function CarRentalsPage() {
@@ -20,14 +22,7 @@ function CarRentalsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    document.title = "NextTrip | Car Rentals";
-  }, []);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1200);
-
+    const timer = setTimeout(() => setLoading(false), 1200);
     return () => clearTimeout(timer);
   }, []);
 
@@ -35,9 +30,7 @@ function CarRentalsPage() {
     if (!pickupDate || !returnDate) return 1;
     const start = new Date(pickupDate);
     const end = new Date(returnDate);
-    const diff = Math.ceil(
-      (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)
-    );
+    const diff = Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
     return diff > 0 ? diff : 1;
   }, [pickupDate, returnDate]);
 
@@ -48,8 +41,7 @@ function CarRentalsPage() {
         .includes(search.toLowerCase());
 
       const matchesCategory = category === "All" || car.category === category;
-      const matchesTransmission =
-        transmission === "All" || car.transmission === transmission;
+      const matchesTransmission = transmission === "All" || car.transmission === transmission;
       const matchesPrice = car.pricePerDay <= maxPrice;
       const matchesLocation =
         pickupLocation.trim().length === 0 ||
@@ -57,13 +49,7 @@ function CarRentalsPage() {
           place.toLowerCase().includes(pickupLocation.toLowerCase())
         );
 
-      return (
-        matchesSearch &&
-        matchesCategory &&
-        matchesTransmission &&
-        matchesPrice &&
-        matchesLocation
-      );
+      return matchesSearch && matchesCategory && matchesTransmission && matchesPrice && matchesLocation;
     });
   }, [search, category, transmission, maxPrice, pickupLocation]);
 
@@ -77,10 +63,7 @@ function CarRentalsPage() {
 
   const handleSearch = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    document
-      .getElementById("car-rental-results")
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    document.getElementById("car-rental-results")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   const handleViewDetails = (slug: string) => {
@@ -245,10 +228,10 @@ function CarRentalsPage() {
 
             <div className="flex items-center gap-3 rounded-2xl bg-white px-6 py-4 shadow-lg">
               <p className="text-lg font-bold text-slate-900">
-                {filteredCars.length} Cars Found
+                {loading ? "Loading cars..." : `${filteredCars.length} Cars Found`}
               </p>
               <p className="mt-1 text-sm text-slate-500">
-                {rentalDays} day(s) selected
+                {loading ? "Shimmering cards are on the way" : `${rentalDays} day(s) selected`}
               </p>
             </div>
           </div>
@@ -275,9 +258,7 @@ function CarRentalsPage() {
                     Max Price / Day
                   </p>
                   <div className="mt-3 flex items-center justify-between">
-                    <span className="font-black text-slate-900">
-                      {formatPrice(maxPrice)}
-                    </span>
+                    <span className="font-black text-slate-900">{formatPrice(maxPrice)}</span>
                     <span className="text-sm text-slate-500">/ day</span>
                   </div>
                   <input
@@ -358,24 +339,7 @@ function CarRentalsPage() {
             <div className="grid gap-8 md:grid-cols-2">
               {loading ? (
                 Array.from({ length: 6 }).map((_, index) => (
-                  <div
-                    key={index}
-                    className="overflow-hidden rounded-[34px] bg-white shadow-xl animate-pulse"
-                  >
-                    <div className="h-[250px] bg-slate-200" />
-                    <div className="p-7 space-y-4">
-                      <div className="h-4 w-24 rounded bg-slate-200" />
-                      <div className="h-7 w-3/4 rounded bg-slate-200" />
-                      <div className="h-4 w-1/2 rounded bg-slate-200" />
-                      <div className="grid grid-cols-2 gap-3">
-                        <div className="h-10 rounded-2xl bg-slate-200" />
-                        <div className="h-10 rounded-2xl bg-slate-200" />
-                        <div className="h-10 rounded-2xl bg-slate-200" />
-                        <div className="h-10 rounded-2xl bg-slate-200" />
-                      </div>
-                      <div className="h-10 w-full rounded-2xl bg-slate-200" />
-                    </div>
-                  </div>
+                  <CarRentalCardSkeleton key={index} />
                 ))
               ) : filteredCars.length > 0 ? (
                 filteredCars.map((car) => (
