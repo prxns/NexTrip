@@ -3,11 +3,11 @@ import { popularDestinations } from "../../data/destinations/popularDestinations
 
 function PopularDestinations() {
   return (
-    <section className="py-24 bg-white">
+    <section className="bg-white py-24">
       <Container>
-        <div className="flex items-end justify-between mb-14">
+        <div className="mb-14 flex items-end justify-between">
           <div>
-            <p className="text-[#14B8A6] font-semibold uppercase tracking-wider">
+            <p className="font-semibold uppercase tracking-wider text-[#14B8A6]">
               Trending Destinations
             </p>
 
@@ -17,54 +17,40 @@ function PopularDestinations() {
           </div>
         </div>
 
-        <div
-          className="
-            grid
-            grid-cols-1
-            md:grid-cols-2
-            lg:grid-cols-4
-            gap-8
-          "
-        >
+        <div className="flex gap-8 overflow-x-auto overflow-y-hidden pb-6 pr-1">
           {popularDestinations.map((destination) => (
             <div
               key={destination.id}
               className="
-                relative
                 group
+                relative
+                h-[380px]
+                w-[360px]
+                flex-none
                 overflow-hidden
                 rounded-[28px]
                 bg-white
                 shadow-lg
-                hover:shadow-2xl
-                transition-all
+                transition-shadow
                 duration-300
+                hover:shadow-2xl
               "
             >
-              <div className="relative h-[380px] overflow-hidden">
+              <div className="relative h-full overflow-hidden">
                 <img
                   src={destination.image}
                   alt={destination.city}
                   className="
-                    w-full
                     h-full
+                    w-full
                     object-cover
-                    group-hover:scale-110
                     transition-transform
                     duration-500
+                    group-hover:scale-110
                   "
                 />
 
-                <div
-                  className="
-                    absolute
-                    inset-0
-                    bg-gradient-to-t
-                    from-black/80
-                    via-black/20
-                    to-transparent
-                  "
-                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
               </div>
 
               <div className="absolute bottom-6 left-6 text-white">
