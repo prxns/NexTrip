@@ -23,7 +23,7 @@ export const cabTypes: CabType[] = [
     baseFare: 5,
     perMile: 1.4,
     image:
-      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1657872737697-737a2d123ef2?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     features: ["Fast Pickup", "Best Value", "AC Ride"],
     description:
       "Affordable everyday rides for quick city travel.",
@@ -38,7 +38,7 @@ export const cabTypes: CabType[] = [
     baseFare: 9,
     perMile: 2.2,
     image:
-      "https://images.unsplash.com/photo-1550355291-bbee04a92027?q=80&w=1600&auto=format&fit=crop",
+      "https://i.pinimg.com/1200x/20/23/dd/2023ddc5d87bcaa58030db770d2cddee.jpg",
     features: ["Clean Interior", "Priority Pickup", "Extra Comfort"],
     description:
       "A smoother, upgraded ride for business or leisure.",
@@ -53,7 +53,7 @@ export const cabTypes: CabType[] = [
     baseFare: 10,
     perMile: 2.8,
     image:
-      "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=1600&auto=format&fit=crop",
+      "https://i.pinimg.com/1200x/fd/ff/2b/fdff2b56c13c75865cacd4d008dad1e6.jpg",
     features: ["6 Seats", "Extra Luggage", "Family Friendly"],
     description:
       "Best for groups, airport luggage, and family travel.",
@@ -68,7 +68,7 @@ export const cabTypes: CabType[] = [
     baseFare: 12,
     perMile: 2.0,
     image:
-      "https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?q=80&w=1600&auto=format&fit=crop",
+      "https://i.pinimg.com/736x/22/23/62/222362c6bcb170899036201f90320e06.jpg",
     features: ["Flight Tracking", "Pickup Assistance", "Airport Priority"],
     description:
       "Reliable airport drop and pickup with travel-friendly timing.",
@@ -83,7 +83,7 @@ export const cabTypes: CabType[] = [
     baseFare: 8,
     perMile: 1.9,
     image:
-      "https://images.unsplash.com/photo-1626668893632-6f3ff2d2d2b0?q=80&w=1600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1610470832703-95d40c3fad55?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     features: ["Quiet Ride", "Eco Friendly", "Low Emissions"],
     description:
       "A clean and modern ride with a quieter cabin.",

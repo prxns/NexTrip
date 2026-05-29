@@ -1,4 +1,9 @@
 import { useMemo, useState } from "react";
+
+import {
+  useCurrency,
+} from "../../context/CurrencyContext";
+
 import {
   useLocation,
   useNavigate,
@@ -9,6 +14,9 @@ function CheckoutPage() {
   const navigate = useNavigate();
 
   const bookingData = location.state;
+
+  const { formatPrice } =
+  useCurrency();
 
   const [fullName, setFullName] =
     useState("");
@@ -206,8 +214,7 @@ function CheckoutPage() {
 
                 <p className="mt-5 text-lg text-slate-500">
                   Enter traveler and payment
-                  details to confirm your luxury
-                  journey.
+                  details to complete your booking.
                 </p>
               </div>
 
@@ -515,7 +522,9 @@ function CheckoutPage() {
               >
                 {processing
                   ? "Processing Payment..."
-                  : `Pay $${bookingData.price}`}
+                  : `Pay ${formatPrice(
+                       bookingData.price
+                     )}`}
               </button>
             </>
           ) : (
@@ -536,7 +545,7 @@ function CheckoutPage() {
               </h1>
 
               <p className="mt-6 text-xl text-slate-500">
-                Your luxury journey has been
+                Your trip has been
                 successfully booked.
               </p>
 
@@ -717,9 +726,12 @@ function CheckoutPage() {
                   text-slate-900
                 "
               >
-                ${bookingData.price}
+                {formatPrice(bookingData.price)}
               </span>
             </div>
+            <p className="mt-2 text-right text-sm text-slate-500">
+              Taxes and fees included
+            </p>
           </div>
 
           <div

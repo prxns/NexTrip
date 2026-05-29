@@ -1,6 +1,12 @@
 import { useNavigate } from "react-router-dom";
 
-import type { Hotel } from "../../data/hotels/hotels";
+import {
+  useCurrency,
+} from "../../context/CurrencyContext";
+
+import type {
+  Hotel,
+} from "../../data/hotels/hotels";
 
 type HotelCardProps = {
   hotel: Hotel;
@@ -10,6 +16,9 @@ function HotelCard({
   hotel,
 }: HotelCardProps) {
   const navigate = useNavigate();
+
+  const { formatPrice } =
+    useCurrency();
 
   const lowestRoomPrice =
     Math.round(
@@ -242,7 +251,7 @@ function HotelCard({
                 text-slate-400
               "
             >
-              Starting From
+              Starting Price
             </p>
 
             <div className="mt-3 flex items-end gap-2">
@@ -254,7 +263,9 @@ function HotelCard({
                   text-slate-900
                 "
               >
-                ${lowestRoomPrice}
+                {formatPrice(
+                  lowestRoomPrice
+                )}
               </h3>
 
               <span
@@ -269,7 +280,7 @@ function HotelCard({
 
             <p className="mt-3 text-slate-500">
               {hotel.reviews.toLocaleString()}{" "}
-              verified reviews
+              guest reviews
             </p>
           </div>
 
@@ -306,7 +317,7 @@ function HotelCard({
               active:scale-[0.98]
             "
           >
-            Explore Hotel
+            View Details
           </button>
         </div>
       </div>

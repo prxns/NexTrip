@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import {
+  useCurrency,
+} from "../../context/CurrencyContext";
+
 import SeatSelection from "./SeatSelection";
 
 type FlightDetailsModalProps = {
@@ -44,6 +48,9 @@ function FlightDetailsModal({
   price,
 }: FlightDetailsModalProps) {
   const navigate = useNavigate();
+
+  const { formatPrice } =
+  useCurrency();
 
   const [selectedSeat, setSelectedSeat] =
     useState<string>("");
@@ -277,7 +284,7 @@ function FlightDetailsModal({
                       text-white
                     "
                   >
-                    ${price}
+                    {formatPrice(price)}
                   </h2>
                 </div>
               </div>

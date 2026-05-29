@@ -1,5 +1,9 @@
 import { useNavigate } from "react-router-dom";
 
+import {
+  useCurrency,
+} from "../../context/CurrencyContext";
+
 import type {
   HotelRoom,
 } from "../../data/hotels/hotels";
@@ -33,6 +37,9 @@ function HotelBookingCard({
   checkOut,
 }: HotelBookingCardProps) {
   const navigate = useNavigate();
+
+  const { formatPrice } =
+    useCurrency();
 
   const pricePerNight =
     Math.round(
@@ -194,7 +201,7 @@ function HotelBookingCard({
         </div>
       </div>
 
-      {/* PRICE */}
+      {/* PRICE BREAKDOWN */}
       <div className="mt-10 space-y-5">
         <div className="flex items-center justify-between">
           <p className="text-white/60">
@@ -202,7 +209,9 @@ function HotelBookingCard({
           </p>
 
           <p className="text-xl font-bold">
-            ${pricePerNight}
+            {formatPrice(
+              pricePerNight
+            )}
           </p>
         </div>
 
@@ -218,11 +227,25 @@ function HotelBookingCard({
 
         <div className="flex items-center justify-between">
           <p className="text-white/60">
+            Subtotal
+          </p>
+
+          <p className="text-xl font-bold">
+            {formatPrice(
+              subtotal
+            )}
+          </p>
+        </div>
+
+        <div className="flex items-center justify-between">
+          <p className="text-white/60">
             Taxes & Fees
           </p>
 
           <p className="text-xl font-bold">
-            ${taxes}
+            {formatPrice(
+              taxes
+            )}
           </p>
         </div>
 
@@ -232,7 +255,9 @@ function HotelBookingCard({
           </p>
 
           <p className="text-xl font-bold">
-            ${serviceFee}
+            {formatPrice(
+              serviceFee
+            )}
           </p>
         </div>
 
@@ -249,7 +274,7 @@ function HotelBookingCard({
               font-black
             "
           >
-            ${total}
+            {formatPrice(total)}
           </h4>
         </div>
       </div>

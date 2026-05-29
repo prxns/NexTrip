@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useCurrency } from "../../context/CurrencyContext";
 
 import {
   useNavigate,
@@ -7,6 +8,8 @@ import {
 
 function HotelCheckoutPage() {
   const navigate = useNavigate();
+
+  const { formatPrice } = useCurrency();
 
   const [searchParams] =
     useSearchParams();
@@ -91,7 +94,18 @@ function HotelCheckoutPage() {
       return;
     }
 
-    navigate("/booking-success");
+    navigate("/booking-success", {
+      state: {
+        hotel,
+        room,
+        city,
+        state,
+        checkIn,
+        checkOut,
+        nights,
+        total,
+      },
+    });
   };
 
   return (
@@ -150,7 +164,7 @@ function HotelCheckoutPage() {
               text-slate-500
             "
           >
-            Secure your luxury stay and
+            Secure your stay and
             receive instant confirmation.
           </p>
 
@@ -449,7 +463,7 @@ function HotelCheckoutPage() {
                 </span>
 
                 <span className="font-bold">
-                  ${price * nights}
+                  {formatPrice(price * nights)}
                 </span>
               </div>
 
@@ -459,7 +473,7 @@ function HotelCheckoutPage() {
                 </span>
 
                 <span className="font-bold">
-                  ${taxes}
+                  {formatPrice(taxes)}
                 </span>
               </div>
 
@@ -469,7 +483,7 @@ function HotelCheckoutPage() {
                 </span>
 
                 <span className="font-bold">
-                  ${serviceFee}
+                  {formatPrice(serviceFee)}
                 </span>
               </div>
 
@@ -481,7 +495,7 @@ function HotelCheckoutPage() {
                 </span>
 
                 <span className="text-5xl font-black">
-                  ${total}
+                  {formatPrice(total)}
                 </span>
               </div>
             </div>

@@ -1,4 +1,10 @@
-import type { HotelRoom } from "../../data/hotels/hotels";
+import {
+  useCurrency,
+} from "../../context/CurrencyContext";
+
+import type {
+  HotelRoom,
+} from "../../data/hotels/hotels";
 
 type RoomSelectorProps = {
   rooms: HotelRoom[];
@@ -18,11 +24,12 @@ function RoomSelector({
   rooms,
   selectedRoom,
   setSelectedRoom,
-
   basePrice,
-
   nights,
 }: RoomSelectorProps) {
+  const { formatPrice } =
+    useCurrency();
+
   return (
     <div className="mt-14">
       <h3
@@ -51,17 +58,12 @@ function RoomSelector({
               }
               className={`
                 w-full
-
                 rounded-[32px]
                 border
-
                 p-8
-
                 text-left
-
                 transition-all
                 duration-300
-
                 ${
                   selectedRoom.id ===
                   room.id
@@ -75,7 +77,6 @@ function RoomSelector({
                   flex
                   flex-col
                   gap-8
-
                   lg:flex-row
                   lg:items-center
                   lg:justify-between
@@ -99,7 +100,6 @@ function RoomSelector({
                         bg-slate-100
                         px-4
                         py-2
-
                         text-sm
                         font-semibold
                       "
@@ -113,7 +113,6 @@ function RoomSelector({
                         bg-slate-100
                         px-4
                         py-2
-
                         text-sm
                         font-semibold
                       "
@@ -127,7 +126,6 @@ function RoomSelector({
                         bg-slate-100
                         px-4
                         py-2
-
                         text-sm
                         font-semibold
                       "
@@ -150,11 +148,16 @@ function RoomSelector({
                       text-slate-900
                     "
                   >
-                    ${totalPrice}
+                    {formatPrice(
+                      totalPrice
+                    )}
                   </h4>
 
                   <p className="mt-2 text-slate-500">
-                    {nights} nights
+                    {nights}{" "}
+                    {nights === 1
+                      ? "night"
+                      : "nights"}
                   </p>
                 </div>
               </div>

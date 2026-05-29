@@ -1,5 +1,9 @@
 import { useState } from "react";
 
+import {
+  useCurrency,
+} from "../../context/CurrencyContext";
+
 import FlightDetailsModal from "./FlightDetailsModal";
 
 type FlightCardProps = {
@@ -41,6 +45,9 @@ function FlightCard({
 }: FlightCardProps) {
   const [openModal, setOpenModal] =
     useState(false);
+
+    const { formatPrice } =
+  useCurrency();
 
   return (
     <>
@@ -174,11 +181,11 @@ function FlightCard({
           {/* PRICE */}
           <div className="xl:text-right">
             <p className="text-sm font-semibold text-slate-500">
-              Starting from
+              Starting Price
             </p>
 
             <h2 className="mt-2 text-4xl font-black text-slate-900">
-              ${price}
+              {formatPrice(price)}
             </h2>
 
             <button

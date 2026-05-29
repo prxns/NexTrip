@@ -1,13 +1,16 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { useCurrency } from "../../context/CurrencyContext";
+
 import { cabTypes } from "../../data/Cabs/cabTypes";
 
 function CabsPage() {
   const navigate = useNavigate();
+  const { formatPrice } = useCurrency();
 
-  const [from, setFrom] = useState("New York");
-  const [to, setTo] = useState("JFK Airport");
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
   const [distance, setDistance] = useState(18);
   const [category, setCategory] = useState("All");
 
@@ -141,9 +144,9 @@ function CabsPage() {
 
                     <div className="mt-6 grid grid-cols-2 gap-3 text-sm text-slate-600">
                       <div className="rounded-2xl bg-slate-100 p-3">Seats: {cab.seats}</div>
-                      <div className="rounded-2xl bg-slate-100 p-3">Base: ${cab.baseFare}</div>
-                      <div className="rounded-2xl bg-slate-100 p-3">Per mile: ${cab.perMile}</div>
-                      <div className="rounded-2xl bg-slate-100 p-3">Fare: ${fare}</div>
+                      <div className="rounded-2xl bg-slate-100 p-3">Base: {formatPrice(cab.baseFare)}</div>
+                      <div className="rounded-2xl bg-slate-100 p-3">Per mile: {formatPrice(cab.perMile)}</div>
+                      <div className="rounded-2xl bg-slate-100 p-3">Fare: {formatPrice(fare)}</div>
                     </div>
 
                     <div className="mt-6 flex flex-wrap gap-2">
@@ -155,6 +158,22 @@ function CabsPage() {
                           {feature}
                         </span>
                       ))}
+                    </div>
+
+                    <div className="mt-6 flex items-end justify-between">
+                      <div>
+                        <p className="text-sm text-slate-400">
+                          Estimated Trip Cost
+                        </p>
+
+                        <h4 className="text-4xl font-black text-slate-900">
+                          {formatPrice(fare)}
+                        </h4>
+
+                        <p className="text-sm text-slate-400">
+                          Based on {distance} miles
+                        </p>
+                      </div>
                     </div>
 
                     <button

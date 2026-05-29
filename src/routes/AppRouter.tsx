@@ -29,6 +29,10 @@ import CarRentalCheckoutPage from "../pages/CarRentals/CarRentalCheckoutPage";
 
 import CabsPage from "../pages/Cabs/CabsPage";
 import CabBookingPage from "../pages/Cabs/CabBookingPage";
+
+import ScrollToTop from "../components/ScrollToTop";
+
+import ComingSoonPage from "../pages/ComingSoonPage";
 /**
  * Central application routing system.
  * All major pages are registered here.
@@ -36,6 +40,7 @@ import CabBookingPage from "../pages/Cabs/CabBookingPage";
 function AppRouter() {
   return (
     <BrowserRouter>
+    <ScrollToTop />
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
@@ -59,6 +64,25 @@ function AppRouter() {
           <Route path="/cabs" element={<CabsPage />} />
           <Route path="/cab-booking" element={<CabBookingPage />} />
           <Route path="/cars" element={<Navigate to="/car-rentals" replace />} />
+          <Route
+  path="/villas"
+  element={
+    <ComingSoonPage
+      title="Luxury Villas"
+      description="Browse premium villas, beachfront properties, and exclusive vacation homes."
+    />
+  }
+/>
+
+<Route
+  path="/tours"
+  element={
+    <ComingSoonPage
+      title="Tours & Experiences"
+      description="Discover curated tours, local attractions, and unforgettable experiences."
+    />
+  }
+/>
         </Route>
       </Routes>
     </BrowserRouter>

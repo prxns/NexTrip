@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 
 import Container from "../common/Container";
 
+import CurrencySelector from "../common/CurrencySelector";
+
 const navLinks = [
   { label: "Flights", path: "/flights" },
   { label: "Hotels", path: "/hotels" },
@@ -42,6 +44,8 @@ function Navbar() {
             ))}
           </nav>
 
+          <div className="flex items-center gap-4">
+          <CurrencySelector />
           <button
             className="
               rounded-full
@@ -60,6 +64,7 @@ function Navbar() {
           >
             Sign In
           </button>
+        </div>
         </div>
       </Container>
     </header>

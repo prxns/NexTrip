@@ -1,8 +1,14 @@
 import { useState } from "react";
+
+import { useCurrency } from "../../context/CurrencyContext";
+
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 function CarRentalCheckoutPage() {
   const navigate = useNavigate();
+
+  const { formatPrice } = useCurrency();
+
   const [searchParams] = useSearchParams();
 
   const car = searchParams.get("car") || "Rental Car";
@@ -150,21 +156,24 @@ function CarRentalCheckoutPage() {
               <div className="h-px bg-white/10" />
               <div className="flex items-center justify-between">
                 <span className="text-white/60">Rental Price</span>
-                <span className="font-bold">${price * days}</span>
+                <span className="font-bold">{formatPrice(price * days)}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-white/60">Taxes</span>
-                <span className="font-bold">${taxes}</span>
+                <span className="font-bold">{formatPrice(taxes)}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-white/60">Service Fee</span>
-                <span className="font-bold">${serviceFee}</span>
+                <span className="font-bold">{formatPrice(serviceFee)}</span>
               </div>
               <div className="h-px bg-white/10" />
               <div className="flex items-center justify-between">
                 <span className="text-2xl font-bold">Total</span>
-                <span className="text-5xl font-black">${total || price * days + taxes + serviceFee}</span>
+                <span className="text-5xl font-black">{formatPrice(total || price * days + taxes + serviceFee)}</span>
               </div>
+              <p className="mt-2 text-right text-sm text-white/50">
+                Taxes and fees are included in the total price.
+              </p>
             </div>
           </div>
         </div>

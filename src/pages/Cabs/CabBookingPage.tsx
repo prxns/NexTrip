@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useCurrency } from "../../context/CurrencyContext";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 function CabBookingPage() {
   const navigate = useNavigate();
+  const { formatPrice } = useCurrency();
   const [searchParams] = useSearchParams();
 
   const ride = searchParams.get("ride") || "Cab Ride";
@@ -24,12 +26,27 @@ function CabBookingPage() {
   const [expiry, setExpiry] = useState("");
   const [cvv, setCvv] = useState("");
 
+  const bookingReference =
+    "CAB-" +
+    Math.random()
+      .toString(36)
+      .substring(2, 8)
+      .toUpperCase();
+
   const confirmRide = () => {
     if (!fullName || !phone || !cardNumber || !cardName || !expiry || !cvv) {
       alert("Please complete all payment details.");
       return;
     }
-    navigate("/booking-success");
+    navigate("/booking-success", {
+      state: {
+        ride,
+        from,
+        to,
+        total,
+        bookingReference,
+      },
+    });
   };
 
   return (
@@ -109,6 +126,16 @@ function CabBookingPage() {
             </div>
           </div>
 
+          <div className="mt-12 rounded-3xl border border-green-200 bg-green-50 p-6">
+            <h3 className="font-bold text-green-800">
+              ✓ Secure encrypted payment
+            </h3>
+
+            <p className="mt-2 text-sm text-green-700">
+              Your payment is protected using enterprise-grade encryption.
+            </p>
+          </div>
+
           <button
             onClick={confirmRide}
             className="mt-16 h-20 w-full rounded-[24px] bg-gradient-to-r from-[#2563EB] to-[#14B8A6] text-2xl font-black text-white shadow-2xl transition-all duration-300 hover:scale-[1.01]"
@@ -126,6 +153,9 @@ function CabBookingPage() {
             <h2 className="mt-6 text-5xl font-black leading-tight">
               {ride}
             </h2>
+            <p className="mt-3 text-sm text-white/50">
+              Reference: {bookingReference}
+            </p>
 
             <div className="mt-10 space-y-5">
               <div className="flex justify-between">
@@ -147,21 +177,24 @@ function CabBookingPage() {
               <div className="h-px bg-white/10" />
               <div className="flex justify-between">
                 <span className="text-white/60">Fare</span>
-                <span className="font-bold">${fare}</span>
+                <span className="font-bold">{formatPrice(fare)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-white/60">Taxes</span>
-                <span className="font-bold">${taxes}</span>
+                <span className="font-bold">{formatPrice(taxes)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-white/60">Service Fee</span>
-                <span className="font-bold">${serviceFee}</span>
+                <span className="font-bold">{formatPrice(serviceFee)}</span>
               </div>
               <div className="h-px bg-white/10" />
               <div className="flex justify-between">
                 <span className="text-2xl font-bold">Total</span>
-                <span className="text-5xl font-black">${total}</span>
+                <span className="text-5xl font-black">{formatPrice(total)}</span>
               </div>
+              <p className="mt-2 text-right text-sm text-white/50">
+                Taxes and fees included
+              </p>
             </div>
           </div>
         </div>

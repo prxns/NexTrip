@@ -1,19 +1,22 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { useCurrency } from "../../context/CurrencyContext";
+
 import { rentalCars } from "../../data/Cars/carRentals";
 
 function CarRentalsPage() {
   const navigate = useNavigate();
+  const { formatPrice } = useCurrency();
 
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
   const [transmission, setTransmission] = useState("All");
   const [maxPrice, setMaxPrice] = useState(400);
-  const [pickupLocation, setPickupLocation] = useState("New York");
+  const [pickupLocation, setPickupLocation] = useState("");
   const [pickupDate, setPickupDate] = useState("");
   const [returnDate, setReturnDate] = useState("");
-  const [driverAge, setDriverAge] = useState("30");
+  const [driverAge, setDriverAge] = useState("");
 
   const rentalDays = useMemo(() => {
     if (!pickupDate || !returnDate) return 1;
@@ -115,9 +118,12 @@ function CarRentalsPage() {
               onChange={(e) => setDriverAge(e.target.value)}
               className="h-16 rounded-2xl border border-slate-200 bg-white px-5 text-lg font-semibold text-slate-900 outline-none focus:border-[#2563EB] focus:ring-4 focus:ring-blue-100"
             >
+              <option value="">
+                Driver's Age
+              </option>
               {Array.from({ length: 43 }, (_, i) => i + 18).map((age) => (
                 <option key={age} value={age}>
-                  Driver age {age}
+                  {age}
                 </option>
               ))}
             </select>
@@ -185,7 +191,7 @@ function CarRentalsPage() {
                     Max Price / Day
                   </p>
                   <div className="mt-3 flex items-center justify-between">
-                    <span className="font-black text-slate-900">${maxPrice}</span>
+                    <span className="font-black text-slate-900">{formatPrice(maxPrice)}</span>
                     <span className="text-sm text-slate-500">/ day</span>
                   </div>
                   <input
@@ -289,9 +295,9 @@ function CarRentalsPage() {
                       <div>
                         <p className="text-sm text-slate-400">Starting from</p>
                         <h4 className="text-4xl font-black text-slate-900">
-                          ${car.pricePerDay}
+                          {formatPrice(car.pricePerDay)}
                         </h4>
-                        <p className="text-sm text-slate-400">per day</p>
+                        <p className="text-sm text-slate-400">per day • taxes excluded</p>
                       </div>
 
                       <button

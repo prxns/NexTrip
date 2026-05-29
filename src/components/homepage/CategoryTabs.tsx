@@ -2,58 +2,63 @@ import {
   Plane,
   Hotel,
   Building2,
+  CarFront,
   Car,
-  Bus,
-  Train,
   Map,
-} from 'lucide-react';
+} from "lucide-react";
 
-const categories = [
-  {
-    icon: Plane,
-    label: 'Flights',
-  },
-  {
-    icon: Hotel,
-    label: 'Hotels',
-  },
-  {
-    icon: Building2,
-    label: 'Villas',
-  },
-  {
-    icon: Car,
-    label: 'Cars',
-  },
-  {
-    icon: Bus,
-    label: 'Buses',
-  },
-  {
-    icon: Train,
-    label: 'Trains',
-  },
-  {
-    icon: Map,
-    label: 'Tours',
-  },
-];
+import { useNavigate } from "react-router-dom";
 
-/**
- * Homepage booking category selector.
- */
 function CategoryTabs() {
+  const navigate = useNavigate();
+
+  const categories = [
+    {
+      label: "Flights",
+      icon: Plane,
+      path: "/flights",
+    },
+    {
+      label: "Hotels",
+      icon: Hotel,
+      path: "/hotels",
+    },
+    {
+      label: "Villas",
+      icon: Building2,
+      path: "/villas",
+    },
+    {
+      label: "Car Rentals",
+      icon: Car,
+      path: "/car-rentals",
+    },
+    {
+      label: "Cabs",
+      icon: CarFront,
+      path: "/cabs",
+    },
+    {
+      label: "Tours",
+      icon: Map,
+      path: "/tours",
+    },
+  ];
+
   return (
     <div
       className="
-        bg-white
-        rounded-3xl
-        shadow-xl
-        p-4
-        inline-flex
+        flex
         flex-wrap
-        justify-center
-        gap-3
+        items-center
+        gap-4
+
+        rounded-[32px]
+        bg-white/95
+        p-4
+
+        shadow-2xl
+        backdrop-blur-xl
       "
     >
       {categories.map((category) => {
@@ -62,24 +67,35 @@ function CategoryTabs() {
         return (
           <button
             key={category.label}
+            onClick={() => navigate(category.path)}
             className="
               flex
               items-center
-              gap-2
-              px-5
-              py-3
+              gap-3
+
               rounded-2xl
-              text-sm
-              font-semibold
-              transition-all
               bg-slate-100
-              hover:bg-[#2563EB]
+
+              px-6
+              py-4
+
+              font-semibold
+              text-slate-700
+
+              transition-all
+              duration-300
+
+              hover:-translate-y-1
+              hover:bg-gradient-to-r
+              hover:from-[#2563EB]
+              hover:to-[#14B8A6]
               hover:text-white
+              hover:shadow-xl
             "
           >
-            <Icon size={18} />
+            <Icon size={20} />
 
-            {category.label}
+            <span>{category.label}</span>
           </button>
         );
       })}
