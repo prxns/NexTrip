@@ -10,7 +10,7 @@ function HomePage() {
       <section
         className="
           relative
-          min-h-[920px]
+          min-h-[1050px]
           overflow-visible
         "
       >
