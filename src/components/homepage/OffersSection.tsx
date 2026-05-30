@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, BadgePercent, Sparkles } from "lucide-react";
 import Container from "../common/Container";
+import { useNavigate } from "react-router-dom";
 
 type OfferTab =
   | "All Offers"
@@ -187,6 +188,8 @@ const offers: OfferItem[] = [
 ];
 
 function OffersSection() {
+  const navigate = useNavigate();
+
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState<OfferTab>("All Offers");
 
@@ -373,7 +376,14 @@ function OffersSection() {
 
                     <button
                       type="button"
-                      className="text-sm font-bold text-[#0A84FF] transition-colors hover:text-[#2563EB]"
+                      onClick={() => navigate(`/offers/${offer.id}`)}
+                      className="
+                      text-sm 
+                      font-bold 
+                      text-[#0A84FF] 
+                      transition-colors 
+                      hover:text-[#2563EB]
+                      "
                     >
                       {offer.cta}
                     </button>

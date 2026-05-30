@@ -35,6 +35,7 @@ import CabBookingPage from "../pages/Cabs/CabBookingPage";
 
 import ComingSoonPage from "../pages/ComingSoonPage";
 import ScrollToTop from "../components/ScrollToTop";
+import OfferDetailsPage from "../pages/Offers/OfferDetailsPage";
 
 /**
  * Central application routing system.
@@ -113,6 +114,11 @@ function AppRouter() {
                 description="Browse premium villas, beachfront properties, and exclusive vacation homes."
               />
             }
+          />
+
+          <Route
+            path="/offers/:offerId"
+            element={<OfferDetailsPage />}
           />
 
           <Route
