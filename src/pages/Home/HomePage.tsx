@@ -1,6 +1,7 @@
 import PopularDestinations from "../../components/homepage/PopularDestinations";
 import Container from "../../components/common/Container";
 import BookingSearch from "../../components/homepage/BookingSearch";
+import OffersSection from "../../components/homepage/OffersSection";
 
 function HomePage() {
   return (
@@ -76,51 +77,7 @@ function HomePage() {
       <PopularDestinations />
 
       {/* PROMO SECTION */}
-      <section className="pb-20">
-        <Container>
-          <div
-            className="
-              overflow-hidden
-              rounded-[40px]
-              bg-gradient-to-r
-              from-[#2563EB]
-              to-[#14B8A6]
-              p-16
-              text-white
-              shadow-2xl
-            "
-          >
-            <div className="max-w-3xl">
-              <h2 className="text-6xl font-black leading-tight">
-                Save up to 40% on luxury stays and flights across the United States.
-              </h2>
-
-              <p className="mt-6 text-xl leading-9 text-white/80">
-                Premium travel deals, curated experiences,
-                and unforgettable destinations.
-              </p>
-
-              <button
-                className="
-                  mt-10
-                  rounded-2xl
-                  bg-white
-                  px-8
-                  py-4
-                  text-lg
-                  font-bold
-                  text-slate-900
-                  transition-all
-                  duration-300
-                  hover:scale-105
-                "
-              >
-                Explore Deals
-              </button>
-            </div>
-          </div>
-        </Container>
-      </section>
+      <OffersSection />
     </div>
   );
 }
