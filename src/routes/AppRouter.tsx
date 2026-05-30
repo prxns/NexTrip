@@ -37,6 +37,8 @@ import ComingSoonPage from "../pages/ComingSoonPage";
 import ScrollToTop from "../components/ScrollToTop";
 import OfferDetailsPage from "../pages/Offers/OfferDetailsPage";
 
+import DestinationPage from "../pages/Destinations/DestinationPage";
+
 /**
  * Central application routing system.
  * All major pages are registered here.
@@ -129,6 +131,11 @@ function AppRouter() {
                 description="Discover curated tours, local attractions, and unforgettable experiences."
               />
             }
+          />
+
+          <Route
+            path="/destinations/:slug"
+            element={<DestinationPage />}
           />
         </Route>
       </Routes>

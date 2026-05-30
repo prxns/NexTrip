@@ -1,5 +1,6 @@
 import Container from "../common/Container";
 import { popularDestinations } from "../../data/destinations/popularDestinations";
+import { Link } from "react-router-dom";
 
 function PopularDestinations() {
   return (
@@ -19,8 +20,9 @@ function PopularDestinations() {
 
         <div className="flex gap-8 overflow-x-auto overflow-y-hidden pb-6 pr-1">
           {popularDestinations.map((destination) => (
-            <div
+            <Link
               key={destination.id}
+              to={`/destinations/${destination.id}`}
               className="
                 group
                 relative
@@ -66,7 +68,7 @@ function PopularDestinations() {
                   {destination.properties}+ properties
                 </p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </Container>
