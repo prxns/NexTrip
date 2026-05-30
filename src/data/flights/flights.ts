@@ -1,111 +1,578 @@
-export const flights = [
+export type FlightCabin =
+  | "Economy"
+  | "Premium Economy"
+  | "Business"
+  | "First";
+
+export type Flight = {
+  id: number;
+  airline: string;
+  airlineCode: string;
+  airlineLogo: string;
+  from: string;
+  fromCity: string;
+  to: string;
+  toCity: string;
+  departureTime: string;
+  arrivalTime: string;
+  duration: number;
+  stops: number;
+  price: number;
+  availableCabins: FlightCabin[];
+  availableSeats: Record<FlightCabin, number>;
+};
+
+const makeSeats = (
+  economy: number,
+  premiumEconomy: number,
+  business: number,
+  first: number
+): Record<FlightCabin, number> => ({
+  Economy: economy,
+  "Premium Economy": premiumEconomy,
+  Business: business,
+  First: first,
+});
+
+export const flights: Flight[] = [
   {
     id: 1,
-
     airline: "Delta Airlines",
     airlineCode: "DL",
-
     airlineLogo:
       "https://news.delta.com/sites/default/files/styles/article_width_full_no_jpg/public/2021-11/delta_c_r.png?itok=Stiq9R5N",
-
     from: "JFK",
+    fromCity: "New York",
     to: "LAX",
-
+    toCity: "Los Angeles",
     departureTime: "08:30",
     arrivalTime: "11:45",
-
     duration: 375,
-
     stops: 0,
-
     price: 349,
+    availableCabins: ["Economy", "Premium Economy", "Business"],
+    availableSeats: makeSeats(34, 10, 6, 0),
   },
-
   {
     id: 2,
-
     airline: "United Airlines",
     airlineCode: "UA",
-
     airlineLogo:
       "https://1000logos.net/wp-content/uploads/2017/06/United-Airlines-Logo.png",
-
     from: "JFK",
+    fromCity: "New York",
     to: "LAX",
-
+    toCity: "Los Angeles",
     departureTime: "10:15",
     arrivalTime: "14:05",
-
     duration: 410,
-
     stops: 1,
-
     price: 289,
+    availableCabins: ["Economy", "Premium Economy"],
+    availableSeats: makeSeats(28, 8, 0, 0),
   },
-
   {
     id: 3,
-
     airline: "American Airlines",
     airlineCode: "AA",
-
     airlineLogo:
-      "https://s202.q4cdn.com/986123435/files/doc_downloads/logos/american-airlines/THUMB-aa_aa__ahz_rgb_grd_rev.png",
-
+      "https://www.logo.wine/a/logo/American_Airlines/American_Airlines-Logo.wine.svg",
     from: "JFK",
+    fromCity: "New York",
     to: "LAX",
-
+    toCity: "Los Angeles",
     departureTime: "13:20",
     arrivalTime: "17:10",
-
     duration: 410,
-
     stops: 0,
-
     price: 410,
+    availableCabins: ["Economy", "Premium Economy", "Business", "First"],
+    availableSeats: makeSeats(40, 12, 6, 2),
   },
-
   {
     id: 4,
-
     airline: "JetBlue",
     airlineCode: "B6",
-
     airlineLogo:
       "https://s202.q4cdn.com/521076508/files/doc_downloads/logos/JetBlue-Logo_Blue.png",
-
     from: "JFK",
+    fromCity: "New York",
     to: "LAX",
-
+    toCity: "Los Angeles",
     departureTime: "16:45",
     arrivalTime: "20:35",
-
     duration: 410,
-
     stops: 1,
-
     price: 265,
+    availableCabins: ["Economy", "Premium Economy"],
+    availableSeats: makeSeats(32, 12, 0, 0),
   },
-
   {
     id: 5,
-
     airline: "Alaska Airlines",
     airlineCode: "AS",
-
     airlineLogo:
       "https://1000logos.net/wp-content/uploads/2023/05/Alaska-Airlines-Logo.png",
-
-    from: "JFK",
+    from: "LGA",
+    fromCity: "New York",
     to: "LAX",
-
+    toCity: "Los Angeles",
     departureTime: "18:10",
-    arrivalTime: "22:00",
-
-    duration: 390,
-
+    arrivalTime: "21:35",
+    duration: 385,
     stops: 0,
-
-    price: 520,
+    price: 375,
+    availableCabins: ["Economy", "Premium Economy", "Business"],
+    availableSeats: makeSeats(26, 8, 4, 0),
+  },
+  {
+    id: 6,
+    airline: "United Airlines",
+    airlineCode: "UA",
+    airlineLogo:
+      "https://1000logos.net/wp-content/uploads/2017/06/United-Airlines-Logo.png",
+    from: "EWR",
+    fromCity: "Newark",
+    to: "LAX",
+    toCity: "Los Angeles",
+    departureTime: "07:20",
+    arrivalTime: "10:45",
+    duration: 385,
+    stops: 0,
+    price: 332,
+    availableCabins: ["Economy", "Premium Economy", "Business"],
+    availableSeats: makeSeats(30, 10, 4, 0),
+  },
+  {
+    id: 7,
+    airline: "Alaska Airlines",
+    airlineCode: "AS",
+    airlineLogo:
+      "https://1000logos.net/wp-content/uploads/2023/05/Alaska-Airlines-Logo.png",
+    from: "JFK",
+    fromCity: "New York",
+    to: "BUR",
+    toCity: "Burbank",
+    departureTime: "06:55",
+    arrivalTime: "10:15",
+    duration: 380,
+    stops: 1,
+    price: 304,
+    availableCabins: ["Economy", "Premium Economy"],
+    availableSeats: makeSeats(28, 10, 0, 0),
+  },
+  {
+    id: 8,
+    airline: "United Airlines",
+    airlineCode: "UA",
+    airlineLogo:
+      "https://1000logos.net/wp-content/uploads/2017/06/United-Airlines-Logo.png",
+    from: "LGA",
+    fromCity: "New York",
+    to: "EWR",
+    toCity: "Newark",
+    departureTime: "09:05",
+    arrivalTime: "09:50",
+    duration: 45,
+    stops: 0,
+    price: 89,
+    availableCabins: ["Economy", "Premium Economy"],
+    availableSeats: makeSeats(24, 8, 0, 0),
+  },
+  {
+    id: 9,
+    airline: "JetBlue",
+    airlineCode: "B6",
+    airlineLogo:
+      "https://s202.q4cdn.com/521076508/files/doc_downloads/logos/JetBlue-Logo_Blue.png",
+    from: "EWR",
+    fromCity: "Newark",
+    to: "JFK",
+    toCity: "New York",
+    departureTime: "11:15",
+    arrivalTime: "12:05",
+    duration: 50,
+    stops: 0,
+    price: 94,
+    availableCabins: ["Economy", "Premium Economy"],
+    availableSeats: makeSeats(24, 8, 0, 0),
+  },
+  {
+    id: 10,
+    airline: "Southwest Airlines",
+    airlineCode: "WN",
+    airlineLogo:
+      "https://www.logo.wine/a/logo/Southwest_Airlines/Southwest_Airlines-Logo.wine.svg",
+    from: "BOS",
+    fromCity: "Boston",
+    to: "SFO",
+    toCity: "San Francisco",
+    departureTime: "07:05",
+    arrivalTime: "10:25",
+    duration: 380,
+    stops: 1,
+    price: 318,
+    availableCabins: ["Economy", "Premium Economy"],
+    availableSeats: makeSeats(30, 10, 0, 0),
+  },
+  {
+    id: 11,
+    airline: "Delta Airlines",
+    airlineCode: "DL",
+    airlineLogo:
+      "https://news.delta.com/sites/default/files/styles/article_width_full_no_jpg/public/2021-11/delta_c_r.png?itok=Stiq9R5N",
+    from: "BOS",
+    fromCity: "Boston",
+    to: "SFO",
+    toCity: "San Francisco",
+    departureTime: "12:40",
+    arrivalTime: "16:05",
+    duration: 385,
+    stops: 0,
+    price: 455,
+    availableCabins: ["Economy", "Premium Economy", "Business"],
+    availableSeats: makeSeats(34, 10, 4, 0),
+  },
+  {
+    id: 12,
+    airline: "American Airlines",
+    airlineCode: "AA",
+    airlineLogo:
+      "https://www.logo.wine/a/logo/American_Airlines/American_Airlines-Logo.wine.svg",
+    from: "BOS",
+    fromCity: "Boston",
+    to: "LAX",
+    toCity: "Los Angeles",
+    departureTime: "15:30",
+    arrivalTime: "20:20",
+    duration: 350,
+    stops: 0,
+    price: 428,
+    availableCabins: ["Economy", "Premium Economy", "Business"],
+    availableSeats: makeSeats(32, 10, 4, 0),
+  },
+  {
+    id: 13,
+    airline: "American Airlines",
+    airlineCode: "AA",
+    airlineLogo:
+      "https://www.logo.wine/a/logo/American_Airlines/American_Airlines-Logo.wine.svg",
+    from: "MIA",
+    fromCity: "Miami",
+    to: "ORD",
+    toCity: "Chicago",
+    departureTime: "09:25",
+    arrivalTime: "11:40",
+    duration: 195,
+    stops: 0,
+    price: 220,
+    availableCabins: ["Economy", "Premium Economy", "Business"],
+    availableSeats: makeSeats(36, 8, 4, 0),
+  },
+  {
+    id: 14,
+    airline: "JetBlue",
+    airlineCode: "B6",
+    airlineLogo:
+      "https://s202.q4cdn.com/521076508/files/doc_downloads/logos/JetBlue-Logo_Blue.png",
+    from: "SEA",
+    fromCity: "Seattle",
+    to: "ATL",
+    toCity: "Atlanta",
+    departureTime: "11:10",
+    arrivalTime: "17:25",
+    duration: 375,
+    stops: 1,
+    price: 340,
+    availableCabins: ["Economy", "Premium Economy"],
+    availableSeats: makeSeats(28, 10, 0, 0),
+  },
+  {
+    id: 15,
+    airline: "United Airlines",
+    airlineCode: "UA",
+    airlineLogo:
+      "https://1000logos.net/wp-content/uploads/2017/06/United-Airlines-Logo.png",
+    from: "DFW",
+    fromCity: "Dallas",
+    to: "LAS",
+    toCity: "Las Vegas",
+    departureTime: "14:50",
+    arrivalTime: "15:55",
+    duration: 125,
+    stops: 0,
+    price: 175,
+    availableCabins: ["Economy", "Premium Economy"],
+    availableSeats: makeSeats(38, 10, 0, 0),
+  },
+  {
+    id: 16,
+    airline: "Alaska Airlines",
+    airlineCode: "AS",
+    airlineLogo:
+      "https://1000logos.net/wp-content/uploads/2023/05/Alaska-Airlines-Logo.png",
+    from: "LAX",
+    fromCity: "Los Angeles",
+    to: "JFK",
+    toCity: "New York",
+    departureTime: "06:55",
+    arrivalTime: "15:10",
+    duration: 315,
+    stops: 0,
+    price: 399,
+    availableCabins: ["Economy", "Premium Economy", "Business", "First"],
+    availableSeats: makeSeats(36, 12, 6, 2),
+  },
+  {
+    id: 17,
+    airline: "Delta Airlines",
+    airlineCode: "DL",
+    airlineLogo:
+      "https://news.delta.com/sites/default/files/styles/article_width_full_no_jpg/public/2021-11/delta_c_r.png?itok=Stiq9R5N",
+    from: "SFO",
+    fromCity: "San Francisco",
+    to: "SEA",
+    toCity: "Seattle",
+    departureTime: "09:15",
+    arrivalTime: "11:10",
+    duration: 115,
+    stops: 0,
+    price: 182,
+    availableCabins: ["Economy", "Premium Economy", "Business"],
+    availableSeats: makeSeats(28, 10, 4, 0),
+  },
+  {
+    id: 18,
+    airline: "Southwest Airlines",
+    airlineCode: "WN",
+    airlineLogo:
+      "https://www.logo.wine/a/logo/Southwest_Airlines/Southwest_Airlines-Logo.wine.svg",
+    from: "ATL",
+    fromCity: "Atlanta",
+    to: "BOS",
+    toCity: "Boston",
+    departureTime: "17:30",
+    arrivalTime: "19:50",
+    duration: 200,
+    stops: 1,
+    price: 248,
+    availableCabins: ["Economy", "Premium Economy"],
+    availableSeats: makeSeats(26, 8, 0, 0),
+  },
+  {
+    id: 19,
+    airline: "American Airlines",
+    airlineCode: "AA",
+    airlineLogo:
+      "https://www.logo.wine/a/logo/American_Airlines/American_Airlines-Logo.wine.svg",
+    from: "DEN",
+    fromCity: "Denver",
+    to: "MCO",
+    toCity: "Orlando",
+    departureTime: "08:05",
+    arrivalTime: "12:30",
+    duration: 265,
+    stops: 0,
+    price: 235,
+    availableCabins: ["Economy", "Premium Economy", "Business"],
+    availableSeats: makeSeats(34, 10, 4, 0),
+  },
+  {
+    id: 20,
+    airline: "JetBlue",
+    airlineCode: "B6",
+    airlineLogo:
+      "https://s202.q4cdn.com/521076508/files/doc_downloads/logos/JetBlue-Logo_Blue.png",
+    from: "MCO",
+    fromCity: "Orlando",
+    to: "MIA",
+    toCity: "Miami",
+    departureTime: "19:15",
+    arrivalTime: "20:20",
+    duration: 65,
+    stops: 0,
+    price: 119,
+    availableCabins: ["Economy", "Premium Economy"],
+    availableSeats: makeSeats(40, 12, 0, 0),
+  },
+  {
+    id: 21,
+    airline: "Delta Airlines",
+    airlineCode: "DL",
+    airlineLogo:
+      "https://news.delta.com/sites/default/files/styles/article_width_full_no_jpg/public/2021-11/delta_c_r.png?itok=Stiq9R5N",
+    from: "LAS",
+    fromCity: "Las Vegas",
+    to: "DFW",
+    toCity: "Dallas",
+    departureTime: "13:45",
+    arrivalTime: "18:55",
+    duration: 125,
+    stops: 0,
+    price: 210,
+    availableCabins: ["Economy", "Premium Economy", "Business", "First"],
+    availableSeats: makeSeats(24, 8, 4, 2),
+  },
+  {
+    id: 22,
+    airline: "United Airlines",
+    airlineCode: "UA",
+    airlineLogo:
+      "https://1000logos.net/wp-content/uploads/2017/06/United-Airlines-Logo.png",
+    from: "LGA",
+    fromCity: "New York",
+    to: "ORD",
+    toCity: "Chicago",
+    departureTime: "07:45",
+    arrivalTime: "09:35",
+    duration: 110,
+    stops: 0,
+    price: 189,
+    availableCabins: ["Economy", "Premium Economy", "Business"],
+    availableSeats: makeSeats(30, 8, 4, 0),
+  },
+  {
+    id: 23,
+    airline: "United Airlines",
+    airlineCode: "UA",
+    airlineLogo:
+      "https://1000logos.net/wp-content/uploads/2017/06/United-Airlines-Logo.png",
+    from: "EWR",
+    fromCity: "Newark",
+    to: "SFO",
+    toCity: "San Francisco",
+    departureTime: "14:10",
+    arrivalTime: "17:35",
+    duration: 385,
+    stops: 0,
+    price: 335,
+    availableCabins: ["Economy", "Premium Economy", "Business"],
+    availableSeats: makeSeats(28, 8, 4, 0),
+  },
+  {
+    id: 24,
+    airline: "Southwest Airlines",
+    airlineCode: "WN",
+    airlineLogo:
+      "https://www.logo.wine/a/logo/Southwest_Airlines/Southwest_Airlines-Logo.wine.svg",
+    from: "BUR",
+    fromCity: "Burbank",
+    to: "SEA",
+    toCity: "Seattle",
+    departureTime: "12:20",
+    arrivalTime: "15:15",
+    duration: 175,
+    stops: 0,
+    price: 214,
+    availableCabins: ["Economy", "Premium Economy"],
+    availableSeats: makeSeats(28, 10, 0, 0),
+  },
+  {
+    id: 25,
+    airline: "Alaska Airlines",
+    airlineCode: "AS",
+    airlineLogo:
+      "https://1000logos.net/wp-content/uploads/2023/05/Alaska-Airlines-Logo.png",
+    from: "SJC",
+    fromCity: "San Jose",
+    to: "LAX",
+    toCity: "Los Angeles",
+    departureTime: "10:05",
+    arrivalTime: "11:25",
+    duration: 80,
+    stops: 0,
+    price: 149,
+    availableCabins: ["Economy", "Premium Economy", "Business"],
+    availableSeats: makeSeats(30, 8, 4, 0),
+  },
+  {
+    id: 26,
+    airline: "American Airlines",
+    airlineCode: "AA",
+    airlineLogo:
+      "https://www.logo.wine/a/logo/American_Airlines/American_Airlines-Logo.wine.svg",
+    from: "ORD",
+    fromCity: "Chicago",
+    to: "MIA",
+    toCity: "Miami",
+    departureTime: "16:30",
+    arrivalTime: "20:15",
+    duration: 225,
+    stops: 0,
+    price: 244,
+    availableCabins: ["Economy", "Premium Economy", "Business"],
+    availableSeats: makeSeats(34, 10, 4, 0),
+  },
+  {
+    id: 27,
+    airline: "American Airlines",
+    airlineCode: "AA",
+    airlineLogo:
+      "https://www.logo.wine/a/logo/American_Airlines/American_Airlines-Logo.wine.svg",
+    from: "CLT",
+    fromCity: "Charlotte",
+    to: "DCA",
+    toCity: "Washington",
+    departureTime: "09:40",
+    arrivalTime: "11:05",
+    duration: 85,
+    stops: 0,
+    price: 168,
+    availableCabins: ["Economy", "Premium Economy", "Business"],
+    availableSeats: makeSeats(32, 8, 4, 0),
+  },
+  {
+    id: 28,
+    airline: "United Airlines",
+    airlineCode: "UA",
+    airlineLogo:
+      "https://1000logos.net/wp-content/uploads/2017/06/United-Airlines-Logo.png",
+    from: "DCA",
+    fromCity: "Washington",
+    to: "IAD",
+    toCity: "Washington",
+    departureTime: "13:00",
+    arrivalTime: "13:40",
+    duration: 40,
+    stops: 0,
+    price: 95,
+    availableCabins: ["Economy", "Premium Economy"],
+    availableSeats: makeSeats(24, 8, 0, 0),
+  },
+  {
+    id: 29,
+    airline: "Alaska Airlines",
+    airlineCode: "AS",
+    airlineLogo:
+      "https://1000logos.net/wp-content/uploads/2023/05/Alaska-Airlines-Logo.png",
+    from: "PDX",
+    fromCity: "Portland",
+    to: "SLC",
+    toCity: "Salt Lake City",
+    departureTime: "08:25",
+    arrivalTime: "10:35",
+    duration: 130,
+    stops: 0,
+    price: 176,
+    availableCabins: ["Economy", "Premium Economy", "Business"],
+    availableSeats: makeSeats(30, 8, 4, 0),
+  },
+  {
+    id: 30,
+    airline: "Southwest Airlines",
+    airlineCode: "WN",
+    airlineLogo:
+      "https://www.logo.wine/a/logo/Southwest_Airlines/Southwest_Airlines-Logo.wine.svg",
+    from: "AUS",
+    fromCity: "Austin",
+    to: "DEN",
+    toCity: "Denver",
+    departureTime: "18:05",
+    arrivalTime: "19:40",
+    duration: 155,
+    stops: 0,
+    price: 199,
+    availableCabins: ["Economy", "Premium Economy"],
+    availableSeats: makeSeats(26, 10, 0, 0),
   },
 ];
