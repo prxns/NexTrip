@@ -45,7 +45,19 @@ function CurrencySelector() {
         "
       >
         <span className="text-lg">
-          {currency.flag}
+          <img
+            src={currency.flag}
+            alt={currency.code}
+            className="
+              h-7
+              w-7
+              rounded-full
+              object-cover
+              shadow-sm
+              border
+            border-slate-200
+          "
+        />
         </span>
 
         <span>
@@ -101,7 +113,16 @@ function CurrencySelector() {
               "
             >
               <span className="text-2xl">
-                {item.flag}
+                <img
+                  src={item.flag}
+                  alt={item.code}
+                  className="
+                    h-6
+                    w-6
+                    rounded-full
+                    object-cover
+                  "
+                />
               </span>
 
               <div>

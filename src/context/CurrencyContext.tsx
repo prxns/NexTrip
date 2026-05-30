@@ -4,7 +4,7 @@ import {
   useEffect,
   useMemo,
   useState,
-  ReactNode,
+  type ReactNode,
 } from "react";
 
 type CurrencyCode =
@@ -37,55 +37,55 @@ const currencies: Currency[] = [
   {
     code: "USD",
     symbol: "$",
-    flag: "🇺🇸",
+    flag: "https://flagcdn.com/w80/us.png",
     label: "US Dollar",
   },
   {
     code: "INR",
     symbol: "₹",
-    flag: "🇮🇳",
+    flag: "https://flagcdn.com/w80/in.png",
     label: "Indian Rupee",
   },
   {
     code: "EUR",
     symbol: "€",
-    flag: "🇪🇺",
+    flag: "https://flagcdn.com/w80/eu.png",
     label: "Euro",
   },
   {
     code: "GBP",
     symbol: "£",
-    flag: "🇬🇧",
+    flag: "https://flagcdn.com/w80/gb.png",
     label: "British Pound",
   },
   {
     code: "JPY",
     symbol: "¥",
-    flag: "🇯🇵",
+    flag: "https://flagcdn.com/w80/jp.png",
     label: "Japanese Yen",
   },
   {
     code: "AED",
     symbol: "د.إ",
-    flag: "🇦🇪",
+    flag: "https://flagcdn.com/w80/ae.png",
     label: "UAE Dirham",
   },
   {
     code: "CAD",
     symbol: "C$",
-    flag: "🇨🇦",
+    flag: "https://flagcdn.com/w80/ca.png",
     label: "Canadian Dollar",
   },
   {
     code: "AUD",
     symbol: "A$",
-    flag: "🇦🇺",
+    flag: "https://flagcdn.com/w80/au.png",
     label: "Australian Dollar",
   },
   {
     code: "SGD",
     symbol: "S$",
-    flag: "🇸🇬",
+    flag: "https://flagcdn.com/w80/sg.png",
     label: "Singapore Dollar",
   },
 ];
