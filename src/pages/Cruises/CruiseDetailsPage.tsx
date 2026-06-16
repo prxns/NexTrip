@@ -97,11 +97,17 @@ function CruiseDetailsPage() {
 
             <div className="relative z-10">
               <div className="rounded-[34px] bg-white/95 p-4 shadow-2xl backdrop-blur">
-                <img
-                  src={cruise.image}
-                  alt={cruise.ship}
-                  className="h-[390px] w-full rounded-[26px] object-cover shadow-lg transition duration-500 hover:scale-[1.02]"
-                />
+                <div className="relative overflow-hidden rounded-[26px]">
+                  <img
+                    src={cruise.image}
+                    alt={cruise.ship}
+                    className="h-[390px] w-full object-cover shadow-lg transition duration-500 hover:scale-[1.02]"
+                  />
+
+                  <div className="absolute left-4 top-4 rounded-full bg-white/90 px-4 py-2 text-xs font-bold uppercase tracking-[3px] text-slate-800 shadow-lg">
+                    Starting from {formatPrice(cruise.priceFrom)}
+                  </div>
+                </div>
 
                 <div className="mt-4 grid grid-cols-3 gap-3">
                   {cruise.gallery.slice(0, 3).map((image, index) => (
@@ -296,7 +302,7 @@ function CruiseDetailsPage() {
               </div>
             </div>
 
-            <aside className="space-y-6">
+            <aside className="space-y-6 xl:sticky xl:top-6 xl:self-start">
               <div className="rounded-[32px] bg-white p-8 shadow-xl">
                 <p className="text-sm font-bold uppercase tracking-[4px] text-teal-500">
                   Cruise facts
@@ -332,16 +338,16 @@ function CruiseDetailsPage() {
 
               <div className="rounded-[32px] bg-slate-900 p-8 text-white shadow-xl">
                 <p className="text-sm font-bold uppercase tracking-[4px] text-white/60">
-                  Booking-ready demo
+                  Planning tools
                 </p>
 
                 <h3 className="mt-4 text-2xl font-black">
-                  Clean, premium, and easy to pitch
+                  Continue browsing or get support
                 </h3>
 
                 <p className="mt-4 text-sm leading-7 text-slate-300">
-                  This version keeps the page polished for client demos and leaves the
-                  layout ready for live inventory later.
+                  Compare this sailing with other cruises, or open support for help
+                  with a demo booking flow.
                 </p>
 
                 <div className="mt-6 flex gap-3">
@@ -368,13 +374,7 @@ function CruiseDetailsPage() {
   );
 }
 
-function StatCard({
-  label,
-  value,
-}: {
-  label: string;
-  value: string;
-}) {
+function StatCard({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-[24px] bg-slate-50 p-4">
       <p className="text-xs font-bold uppercase tracking-[3px] text-slate-400">
@@ -385,13 +385,7 @@ function StatCard({
   );
 }
 
-function FactRow({
-  label,
-  value,
-}: {
-  label: string;
-  value: string;
-}) {
+function FactRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between gap-4 border-b border-slate-100 pb-3 last:border-none last:pb-0">
       <span className="text-sm text-slate-500">{label}</span>
