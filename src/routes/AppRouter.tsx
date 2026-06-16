@@ -127,16 +127,6 @@ function AppRouter() {
           />
 
           <Route
-            path="/cruises"
-            element={
-              <ComingSoonPage
-                title="Cruises"
-                description="Discover cruises, ocean adventures and unforgettable voyages."
-              />
-            }
-          />
-
-          <Route
             path="/destinations/:slug"
             element={<DestinationPage />}
           />
