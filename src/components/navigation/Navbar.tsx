@@ -10,7 +10,7 @@ const navLinks = [
   { label: "Villas", path: "/villas" },
   { label: "Car Rentals", path: "/car-rentals" },
   { label: "Cabs", path: "/cabs" },
-  { label: "Tours", path: "/tours" },
+  { label: "Cruises", path: "/cruises" },
 ];
 
 function Navbar() {

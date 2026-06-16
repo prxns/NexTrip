@@ -48,8 +48,8 @@ function BookingSuccessPage() {
   },
 
   tour: {
-    label: "Browse Tours",
-    path: "/tours",
+    label: "Browse Cruises",
+    path: "/cruises",
   },
 };
 

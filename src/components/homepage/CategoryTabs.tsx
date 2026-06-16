@@ -3,7 +3,7 @@ import {
   Car,
   CarFront,
   Hotel,
-  Map,
+  Ship,
   Plane,
 } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -18,7 +18,7 @@ function CategoryTabs() {
     { label: "Villas", icon: Building2, path: "/villas" },
     { label: "Car Rentals", icon: Car, path: "/car-rentals" },
     { label: "Cabs", icon: CarFront, path: "/cabs" },
-    { label: "Tours", icon: Map, path: "/tours" },
+    { label: "Cruises", icon: Ship, path: "/cruises" },
   ];
 
   return (

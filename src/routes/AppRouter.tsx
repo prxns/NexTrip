@@ -39,6 +39,9 @@ import OfferDetailsPage from "../pages/Offers/OfferDetailsPage";
 
 import DestinationPage from "../pages/Destinations/DestinationPage";
 
+import CruisesPage from "../pages/Cruises/CruisesPage";
+import CruiseDetailsPage from "../pages/Cruises/CruiseDetailsPage";
+
 /**
  * Central application routing system.
  * All major pages are registered here.
@@ -124,11 +127,11 @@ function AppRouter() {
           />
 
           <Route
-            path="/tours"
+            path="/cruises"
             element={
               <ComingSoonPage
-                title="Tours & Experiences"
-                description="Discover curated tours, local attractions, and unforgettable experiences."
+                title="Cruises"
+                description="Discover cruises, ocean adventures and unforgettable voyages."
               />
             }
           />
@@ -136,6 +139,18 @@ function AppRouter() {
           <Route
             path="/destinations/:slug"
             element={<DestinationPage />}
+          />
+          <Route
+            path="/cruises"
+            element={<CruisesPage />}
+          />
+          <Route
+            path="/cruises/:slug"
+            element={<CruiseDetailsPage />}
+          />
+          <Route
+            path="/tours"
+            element={<Navigate to="/cruises" replace />}
           />
         </Route>
       </Routes>
