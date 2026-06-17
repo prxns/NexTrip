@@ -163,19 +163,20 @@ function AirportField({
   }, []);
 
   return (
-    <div className="block h-[180px]">
-      <span className="mb-2 block text-sm font-bold uppercase tracking-[3px] text-slate-400">
+    <div className="block">
+      <span className="mb-2 block text-xs font-bold uppercase tracking-[3px] text-slate-400 sm:text-sm">
         {label}
       </span>
 
       <div ref={wrapperRef} className="relative">
         <div
           className="
-            flex h-[120px] flex-col justify-between
-            rounded-[28px] border border-slate-200 bg-white px-5 py-5
+            flex min-h-[108px] flex-col justify-between
+            rounded-[24px] border border-slate-200 bg-white px-4 py-4
             shadow-sm transition-all duration-300
             hover:-translate-y-0.5 hover:border-[#2563EB]/30 hover:shadow-lg
             focus-within:border-[#2563EB] focus-within:ring-4 focus-within:ring-blue-100
+            sm:min-h-[120px] sm:rounded-[28px] sm:px-5 sm:py-5
           "
         >
           <div className="flex items-center gap-3">
@@ -195,14 +196,16 @@ function AirportField({
               autoComplete="off"
               className="
                 w-full bg-transparent
-                text-[1.45rem] font-semibold text-slate-900 outline-none
+                text-[1.05rem] font-semibold text-slate-900 outline-none
                 placeholder:text-slate-300
+                sm:text-[1.25rem]
+                lg:text-[1.45rem]
               "
             />
           </div>
 
           <div className="flex items-center justify-between gap-3">
-            <p className="text-sm text-slate-500">
+            <p className="text-xs leading-5 text-slate-500 sm:text-sm">
               Search by city, airport name, or code
             </p>
 
@@ -212,8 +215,9 @@ function AirportField({
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={() => onValueChange("")}
                 className="
-                  rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold
-                  text-slate-500 transition-colors hover:bg-slate-200
+                  shrink-0 rounded-full bg-slate-100 px-3 py-1 text-[11px]
+                  font-semibold text-slate-500 transition-colors hover:bg-slate-200
+                  sm:px-3.5 sm:text-xs
                 "
               >
                 Clear
@@ -226,8 +230,8 @@ function AirportField({
           <div
             className="
               absolute left-0 right-0 top-[calc(100%+10px)] z-50
-              max-h-80 overflow-hidden rounded-[24px] border border-slate-200 bg-white
-              shadow-2xl
+              max-h-80 overflow-hidden rounded-[22px] border border-slate-200 bg-white
+              shadow-2xl sm:rounded-[24px]
             "
           >
             <div className="max-h-80 overflow-y-auto">
@@ -268,7 +272,7 @@ function AirportField({
         {open && value.trim() && visibleSuggestions.length === 0 ? (
           <div
             className="
-              absolute left-0 right-0 top-[calc(100%+10px)] z-50 rounded-[24px]
+              absolute left-0 right-0 top-[calc(100%+10px)] z-50 rounded-[22px]
               border border-slate-200 bg-white p-4 text-sm text-slate-500 shadow-2xl
             "
           >
@@ -306,8 +310,8 @@ function DateField({ value, onValueChange, minDate }: DateFieldProps) {
   };
 
   return (
-    <div className="block h-[180px]">
-      <span className="mb-2 block text-sm font-bold uppercase tracking-[3px] text-slate-400">
+    <div className="block">
+      <span className="mb-2 block text-xs font-bold uppercase tracking-[3px] text-slate-400 sm:text-sm">
         Trip Dates
       </span>
 
@@ -315,20 +319,21 @@ function DateField({ value, onValueChange, minDate }: DateFieldProps) {
         type="button"
         onClick={openPicker}
         className="
-          flex h-[120px] w-full items-center justify-between rounded-[28px]
-          border border-slate-200 bg-white px-5 py-5 text-left shadow-sm
+          flex min-h-[108px] w-full items-center justify-between rounded-[24px]
+          border border-slate-200 bg-white px-4 py-4 text-left shadow-sm
           transition-all duration-300
           hover:-translate-y-0.5 hover:border-[#2563EB]/30 hover:shadow-lg
           focus:border-[#2563EB] focus:ring-4 focus:ring-blue-100
+          sm:min-h-[120px] sm:rounded-[28px] sm:px-5 sm:py-5
         "
       >
         <div className="flex items-center gap-3">
           <CalendarDays className="shrink-0 text-slate-400" size={18} />
           <div>
-            <p className="text-xs font-bold uppercase tracking-[2.5px] text-slate-400">
+            <p className="text-[11px] font-bold uppercase tracking-[2.5px] text-slate-400 sm:text-xs">
               Departure
             </p>
-            <p className="mt-1 text-[1.45rem] font-semibold text-slate-900">
+            <p className="mt-1 text-[1.05rem] font-semibold text-slate-900 sm:text-[1.25rem] lg:text-[1.45rem]">
               {value ? formatDateLabel(value) : "Select date"}
             </p>
           </div>
@@ -336,7 +341,8 @@ function DateField({ value, onValueChange, minDate }: DateFieldProps) {
 
         <span
           className="
-            rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-500
+            rounded-full bg-slate-100 px-3 py-1 text-[11px] font-semibold text-slate-500
+            sm:px-3.5 sm:text-xs
           "
         >
           {value ? "Change" : "Pick"}
@@ -411,8 +417,8 @@ function TravelerPanel({
   }, [setOpen]);
 
   return (
-    <div ref={panelRef} className="relative block h-[180px]">
-      <span className="mb-2 block text-sm font-bold uppercase tracking-[3px] text-slate-400">
+    <div ref={panelRef} className="relative block">
+      <span className="mb-2 block text-xs font-bold uppercase tracking-[3px] text-slate-400 sm:text-sm">
         Travelers
       </span>
 
@@ -420,17 +426,18 @@ function TravelerPanel({
         type="button"
         onClick={() => setOpen(!open)}
         className="
-          flex h-[120px] w-full flex-col justify-between rounded-[28px]
-          border border-slate-200 bg-white px-5 py-5 text-left shadow-sm
+          flex min-h-[108px] w-full flex-col justify-between rounded-[24px]
+          border border-slate-200 bg-white px-4 py-4 text-left shadow-sm
           transition-all duration-300
           hover:-translate-y-0.5 hover:border-[#2563EB]/30 hover:shadow-lg
           focus:border-[#2563EB] focus:ring-4 focus:ring-blue-100
+          sm:min-h-[120px] sm:rounded-[28px] sm:px-5 sm:py-5
         "
       >
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <Users className="shrink-0 text-slate-400" size={18} />
-            <h3 className="text-2xl font-black text-slate-900">
+            <h3 className="text-[1.05rem] font-black text-slate-900 sm:text-[1.25rem] lg:text-[1.45rem]">
               {passengerCount} Traveler{passengerCount > 1 ? "s" : ""}
             </h3>
           </div>
@@ -443,14 +450,15 @@ function TravelerPanel({
           />
         </div>
 
-        <p className="text-base font-semibold text-slate-500">{cabin}</p>
+        <p className="text-sm font-semibold text-slate-500">{cabin}</p>
       </button>
 
       {open ? (
         <div
           className="
-            absolute right-0 top-[calc(100%+10px)] z-50 w-[360px]
-            rounded-[28px] border border-slate-200 bg-white p-5 shadow-2xl
+            absolute left-1/2 top-[calc(100%+10px)] z-50 w-[calc(100vw-2rem)]
+            -translate-x-1/2 rounded-[24px] border border-slate-200 bg-white p-4
+            shadow-2xl sm:left-auto sm:right-0 sm:w-[360px] sm:translate-x-0 sm:rounded-[28px] sm:p-5
           "
         >
           <div className="space-y-5">
@@ -460,18 +468,21 @@ function TravelerPanel({
                 hint: "Age 12+",
                 value: adults,
                 setValue: setAdults,
+                min: 1,
               },
               {
                 label: "Children",
                 hint: "Age 2-11",
                 value: childrenCount,
                 setValue: setChildrenCount,
+                min: 0,
               },
               {
                 label: "Infants",
                 hint: "Under 2 years",
                 value: infants,
                 setValue: setInfants,
+                min: 0,
               },
             ].map((item) => (
               <div
@@ -486,7 +497,9 @@ function TravelerPanel({
                 <div className="flex items-center gap-3">
                   <button
                     type="button"
-                    onClick={() => item.setValue(Math.max(0, item.value - 1))}
+                    onClick={() =>
+                      item.setValue(Math.max(item.min, item.value - 1))
+                    }
                     className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 text-slate-700 transition-colors hover:bg-slate-50"
                   >
                     <Minus size={18} />
@@ -602,19 +615,20 @@ function BookingSearch() {
     <div className="mx-auto w-full max-w-6xl">
       <CategoryTabs />
 
-      <div className="mt-6">
+      <div className="mt-4 sm:mt-6">
         <TripTypeToggle />
       </div>
 
       <form
         onSubmit={handleSearch}
         className="
-          relative mt-6 overflow-visible rounded-[36px]
+          relative mt-5 overflow-visible rounded-[28px]
           border border-slate-200/80 bg-gradient-to-br from-white via-white to-slate-50/80
-          p-6 shadow-[0_30px_80px_rgba(15,23,42,0.12)] backdrop-blur-xl
+          p-4 shadow-[0_24px_70px_rgba(15,23,42,0.12)] backdrop-blur-xl
+          sm:mt-6 sm:rounded-[36px] sm:p-5 lg:p-6
         "
       >
-        <div className="grid grid-cols-1 items-start gap-5 lg:grid-cols-2 xl:grid-cols-4">
+        <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-2 xl:grid-cols-4">
           <AirportField
             label="Airport"
             icon={<PlaneTakeoff size={18} />}
@@ -654,7 +668,7 @@ function BookingSearch() {
           />
         </div>
 
-        <div className="mt-5 flex flex-wrap items-center gap-2">
+        <div className="mt-4 flex flex-nowrap items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mt-5 sm:flex-wrap sm:overflow-visible">
           {topAirports.map((airport) => (
             <button
               key={airport.code}
@@ -667,7 +681,7 @@ function BookingSearch() {
                 else setFrom(airportValue);
               }}
               className="
-                rounded-full border border-slate-200 bg-white px-4 py-2
+                shrink-0 rounded-full border border-slate-200 bg-white px-4 py-2
                 text-sm font-semibold text-slate-700 shadow-sm transition-all
                 duration-300 hover:-translate-y-0.5 hover:bg-slate-50 hover:shadow-md
               "
@@ -677,15 +691,16 @@ function BookingSearch() {
           ))}
         </div>
 
-        <div className="mt-7">
+        <div className="mt-5 sm:mt-7">
           <button
             type="submit"
             disabled={!canSearch}
             className="
-              h-16 w-full rounded-2xl bg-gradient-to-r from-[#2563EB] to-[#14B8A6]
-              text-lg font-bold text-white shadow-xl transition-all duration-300
+              h-14 w-full rounded-2xl bg-gradient-to-r from-[#2563EB] to-[#14B8A6]
+              text-base font-bold text-white shadow-xl transition-all duration-300
               hover:scale-[1.01] hover:shadow-2xl active:scale-[0.99]
               disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100
+              sm:h-16 sm:text-lg
             "
           >
             Search Flights

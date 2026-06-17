@@ -1,7 +1,7 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet } from "react-router-dom";
 
-import Navbar from '../components/navigation/Navbar';
-import Footer from '../components/footer/Footer';
+import Navbar from "../components/navigation/Navbar";
+import Footer from "../components/footer/Footer";
 
 /**
  * Main shared application layout.
@@ -9,10 +9,10 @@ import Footer from '../components/footer/Footer';
  */
 function MainLayout() {
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex flex-col">
+    <div className="flex min-h-screen flex-col bg-[#F8FAFC] overflow-x-hidden">
       <Navbar />
 
-      <main className="flex-1">
+      <main className="flex-1 overflow-x-hidden">
         <Outlet />
       </main>
 

@@ -110,15 +110,18 @@ function HotelCheckoutPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 pb-24">
+    <div className="min-h-screen bg-slate-100 pb-12 md:pb-24">
       <div
         className="
           mx-auto
           grid
           max-w-7xl
-          gap-10
-          px-6
-          pt-20
+          gap-8
+          md:gap-10
+          px-4
+          md:px-6
+          pt-10
+          md:pt-20
 
           xl:grid-cols-[1fr_420px]
         "
@@ -126,15 +129,18 @@ function HotelCheckoutPage() {
         {/* LEFT */}
         <div
           className="
-            rounded-[40px]
+            rounded-3xl
+            md:rounded-[40px]
             bg-white
-            p-10
+            p-6
+            md:p-10
             shadow-2xl
           "
         >
           <p
             className="
-              text-sm
+              text-xs
+              md:text-sm
               font-bold
               uppercase
               tracking-[4px]
@@ -146,8 +152,10 @@ function HotelCheckoutPage() {
 
           <h1
             className="
-              mt-5
-              text-6xl
+              mt-4
+              md:mt-5
+              text-4xl
+              md:text-6xl
               font-black
               leading-tight
               text-slate-900
@@ -158,10 +166,13 @@ function HotelCheckoutPage() {
 
           <p
             className="
-              mt-6
+              mt-4
+              md:mt-6
               max-w-3xl
-              text-xl
-              leading-9
+              text-lg
+              md:text-xl
+              leading-relaxed
+              md:leading-9
               text-slate-500
             "
           >
@@ -170,10 +181,11 @@ function HotelCheckoutPage() {
           </p>
 
           {/* GUEST DETAILS */}
-          <div className="mt-14">
+          <div className="mt-10 md:mt-14">
             <h2
               className="
-                text-3xl
+                text-2xl
+                md:text-3xl
                 font-black
                 text-slate-900
               "
@@ -181,7 +193,7 @@ function HotelCheckoutPage() {
               Guest Details
             </h2>
 
-            <div className="mt-8 grid gap-6">
+            <div className="mt-6 md:mt-8 grid gap-4 md:gap-6">
               <input
                 value={fullName}
                 onChange={(e) =>
@@ -191,12 +203,16 @@ function HotelCheckoutPage() {
                 }
                 placeholder="Full Name"
                 className="
-                  h-16
-                  rounded-2xl
+                  h-14
+                  md:h-16
+                  rounded-xl
+                  md:rounded-2xl
                   border
                   border-slate-200
-                  px-6
-                  text-lg
+                  px-4
+                  md:px-6
+                  text-base
+                  md:text-lg
                   outline-none
                   focus:border-[#2563EB]
                 "
@@ -211,12 +227,16 @@ function HotelCheckoutPage() {
                 }
                 placeholder="Email Address"
                 className="
-                  h-16
-                  rounded-2xl
+                  h-14
+                  md:h-16
+                  rounded-xl
+                  md:rounded-2xl
                   border
                   border-slate-200
-                  px-6
-                  text-lg
+                  px-4
+                  md:px-6
+                  text-base
+                  md:text-lg
                   outline-none
                   focus:border-[#2563EB]
                 "
@@ -231,12 +251,16 @@ function HotelCheckoutPage() {
                 }
                 placeholder="Phone Number"
                 className="
-                  h-16
-                  rounded-2xl
+                  h-14
+                  md:h-16
+                  rounded-xl
+                  md:rounded-2xl
                   border
                   border-slate-200
-                  px-6
-                  text-lg
+                  px-4
+                  md:px-6
+                  text-base
+                  md:text-lg
                   outline-none
                   focus:border-[#2563EB]
                 "
@@ -245,10 +269,11 @@ function HotelCheckoutPage() {
           </div>
 
           {/* PAYMENT */}
-          <div className="mt-16">
+          <div className="mt-12 md:mt-16">
             <h2
               className="
-                text-3xl
+                text-2xl
+                md:text-3xl
                 font-black
                 text-slate-900
               "
@@ -256,7 +281,7 @@ function HotelCheckoutPage() {
               Payment Method
             </h2>
 
-            <div className="mt-8 grid gap-6">
+            <div className="mt-6 md:mt-8 grid gap-4 md:gap-6">
               <input
                 value={cardNumber}
                 onChange={(e) =>
@@ -266,12 +291,16 @@ function HotelCheckoutPage() {
                 }
                 placeholder="Card Number"
                 className="
-                  h-16
-                  rounded-2xl
+                  h-14
+                  md:h-16
+                  rounded-xl
+                  md:rounded-2xl
                   border
                   border-slate-200
-                  px-6
-                  text-lg
+                  px-4
+                  md:px-6
+                  text-base
+                  md:text-lg
                   outline-none
                   focus:border-[#2563EB]
                 "
@@ -286,18 +315,22 @@ function HotelCheckoutPage() {
                 }
                 placeholder="Card Holder Name"
                 className="
-                  h-16
-                  rounded-2xl
+                  h-14
+                  md:h-16
+                  rounded-xl
+                  md:rounded-2xl
                   border
                   border-slate-200
-                  px-6
-                  text-lg
+                  px-4
+                  md:px-6
+                  text-base
+                  md:text-lg
                   outline-none
                   focus:border-[#2563EB]
                 "
               />
 
-              <div className="grid gap-6 md:grid-cols-2">
+              <div className="grid gap-4 md:gap-6 grid-cols-2 md:grid-cols-2">
                 <input
                   value={expiry}
                   onChange={(e) =>
@@ -307,12 +340,16 @@ function HotelCheckoutPage() {
                   }
                   placeholder="MM/YY"
                   className="
-                    h-16
-                    rounded-2xl
+                    h-14
+                    md:h-16
+                    rounded-xl
+                    md:rounded-2xl
                     border
                     border-slate-200
-                    px-6
-                    text-lg
+                    px-4
+                    md:px-6
+                    text-base
+                    md:text-lg
                     outline-none
                     focus:border-[#2563EB]
                   "
@@ -327,12 +364,16 @@ function HotelCheckoutPage() {
                   }
                   placeholder="CVV"
                   className="
-                    h-16
-                    rounded-2xl
+                    h-14
+                    md:h-16
+                    rounded-xl
+                    md:rounded-2xl
                     border
                     border-slate-200
-                    px-6
-                    text-lg
+                    px-4
+                    md:px-6
+                    text-base
+                    md:text-lg
                     outline-none
                     focus:border-[#2563EB]
                   "
@@ -345,17 +386,21 @@ function HotelCheckoutPage() {
           <button
             onClick={handleBooking}
             className="
-              mt-16
-              h-20
+              mt-10
+              md:mt-16
+              h-16
+              md:h-20
               w-full
 
-              rounded-[24px]
+              rounded-2xl
+              md:rounded-[24px]
 
               bg-gradient-to-r
               from-[#2563EB]
               to-[#14B8A6]
 
-              text-2xl
+              text-xl
+              md:text-2xl
               font-black
               text-white
 
@@ -378,10 +423,12 @@ function HotelCheckoutPage() {
               sticky
               top-6
 
-              rounded-[40px]
+              rounded-3xl
+              md:rounded-[40px]
 
               bg-[#020B2D]
-              p-10
+              p-6
+              md:p-10
 
               text-white
 
@@ -390,7 +437,8 @@ function HotelCheckoutPage() {
           >
             <p
               className="
-                text-sm
+                text-xs
+                md:text-sm
                 font-bold
                 uppercase
                 tracking-[4px]
@@ -402,8 +450,10 @@ function HotelCheckoutPage() {
 
             <h2
               className="
-                mt-6
-                text-5xl
+                mt-4
+                md:mt-6
+                text-3xl
+                md:text-5xl
                 font-black
                 leading-tight
               "
@@ -411,17 +461,17 @@ function HotelCheckoutPage() {
               {hotel}
             </h2>
 
-            <p className="mt-3 text-xl text-white/60">
+            <p className="mt-2 md:mt-3 text-lg md:text-xl text-white/60">
               {room}
             </p>
 
-            <div className="mt-10 space-y-5">
+            <div className="mt-8 md:mt-10 space-y-4 md:space-y-5 text-sm md:text-base">
               <div className="flex justify-between">
                 <span className="text-white/60">
                   Location
                 </span>
 
-                <span className="font-bold">
+                <span className="font-bold text-right ml-4">
                   {city}, {state}
                 </span>
               </div>
@@ -456,7 +506,7 @@ function HotelCheckoutPage() {
                 </span>
               </div>
 
-              <div className="h-px bg-white/10" />
+              <div className="h-px bg-white/10 my-4" />
 
               <div className="flex justify-between">
                 <span className="text-white/60">
@@ -488,14 +538,14 @@ function HotelCheckoutPage() {
                 </span>
               </div>
 
-              <div className="h-px bg-white/10" />
+              <div className="h-px bg-white/10 my-4" />
 
-              <div className="flex justify-between">
-                <span className="text-2xl font-bold">
+              <div className="flex justify-between items-center">
+                <span className="text-xl md:text-2xl font-bold">
                   Total
                 </span>
 
-                <span className="text-5xl font-black">
+                <span className="text-3xl md:text-5xl font-black">
                   {formatPrice(total)}
                 </span>
               </div>

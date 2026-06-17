@@ -17,17 +17,17 @@ const LOCATION_PRESETS: Array<{
   coords: Coordinates;
 }> = [
   { aliases: ["jfk airport", "jfk", "john f kennedy airport"], coords: { lat: 40.6413, lng: -73.7781 } },
-  { aliases: ["laguardia airport", "lga", "lga airport"], coords: { lat: 40.7769, lng: -73.8740 } },
+  { aliases: ["laguardia airport", "lga", "lga airport"], coords: { lat: 40.7769, lng: -73.874 } },
   { aliases: ["newark airport", "ewr", "ewr airport"], coords: { lat: 40.6895, lng: -74.1745 } },
-  { aliases: ["new york", "new york city", "nyc", "manhattan", "brooklyn", "queens", "times square"], coords: { lat: 40.7128, lng: -74.0060 } },
+  { aliases: ["new york", "new york city", "nyc", "manhattan", "brooklyn", "queens", "times square"], coords: { lat: 40.7128, lng: -74.006 } },
   { aliases: ["logan airport", "boston logan", "bos", "boston"], coords: { lat: 42.3656, lng: -71.0096 } },
   { aliases: ["los angeles airport", "lax", "lax airport", "los angeles", "la", "hollywood", "santa monica"], coords: { lat: 34.0522, lng: -118.2437 } },
   { aliases: ["san francisco airport", "sfo", "sfo airport", "san francisco"], coords: { lat: 37.7749, lng: -122.4194 } },
   { aliases: ["ohare airport", "ord", "ord airport", "chicago"], coords: { lat: 41.8781, lng: -87.6298 } },
   { aliases: ["miami airport", "mia", "mia airport", "miami"], coords: { lat: 25.7617, lng: -80.1918 } },
   { aliases: ["mco airport", "orlando airport", "orlando"], coords: { lat: 28.5383, lng: -81.3792 } },
-  { aliases: ["atlanta airport", "atl", "atl airport", "atlanta"], coords: { lat: 33.7490, lng: -84.3880 } },
-  { aliases: ["dfw airport", "dallas airport", "dallas"], coords: { lat: 32.7767, lng: -96.7970 } },
+  { aliases: ["atlanta airport", "atl", "atl airport", "atlanta"], coords: { lat: 33.749, lng: -84.388 } },
+  { aliases: ["dfw airport", "dallas airport", "dallas"], coords: { lat: 32.7767, lng: -96.797 } },
   { aliases: ["seattle airport", "sea", "sea airport", "seattle"], coords: { lat: 47.6062, lng: -122.3321 } },
   { aliases: ["dca airport", "washington dc", "washington d c", "dc", "d.c.", "washington"], coords: { lat: 38.9072, lng: -77.0369 } },
   { aliases: ["houston", "iah", "iah airport"], coords: { lat: 29.7604, lng: -95.3698 } },
@@ -75,13 +75,11 @@ function estimateRouteDistanceMiles(origin: string, destination: string) {
   const destinationCoords = resolveCoordinates(destination);
 
   if (originCoords && destinationCoords) {
-    return Math.max(
-      1,
-      Math.round(haversineMiles(originCoords, destinationCoords))
-    );
+    return Math.max(1, Math.round(haversineMiles(originCoords, destinationCoords)));
   }
 
-  const seed = normalizeLocation(origin).length + normalizeLocation(destination).length;
+  const seed =
+    normalizeLocation(origin).length + normalizeLocation(destination).length;
   return Math.max(8, Math.min(75, Math.round(seed / 4) || 15));
 }
 
@@ -112,9 +110,7 @@ function CabsPage() {
   const categories = ["All", "Economy", "Premium", "XL", "Airport", "Electric"];
 
   const filteredCabs = useMemo(() => {
-    return cabTypes.filter(
-      (cab) => category === "All" || cab.category === category
-    );
+    return cabTypes.filter((cab) => category === "All" || cab.category === category);
   }, [category]);
 
   const routeStatusText = isCalculating
@@ -138,9 +134,10 @@ function CabsPage() {
     setRouteDistanceMiles(estimatedDistance);
     setIsCalculating(false);
 
-    document
-      .getElementById("cab-results")
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    document.getElementById("cab-results")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
   };
 
   const handleSelectRide = (cab: CabType) => {
@@ -166,7 +163,7 @@ function CabsPage() {
 
   return (
     <div className="min-h-screen bg-slate-100">
-      <section className="relative overflow-hidden bg-black py-28">
+      <section className="relative overflow-hidden bg-black py-16 sm:py-20 lg:py-28">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
@@ -174,53 +171,47 @@ function CabsPage() {
               "url('https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=2070&auto=format&fit=crop')",
           }}
         />
-
         <div className="absolute inset-0 bg-black/60" />
 
-        <div className="relative z-10 mx-auto max-w-7xl px-6">
-          <p className="text-sm font-bold uppercase tracking-[5px] text-[#14B8A6]">
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
+          <p className="text-xs font-bold uppercase tracking-[5px] text-[#14B8A6] sm:text-sm">
             Cabs
           </p>
 
-          <h1 className="mt-6 max-w-4xl text-6xl font-black leading-tight text-white md:text-8xl">
+          <h1 className="mt-5 max-w-4xl text-4xl font-black leading-tight text-white sm:text-5xl md:text-6xl lg:text-8xl">
             Book a ride in seconds
           </h1>
 
-          <p className="mt-8 max-w-2xl text-xl leading-9 text-slate-300">
-            Quick city rides, airport pickups, premium cars, XL trips, and electric
-            options.
+          <p className="mt-5 max-w-2xl text-base leading-7 text-slate-300 sm:mt-8 sm:text-lg sm:leading-8 lg:text-xl lg:leading-9">
+            Quick city rides, airport pickups, premium cars, XL trips, and electric options.
           </p>
 
           <form
             onSubmit={handleFindRides}
             className="
-              mt-14
-              rounded-[32px]
-              bg-white/95
-              p-6
-              shadow-2xl
-              backdrop-blur-md
+              mt-8 rounded-[24px] bg-white/95 p-4 shadow-2xl backdrop-blur-md
+              sm:mt-12 sm:rounded-[32px] sm:p-6
             "
           >
-            <div className="grid gap-4 md:grid-cols-4">
+            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
               <input
                 value={from}
                 onChange={(e) => setFrom(e.target.value)}
                 placeholder="Pickup from"
-                className="h-16 rounded-2xl border border-slate-200 bg-white px-5 text-lg font-semibold text-slate-900 outline-none focus:border-[#2563EB] focus:ring-4 focus:ring-blue-100"
+                className="h-14 rounded-2xl border border-slate-200 bg-white px-4 text-base font-semibold text-slate-900 outline-none focus:border-[#2563EB] focus:ring-4 focus:ring-blue-100 sm:h-16 sm:px-5 sm:text-lg"
               />
 
               <input
                 value={to}
                 onChange={(e) => setTo(e.target.value)}
                 placeholder="Drop to"
-                className="h-16 rounded-2xl border border-slate-200 bg-white px-5 text-lg font-semibold text-slate-900 outline-none focus:border-[#2563EB] focus:ring-4 focus:ring-blue-100"
+                className="h-14 rounded-2xl border border-slate-200 bg-white px-4 text-base font-semibold text-slate-900 outline-none focus:border-[#2563EB] focus:ring-4 focus:ring-blue-100 sm:h-16 sm:px-5 sm:text-lg"
               />
 
               <select
                 value={passengers}
                 onChange={(e) => setPassengers(e.target.value)}
-                className="h-16 rounded-2xl border border-slate-200 bg-white px-5 text-lg font-semibold text-slate-900 outline-none focus:border-[#2563EB] focus:ring-4 focus:ring-blue-100"
+                className="h-14 rounded-2xl border border-slate-200 bg-white px-4 text-base font-semibold text-slate-900 outline-none focus:border-[#2563EB] focus:ring-4 focus:ring-blue-100 sm:h-16 sm:px-5 sm:text-lg"
               >
                 <option value="1">1 Passenger</option>
                 <option value="2">2 Passengers</option>
@@ -234,21 +225,10 @@ function CabsPage() {
                 type="submit"
                 disabled={!canSearch || isCalculating}
                 className="
-                  h-16
-                  rounded-2xl
-                  bg-gradient-to-r
-                  from-[#2563EB]
-                  to-[#14B8A6]
-                  text-lg
-                  font-bold
-                  text-white
-                  shadow-xl
-                  transition-all
-                  duration-300
-                  hover:scale-[1.02]
-                  disabled:cursor-not-allowed
-                  disabled:opacity-50
-                  disabled:hover:scale-100
+                  h-14 rounded-2xl bg-gradient-to-r from-[#2563EB] to-[#14B8A6]
+                  text-base font-bold text-white shadow-xl transition-all duration-300
+                  hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-50
+                  disabled:hover:scale-100 sm:h-16 sm:text-lg
                 "
               >
                 {isCalculating ? "Calculating..." : "Find Rides"}
@@ -260,12 +240,19 @@ function CabsPage() {
             </p>
           </form>
 
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div
+            className="
+              mt-6 flex flex-nowrap gap-3 overflow-x-auto pb-1
+              [scrollbar-width:none]
+              [&::-webkit-scrollbar]:hidden
+              sm:mt-8 sm:flex-wrap sm:overflow-visible
+            "
+          >
             {categories.map((item) => (
               <button
                 key={item}
                 onClick={() => setCategory(item)}
-                className={`rounded-full border px-5 py-2 text-sm font-semibold transition-all duration-300 ${
+                className={`shrink-0 rounded-full border px-4 py-2 text-sm font-semibold transition-all duration-300 sm:px-5 ${
                   category === item
                     ? "border-transparent bg-white text-slate-900"
                     : "border-white/20 bg-white/10 text-white backdrop-blur-md hover:bg-white hover:text-slate-900"
@@ -278,20 +265,20 @@ function CabsPage() {
         </div>
       </section>
 
-      <section className="py-24" id="cab-results">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+      <section className="py-16 sm:py-20 lg:py-24" id="cab-results">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <p className="text-sm font-bold uppercase tracking-[4px] text-[#14B8A6]">
+              <p className="text-xs font-bold uppercase tracking-[4px] text-[#14B8A6] sm:text-sm">
                 Ride Options
               </p>
 
-              <h2 className="mt-4 text-5xl font-black text-slate-900">
+              <h2 className="mt-3 text-3xl font-black text-slate-900 sm:mt-4 sm:text-4xl lg:text-5xl">
                 Choose your ride
               </h2>
             </div>
 
-            <div className="flex flex-col gap-3 rounded-2xl bg-white px-6 py-4 shadow-lg">
+            <div className="flex flex-col gap-3 rounded-2xl bg-white px-5 py-4 shadow-lg sm:px-6">
               <div>
                 <p className="text-lg font-bold text-slate-900">
                   {filteredCabs.length} Ride Types
@@ -302,15 +289,7 @@ function CabsPage() {
               <button
                 type="button"
                 onClick={handleResetSearch}
-                className="
-                  rounded-full
-                  bg-slate-100
-                  px-4
-                  py-2
-                  text-sm
-                  font-bold
-                  text-slate-700
-                "
+                className="rounded-full bg-slate-100 px-4 py-2 text-sm font-bold text-slate-700"
               >
                 Reset Search
               </button>
@@ -318,14 +297,14 @@ function CabsPage() {
           </div>
 
           {pageLoading || isCalculating ? (
-            <div className="mt-14 grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+            <div className="mt-10 grid gap-6 sm:grid-cols-2 xl:mt-14 xl:grid-cols-3 xl:gap-8">
               {Array.from({ length: 3 }).map((_, index) => (
                 <div
                   key={index}
-                  className="overflow-hidden rounded-[34px] bg-white shadow-xl animate-pulse"
+                  className="animate-pulse overflow-hidden rounded-[30px] bg-white shadow-xl sm:rounded-[34px]"
                 >
-                  <div className="h-[250px] bg-slate-200" />
-                  <div className="p-7 space-y-4">
+                  <div className="h-52 bg-slate-200 sm:h-[250px]" />
+                  <div className="space-y-4 p-5 sm:p-7">
                     <div className="h-4 w-24 rounded bg-slate-200" />
                     <div className="h-7 w-3/4 rounded bg-slate-200" />
                     <div className="h-4 w-2/3 rounded bg-slate-200" />
@@ -341,14 +320,13 @@ function CabsPage() {
               ))}
             </div>
           ) : routeDistanceMiles === null ? (
-            <div className="mt-14 rounded-[32px] bg-white p-16 text-center shadow-xl">
-              <h3 className="text-4xl font-black text-slate-900">
+            <div className="mt-10 rounded-[28px] bg-white p-8 text-center shadow-xl sm:mt-14 sm:rounded-[32px] sm:p-16">
+              <h3 className="text-3xl font-black text-slate-900 sm:text-4xl">
                 Ready to calculate your ride
               </h3>
 
-              <p className="mt-4 text-lg text-slate-500">
-                Enter a pickup point and destination to calculate route distance and
-                show fares.
+              <p className="mt-4 text-base text-slate-500 sm:text-lg">
+                Enter a pickup point and destination to calculate route distance and show fares.
               </p>
 
               <div className="mt-8 flex flex-wrap justify-center gap-3">
@@ -366,53 +344,51 @@ function CabsPage() {
             </div>
           ) : (
             <>
-              <div className="mt-6 rounded-[32px] bg-white px-6 py-4 shadow-lg">
-                <p className="text-sm font-semibold uppercase tracking-[3px] text-slate-400">
+              <div className="mt-6 rounded-[28px] bg-white px-5 py-4 shadow-lg sm:rounded-[32px] sm:px-6">
+                <p className="text-xs font-semibold uppercase tracking-[3px] text-slate-400 sm:text-sm">
                   Route Summary
                 </p>
-                <h3 className="mt-2 text-2xl font-black text-slate-900">
+                <h3 className="mt-2 text-xl font-black text-slate-900 sm:text-2xl">
                   {from.trim()} → {to.trim()}
                 </h3>
-                <p className="mt-1 text-slate-500">
+                <p className="mt-1 text-sm text-slate-500 sm:text-base">
                   {routeDistanceMiles} miles estimated • {passengers} passenger(s)
                 </p>
               </div>
 
-              <div className="mt-14 grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+              <div className="mt-10 grid gap-6 sm:grid-cols-2 xl:mt-14 xl:grid-cols-3 xl:gap-8">
                 {filteredCabs.map((cab) => {
                   const tripDistance = routeDistanceMiles ?? 0;
-                  const fare = Math.round(
-                    cab.baseFare + cab.perMile * tripDistance
-                  );
+                  const fare = Math.round(cab.baseFare + cab.perMile * tripDistance);
 
                   return (
                     <div
                       key={cab.id}
-                      className="overflow-hidden rounded-[34px] bg-white shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+                      className="overflow-hidden rounded-[30px] bg-white shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl sm:rounded-[34px]"
                     >
                       <img
                         src={cab.image}
                         alt={cab.name}
-                        className="h-[250px] w-full object-cover"
+                        className="h-52 w-full object-cover sm:h-[250px]"
                       />
 
-                      <div className="p-7">
+                      <div className="p-5 sm:p-7">
                         <div className="flex items-start justify-between gap-4">
                           <div>
-                            <p className="text-sm font-bold uppercase tracking-[3px] text-[#14B8A6]">
+                            <p className="text-xs font-bold uppercase tracking-[3px] text-[#14B8A6] sm:text-sm">
                               {cab.category}
                             </p>
 
-                            <h3 className="mt-3 text-3xl font-black text-slate-900">
+                            <h3 className="mt-3 text-2xl font-black text-slate-900 sm:text-3xl">
                               {cab.name}
                             </h3>
 
-                            <p className="mt-2 text-slate-500">
+                            <p className="mt-2 text-sm text-slate-500 sm:text-base">
                               {cab.description}
                             </p>
                           </div>
 
-                          <div className="rounded-full bg-emerald-100 px-3 py-1 text-sm font-bold text-emerald-700">
+                          <div className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-700 sm:text-sm">
                             ETA {cab.etaMinutes}m
                           </div>
                         </div>
@@ -436,7 +412,7 @@ function CabsPage() {
                           {cab.features.map((feature) => (
                             <span
                               key={feature}
-                              className="rounded-full bg-slate-100 px-3 py-1 text-sm font-semibold text-slate-600"
+                              className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600 sm:text-sm"
                             >
                               {feature}
                             </span>
@@ -449,7 +425,7 @@ function CabsPage() {
                               Estimated Trip Cost
                             </p>
 
-                            <h4 className="text-4xl font-black text-slate-900">
+                            <h4 className="text-3xl font-black text-slate-900 sm:text-4xl">
                               {formatPrice(fare)}
                             </h4>
 

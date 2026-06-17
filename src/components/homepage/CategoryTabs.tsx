@@ -25,14 +25,22 @@ function CategoryTabs() {
     <div
       className="
         flex
-        flex-wrap
+        flex-nowrap
         items-center
-        gap-4
-        rounded-[32px]
+        gap-3
+        overflow-x-auto
+        rounded-[28px]
         bg-white/95
-        p-4
+        p-3
         shadow-2xl
         backdrop-blur-xl
+        [scrollbar-width:none]
+        [&::-webkit-scrollbar]:hidden
+        md:flex-wrap
+        md:overflow-visible
+        md:gap-4
+        md:rounded-[32px]
+        md:p-4
       "
     >
       {categories.map((category) => {
@@ -48,17 +56,24 @@ function CategoryTabs() {
             aria-pressed={isActive}
             onClick={() => navigate(category.path)}
             className={`
-              flex
+              inline-flex
+              min-w-max
+              shrink-0
               items-center
-              gap-3
+              gap-2.5
               rounded-2xl
-              px-6
-              py-4
+              px-4
+              py-3
+              text-sm
               font-semibold
               transition-all
               duration-300
-              hover:-translate-y-1
+              hover:-translate-y-0.5
               hover:shadow-xl
+              sm:px-5
+              sm:py-4
+              sm:text-base
+              md:px-6
               ${
                 isActive
                   ? "bg-gradient-to-r from-[#2563EB] to-[#14B8A6] text-white shadow-lg"
@@ -66,8 +81,8 @@ function CategoryTabs() {
               }
             `}
           >
-            <Icon size={20} />
-            <span>{category.label}</span>
+            <Icon size={18} className="sm:size-5" />
+            <span className="whitespace-nowrap">{category.label}</span>
           </button>
         );
       })}

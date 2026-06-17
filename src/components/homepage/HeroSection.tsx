@@ -9,18 +9,18 @@ function HeroSection() {
     <section
       className="
         relative
-        min-h-[980px]
+        min-h-[100svh]
         overflow-visible
+        md:min-h-[980px]
       "
     >
-      {/* BACKGROUND IMAGE */}
       <div
         className="
           absolute
           inset-0
+          scale-[1.02]
           bg-cover
           bg-center
-          scale-[1.02]
         "
         style={{
           backgroundImage:
@@ -28,7 +28,6 @@ function HeroSection() {
         }}
       />
 
-      {/* OVERLAY */}
       <div
         className="
           absolute
@@ -40,7 +39,6 @@ function HeroSection() {
         "
       />
 
-      {/* GLOW EFFECT */}
       <div
         className="
           absolute
@@ -49,33 +47,39 @@ function HeroSection() {
         "
       />
 
-      {/* CONTENT */}
       <div
         className="
           relative
           z-20
           mx-auto
           flex
-          min-h-[980px]
+          min-h-[100svh]
           w-full
           max-w-7xl
           flex-col
-          justify-center
-          px-6
-          pt-32
-          pb-[220px]
+          justify-start
+          px-4
+          pt-24
+          pb-16
+          sm:px-6
+          sm:pt-28
+          md:min-h-[980px]
+          md:justify-center
+          md:pt-32
+          md:pb-[220px]
         "
       >
-        {/* HERO TEXT */}
         <div className="max-w-5xl">
           <p
             className="
-              mb-6
-              text-sm
+              mb-5
+              text-xs
               font-bold
               uppercase
-              tracking-[0.35em]
+              tracking-[0.32em]
               text-[#14B8A6]
+              sm:mb-6
+              sm:text-sm
               md:text-base
             "
           >
@@ -85,52 +89,56 @@ function HeroSection() {
           <h1
             className="
               max-w-5xl
-              text-5xl
+              text-4xl
               font-black
               leading-[1.05]
               text-white
-              sm:text-6xl
+              sm:text-5xl
               md:text-7xl
               xl:text-8xl
             "
           >
             Explore Your Next{" "}
-            <span className="text-[#14B8A6]">
-              Dream Destination
-            </span>
+            <span className="text-[#14B8A6]">Dream Destination</span>
           </h1>
 
           <p
             className="
-              mt-8
+              mt-5
               max-w-3xl
-              text-lg
-              leading-9
+              text-base
+              leading-7
               text-slate-200
+              sm:mt-6
+              sm:text-lg
+              sm:leading-8
+              md:mt-8
               md:text-xl
+              md:leading-9
             "
           >
-            Flights, hotels, villas, attractions, and unforgettable travel experiences across the United States.
+            Flights, hotels, villas, attractions, and unforgettable travel
+            experiences across the United States.
           </p>
         </div>
 
-        {/* SEARCH SECTION */}
-        <div className="relative z-50 mt-16">
+        <div className="relative z-50 mt-8 sm:mt-10 md:mt-14">
           <BookingSearch />
         </div>
       </div>
 
-      {/* BOTTOM FADE */}
       <div
         className="
           absolute
           bottom-0
           left-0
           right-0
-          h-40
+          h-24
           bg-gradient-to-t
           from-white
           to-transparent
+          sm:h-32
+          md:h-40
         "
       />
     </section>

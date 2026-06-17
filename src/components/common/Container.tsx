@@ -13,11 +13,11 @@ function Container({ children, className = "" }: ContainerProps) {
   return (
     <div
       className={`
+        mx-auto
         w-full
         max-w-[1440px]
-        mx-auto
-        px-5
-        sm:px-8
+        px-4
+        sm:px-6
         lg:px-12
         ${className}
       `}

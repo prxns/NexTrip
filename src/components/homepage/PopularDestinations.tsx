@@ -1,24 +1,39 @@
+import { Link } from "react-router-dom";
+
 import Container from "../common/Container";
 import { popularDestinations } from "../../data/destinations/popularDestinations";
-import { Link } from "react-router-dom";
 
 function PopularDestinations() {
   return (
-    <section className="bg-white py-24">
+    <section className="bg-white py-16 sm:py-20 md:py-24">
       <Container>
-        <div className="mb-14 flex items-end justify-between">
+        <div className="mb-8 flex flex-col gap-3 sm:mb-10 md:mb-14 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="font-semibold uppercase tracking-wider text-[#14B8A6]">
+            <p className="text-sm font-semibold uppercase tracking-wider text-[#14B8A6] sm:text-base">
               Trending Destinations
             </p>
 
-            <h2 className="mt-4 text-4xl font-bold text-[#0F172A]">
+            <h2 className="mt-3 text-3xl font-bold text-[#0F172A] sm:mt-4 sm:text-4xl">
               Popular Places Across America
             </h2>
           </div>
         </div>
 
-        <div className="flex gap-8 overflow-x-auto overflow-y-hidden pb-6 pr-1">
+        <div
+          className="
+            flex
+            gap-5
+            overflow-x-auto
+            overflow-y-hidden
+            pb-5
+            pr-1
+            [scrollbar-width:none]
+            [&::-webkit-scrollbar]:hidden
+            sm:gap-6
+            md:gap-8
+            md:pb-6
+          "
+        >
           {popularDestinations.map((destination) => (
             <Link
               key={destination.id}
@@ -26,16 +41,21 @@ function PopularDestinations() {
               className="
                 group
                 relative
-                h-[380px]
-                w-[360px]
+                h-[340px]
+                w-[82vw]
                 flex-none
                 overflow-hidden
                 rounded-[28px]
                 bg-white
                 shadow-lg
-                transition-shadow
+                transition-all
                 duration-300
+                hover:-translate-y-1
                 hover:shadow-2xl
+                sm:h-[360px]
+                sm:w-[340px]
+                md:h-[380px]
+                md:w-[360px]
               "
             >
               <div className="relative h-full overflow-hidden">
@@ -56,13 +76,9 @@ function PopularDestinations() {
               </div>
 
               <div className="absolute bottom-6 left-6 text-white">
-                <h3 className="text-2xl font-bold">
-                  {destination.city}
-                </h3>
+                <h3 className="text-2xl font-bold">{destination.city}</h3>
 
-                <p className="mt-1 text-sm text-slate-200">
-                  {destination.state}
-                </p>
+                <p className="mt-1 text-sm text-slate-200">{destination.state}</p>
 
                 <p className="mt-4 text-sm font-semibold">
                   {destination.properties}+ properties

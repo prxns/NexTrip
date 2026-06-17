@@ -41,7 +41,7 @@ const img = {
   ocean3:
     "https://i.pinimg.com/736x/a4/b0/49/a4b0492d4156a4b246c273ac4a452c97.jpg",
   ship1:
-    "https://assets.dm.rccl.com/is/image/RoyalCaribbeanCruises/royal/ships/icon/icon-of-the-seas-starboard-aerial-sunset-sailing-sea-day.jpg?$676x610$",
+    "https://i.pinimg.com/1200x/fc/36/0c/fc360c2894a14af7481f4d1aba03107a.jpg",
   ship2:
     "https://assets.dm.rccl.com/is/image/RoyalCaribbeanCruises/royal/ships/star/asset/star-of-the-seas-aerial-bow-angle-evening-crop.jpg?$676x610$",
   ship3:

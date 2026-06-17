@@ -22,52 +22,33 @@ function HotelDetailsPage() {
   const [searchParams, setSearchParams] =
     useSearchParams();
 
-  /* -------------------------------- */
-  /* SEARCH PARAMS                    */
-  /* -------------------------------- */
-
   const checkIn =
     searchParams.get("checkIn") || "";
 
   const checkOut =
     searchParams.get("checkOut") || "";
 
-  /* -------------------------------- */
-  /* CALCULATE NIGHTS                 */
-  /* -------------------------------- */
-
   const nights = useMemo(() => {
     if (!checkIn || !checkOut) {
       return 0;
     }
 
-    const start =
-      new Date(checkIn);
-
-    const end =
-      new Date(checkOut);
+    const start = new Date(checkIn);
+    const end = new Date(checkOut);
 
     const diff =
       end.getTime() -
       start.getTime();
 
-    const calculated =
-      Math.ceil(
-        diff /
-          (1000 *
-            60 *
-            60 *
-            24)
-      );
+    const calculated = Math.ceil(
+      diff /
+        (1000 * 60 * 60 * 24)
+    );
 
     return calculated > 0
       ? calculated
       : 0;
   }, [checkIn, checkOut]);
-
-  /* -------------------------------- */
-  /* FIND HOTEL                       */
-  /* -------------------------------- */
 
   const hotel = useMemo(() => {
     return hotels.find(
@@ -76,20 +57,12 @@ function HotelDetailsPage() {
     );
   }, [slug]);
 
-  /* -------------------------------- */
-  /* SELECTED ROOM                    */
-  /* -------------------------------- */
-
   const [
     selectedRoom,
     setSelectedRoom,
   ] = useState(
     hotel?.rooms?.[0]
   );
-
-  /* -------------------------------- */
-  /* UPDATE CHECK-IN                  */
-  /* -------------------------------- */
 
   const handleCheckInChange = (
     value: string
@@ -107,10 +80,6 @@ function HotelDetailsPage() {
     setSearchParams(updated);
   };
 
-  /* -------------------------------- */
-  /* UPDATE CHECK-OUT                 */
-  /* -------------------------------- */
-
   const handleCheckOutChange = (
     value: string
   ) => {
@@ -127,10 +96,6 @@ function HotelDetailsPage() {
     setSearchParams(updated);
   };
 
-  /* -------------------------------- */
-  /* NOT FOUND                        */
-  /* -------------------------------- */
-
   if (!hotel || !selectedRoom) {
     return (
       <div
@@ -140,13 +105,17 @@ function HotelDetailsPage() {
           items-center
           justify-center
           bg-slate-100
+          px-4
         "
       >
         <h1
           className="
-            text-5xl
+            text-3xl
+            sm:text-4xl
+            lg:text-5xl
             font-black
             text-slate-900
+            text-center
           "
         >
           Hotel Not Found
@@ -156,14 +125,14 @@ function HotelDetailsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-100 pb-24">
+    <div className="min-h-screen bg-slate-100 pb-16 lg:pb-24">
       {/* HERO */}
-      <section className="relative overflow-hidden py-24">
-        <div className="mx-auto max-w-7xl px-6">
-          {/* LABEL */}
+      <section className="relative overflow-hidden py-10 md:py-16 lg:py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <p
             className="
-              text-sm
+              text-xs
+              sm:text-sm
               font-bold
               uppercase
               tracking-[4px]
@@ -173,45 +142,55 @@ function HotelDetailsPage() {
             Luxury Hotel
           </p>
 
-          {/* TITLE */}
           <h1
             className="
-              mt-5
+              mt-4
               max-w-5xl
 
-              text-6xl
+              text-4xl
               font-black
               leading-tight
               text-slate-900
 
-              md:text-8xl
+              sm:text-5xl
+              lg:text-6xl
+              xl:text-7xl
             "
           >
             {hotel.name}
           </h1>
 
-          {/* LOCATION */}
           <p
             className="
-              mt-6
-              text-xl
+              mt-4
+              text-base
               text-slate-500
+
+              sm:text-lg
+              lg:text-xl
             "
           >
-            {hotel.city},{" "}
-            {hotel.state}
+            {hotel.city}, {hotel.state}
           </p>
 
           {/* DATE CONTROLS */}
-          <div className="mt-10 flex flex-wrap gap-5">
-            {/* CHECK IN */}
+          <div
+            className="
+              mt-8
+              grid
+              grid-cols-1
+              gap-4
+
+              md:grid-cols-3
+            "
+          >
             <div
               className="
                 rounded-[28px]
                 bg-white
                 p-5
                 shadow-xl
-                min-w-[230px]
+                w-full
               "
             >
               <p
@@ -237,27 +216,25 @@ function HotelDetailsPage() {
                 className="
                   mt-3
                   w-full
-
                   border-none
                   bg-transparent
-
-                  text-2xl
+                  text-lg
+                  sm:text-xl
+                  lg:text-2xl
                   font-black
                   text-slate-900
-
                   outline-none
                 "
               />
             </div>
 
-            {/* CHECK OUT */}
             <div
               className="
                 rounded-[28px]
                 bg-white
                 p-5
                 shadow-xl
-                min-w-[230px]
+                w-full
               "
             >
               <p
@@ -284,34 +261,27 @@ function HotelDetailsPage() {
                 className="
                   mt-3
                   w-full
-
                   border-none
                   bg-transparent
-
-                  text-2xl
+                  text-lg
+                  sm:text-xl
+                  lg:text-2xl
                   font-black
                   text-slate-900
-
                   outline-none
                 "
               />
             </div>
 
-            {/* TOTAL NIGHTS */}
             <div
               className="
                 rounded-[28px]
-
                 bg-gradient-to-r
                 from-[#2563EB]
                 to-[#14B8A6]
-
                 p-5
-
                 shadow-2xl
-
-                min-w-[210px]
-
+                w-full
                 text-white
               "
             >
@@ -330,7 +300,9 @@ function HotelDetailsPage() {
               <h3
                 className="
                   mt-3
-                  text-5xl
+                  text-3xl
+                  sm:text-4xl
+                  lg:text-5xl
                   font-black
                 "
               >
@@ -339,12 +311,9 @@ function HotelDetailsPage() {
             </div>
           </div>
 
-          {/* GALLERY */}
-          <div className="mt-14">
+          <div className="mt-10 lg:mt-14">
             <HotelGallery
-              images={
-                hotel.gallery
-              }
+              images={hotel.gallery}
             />
           </div>
         </div>
@@ -357,36 +326,43 @@ function HotelDetailsPage() {
             mx-auto
             grid
             max-w-7xl
-            gap-10
-            px-6
+            gap-6
+            px-4
+            sm:px-6
+            lg:gap-10
 
-            xl:grid-cols-[1fr_420px]
+            xl:grid-cols-[minmax(0,1fr)_420px]
           "
         >
           {/* LEFT */}
           <div>
-            {/* DESCRIPTION */}
             <div
               className="
-                rounded-[36px]
+                rounded-[24px]
                 bg-white
-                p-10
-
+                p-5
                 shadow-xl
+
+                sm:p-8
+                lg:p-10
               "
             >
               <p
                 className="
-                  text-lg
-                  leading-9
+                  text-base
+                  leading-7
                   text-slate-600
+
+                  sm:text-lg
+                  sm:leading-8
+
+                  lg:leading-9
                 "
               >
                 {hotel.description}
               </p>
             </div>
 
-            {/* ROOM SELECTOR */}
             <RoomSelector
               rooms={hotel.rooms}
               selectedRoom={
@@ -403,21 +379,18 @@ function HotelDetailsPage() {
               }
             />
 
-            {/* AMENITIES */}
             <HotelAmenities
               amenities={
                 hotel.amenities
               }
             />
 
-            {/* ATTRACTIONS */}
             <NearbyAttractions
               attractions={
                 hotel.attractions
               }
             />
 
-            {/* REVIEWS */}
             <HotelReviews
               reviews={
                 hotel.userReviews
@@ -426,21 +399,18 @@ function HotelDetailsPage() {
           </div>
 
           {/* RIGHT */}
-          <div>
+          <div className="xl:sticky xl:top-24 xl:self-start">
             <HotelBookingCard
-                room={selectedRoom}
-                basePrice={hotel.pricePerNight}
-                nights={nights}
-
-                hotelName={hotel.name}
-
-                city={hotel.city}
-
-                state={hotel.state}
-
-                checkIn={checkIn || ""}
-
-                checkOut={checkOut || ""}
+              room={selectedRoom}
+              basePrice={
+                hotel.pricePerNight
+              }
+              nights={nights}
+              hotelName={hotel.name}
+              city={hotel.city}
+              state={hotel.state}
+              checkIn={checkIn}
+              checkOut={checkOut}
             />
           </div>
         </div>
