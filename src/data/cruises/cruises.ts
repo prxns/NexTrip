@@ -37,25 +37,29 @@ const img = {
   ocean1:
     "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1600&auto=format&fit=crop",
   ocean2:
-    "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1600&auto=format&fit=crop",
+    "https://i.pinimg.com/1200x/b8/38/82/b83882bca2ffa3bcdd33d88130465200.jpg",
   ocean3:
-    "https://images.unsplash.com/photo-1519985176271-adb1088fa94c?q=80&w=1600&auto=format&fit=crop",
+    "https://i.pinimg.com/736x/a4/b0/49/a4b0492d4156a4b246c273ac4a452c97.jpg",
   ship1:
-    "https://images.unsplash.com/photo-1519669556878-63bdad8a1a49?q=80&w=1600&auto=format&fit=crop",
+    "https://assets.dm.rccl.com/is/image/RoyalCaribbeanCruises/royal/ships/icon/icon-of-the-seas-starboard-aerial-sunset-sailing-sea-day.jpg?$676x610$",
   ship2:
-    "https://images.unsplash.com/photo-1578922746465-3a80a228f223?q=80&w=1600&auto=format&fit=crop",
+    "https://assets.dm.rccl.com/is/image/RoyalCaribbeanCruises/royal/ships/star/asset/star-of-the-seas-aerial-bow-angle-evening-crop.jpg?$676x610$",
   ship3:
-    "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=1600&auto=format&fit=crop",
+    "https://cruiseoverload.com/wp-content/uploads/2026/01/utopia-1023x1536.jpg",
   ship4:
-    "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?q=80&w=1600&auto=format&fit=crop",
+    "https://assets.dm.rccl.com/is/image/RoyalCaribbeanCruises/royal/ships/wonder/wonder-of-the-seas-cruise-ship-aerial-aft.jpg?$676x610$",
   ship5:
-    "https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?q=80&w=1600&auto=format&fit=crop",
+    "https://crew-center.com/sites/default/files/styles/ship_teaser_image/public/carnival_celebration_cruise_ship.jpg.webp?itok=pf3rQEDc",
   ship6:
-    "https://images.unsplash.com/photo-1493238792000-8113da705763?q=80&w=1600&auto=format&fit=crop",
+    "https://static.wixstatic.com/media/61152b_b4866c9ad1514ebdb1aa873c3f4abd24~mv2.jpg/v1/fill/w_628,h_520,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/IMG_0812_JPG.jpg",
   ship7:
-    "https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=1600&auto=format&fit=crop",
+    "https://i0.wp.com/disneyaddicts.com/wp-content/uploads/2024/12/IMG_5063.jpeg?fit=1536%2C1024&ssl=1",
   ship8:
-    "https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?q=80&w=1600&auto=format&fit=crop",
+    "https://cruisemaven.com/wp-content/uploads/2022/04/MSC-SEASCAPE-at-Sea-1536x691.webp",
+  ship9:
+    "https://i.pinimg.com/1200x/f6/d4/1f/f6d41fc5f5a2ad74dfeca904f3d4d39b.jpg",
+  ship10:
+    "https://cruisefever.net/wp-content/uploads/2023/12/Carnival-Jubilee-is-officially-joins-the-Carnival-Cruise-Line-fleet-scaled.jpg",
 };
 
 export const cruises: Cruise[] = [
@@ -316,8 +320,8 @@ export const cruises: Cruise[] = [
     durationNights: 7,
     priceFrom: 1199,
     rating: 4.8,
-    image: img.ship2,
-    gallery: [img.ship2, img.ocean2, img.ocean3],
+    image: img.ship9,
+    gallery: [img.ship9, img.ocean2, img.ocean3],
     summary:
       "Celebrity's Edge Class ship targets a more premium audience with a stylish Fort Lauderdale departure.",
     itinerary: ["Fort Lauderdale", "Caribbean", "Fort Lauderdale"],
@@ -347,8 +351,8 @@ export const cruises: Cruise[] = [
     durationNights: 7,
     priceFrom: 729,
     rating: 4.7,
-    image: img.ship3,
-    gallery: [img.ship3, img.ocean1, img.ocean2],
+    image: img.ship10,
+    gallery: [img.ship10, img.ocean1, img.ocean2],
     summary:
       "Carnival's Texas flagship brings a lively family cruise experience to Galveston with easy Western Caribbean itineraries.",
     itinerary: ["Galveston", "Cozumel", "Costa Maya", "Roatán", "Galveston"],

@@ -141,7 +141,7 @@ function CruisesPage() {
               </h1>
 
               <p className="mt-6 max-w-2xl text-lg leading-8 text-white/85">
-                Explore real cruise lines, real ships, and polished vacation
+                Explore cruise lines, ships, and vacation
                 experiences sailing from Miami, Port Canaveral, Galveston, and
                 Fort Lauderdale.
               </p>
